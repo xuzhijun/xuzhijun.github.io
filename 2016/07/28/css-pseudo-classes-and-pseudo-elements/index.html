@@ -1,0 +1,718 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原文链接：CSS伪类与伪元素完全指南
+1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。
+伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。
+伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。
+伪元素是一个冒号还是两个冒号？建议使用单冒">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS伪类与伪元素完全指南">
+<meta property="og:url" content="http://xuzhijun.github.io/2016/07/28/css-pseudo-classes-and-pseudo-elements/index.html">
+<meta property="og:site_name" content="徐记">
+<meta property="og:description" content="原文链接：CSS伪类与伪元素完全指南
+1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。
+伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。
+伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。
+伪元素是一个冒号还是两个冒号？建议使用单冒">
+<meta property="og:updated_time" content="2016-08-09T06:34:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS伪类与伪元素完全指南">
+<meta name="twitter:description" content="原文链接：CSS伪类与伪元素完全指南
+1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。
+伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。
+伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。
+伪元素是一个冒号还是两个冒号？建议使用单冒">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://xuzhijun.github.io/2016/07/28/css-pseudo-classes-and-pseudo-elements/"/>
+
+  <title> CSS伪类与伪元素完全指南 | 徐记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">徐记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">简不单</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS伪类与伪元素完全指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-28T16:00:00+08:00" content="2016-07-28">
+              2016-07-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文链接：<a href="http://www.zcfy.cc/article/an-ultimate-guide-to-css-pseudo-classes-and-pseudo-elements-smashing-magazine-239.html#h4-table-of-contents-in-alphabetical-order-link" target="_blank" rel="external">CSS伪类与伪元素完全指南</a></p>
+<h3 id="1，概念"><a href="#1，概念" class="headerlink" title="1，概念"></a>1，概念</h3><h4 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h4><p>伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。</p>
+<p>伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。</p>
+<h4 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h4><p>伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。</p>
+<h4 id="伪元素是一个冒号还是两个冒号？"><a href="#伪元素是一个冒号还是两个冒号？" class="headerlink" title="伪元素是一个冒号还是两个冒号？"></a>伪元素是一个冒号还是两个冒号？</h4><p><a href="https://www.w3.org/community/webed/wiki/Advanced_CSS_selectors#CSS3_pseudo-element_double_colon_syntax" target="_blank" rel="external">建议使用单冒号表示法</a>，原因也是向后兼容。</p>
+<h4 id="正确使用生成的内容（content）"><a href="#正确使用生成的内容（content）" class="headerlink" title="正确使用生成的内容（content）"></a><a href="https://www.smashingmagazine.com/2013/04/css-generated-content-counters/" target="_blank" rel="external">正确使用生成的内容（content）</a></h4><p>通过CSS生成内容需要用到CSS属性 content 和伪元素 :before 或 :after。</p>
+<p>其中的“内容”（content）可是纯文本，也可以是一个容器，通过CSS操作来显示<a href="http://codepen.io/ricardozea/pen/sdlvu" target="_blank" rel="external">某种图形或者装饰性元素</a>。</p>
+<p>CSS生成的内容只适用于装饰性、不重要的内容，但也要确保屏幕阅读器能够适当处理它，让使用这些辅助技术的用户不至于分心。这里适用“渐进增强”原则。</p>
+<h4 id="实验性的伪类和伪元素"><a href="#实验性的伪类和伪元素" class="headerlink" title="实验性的伪类和伪元素"></a>实验性的伪类和伪元素</h4><p>实验性的伪类和伪元素，指的是那些不稳定或没最终定案的伪类和伪元素。它们的语法和行为还可能有变。</p>
+<p>不过，加上厂商前缀就可以使用这些实验性的伪类和伪元素。</p>
+<h3 id="2，伪类"><a href="#2，伪类" class="headerlink" title="2，伪类"></a>2，伪类</h3><h4 id="状态伪类"><a href="#状态伪类" class="headerlink" title="状态伪类"></a>状态伪类</h4><p>状态伪类通常出现在用户执行某个操作的情况下。在CSS里，“操作”也可以是“无操作”，比如尚未点过的链接。</p>
+<p>:hover 必须位于 :link 和 :visited 之后，:active 必须位于 :hover 之后。</p>
+<p>所以，<strong>推荐的书写顺序为：:link、:visited、:hover、:active</strong>。</p>
+<p>a:link 可以省略成 a。</p>
+<p>:hover 可用于 a 以外的元素。</p>
+<p>:active 选择被鼠标指针或触摸操作“激活的” 元素。</p>
+<p>:focus 用于选择已经通过指针设备、触摸或键盘获得焦点的元素。</p>
+<p>:active 与 :focus 的区别在于 :active 只发生在鼠标被按下到被释放的这段时间里。</p>
+<p><strong><a href="http://codepen.io/ricardozea/pen/wMyZQe" target="_blank" rel="external">扩展内容：Sass中针对链接的混入</a></strong></p>
+<p>:focus 和 :active 的声明通常在一块，当然也可以给它们分开。</p>
+<p>注意这个 Mixin 不仅仅适用于链接，而是适用于任何 HTML元素。</p>
+<h4 id="结构化伪类"><a href="#结构化伪类" class="headerlink" title="结构化伪类"></a>结构化伪类</h4><p>结构化伪类选择通过其他选择符无法选择的文档树或DOM中的其他信息。</p>
+<p><strong>E:*-child 和 E:*-of-type 之间的区别：</strong></p>
+<p><strong>E:*-child</strong> 在满足 <strong>条件（*-child）</strong>  <strong>且</strong> 满足 <strong>条件（E）</strong>的情况下，才会生效。</p>
+<p><strong>E:*-of-type</strong> 在满足 <strong>条件（E）</strong> 的结果集里寻找满足条件 <strong>（*-of-type）</strong>的元素。</p>
+<p><strong>:not</strong> 通过括号接受一个参数，可以是一个“选择符”，也可以是另一个伪类。<strong>可以连缀使用，不能嵌套使用。</strong></p>
+<p><strong>:nth-child</strong> 根据元素在标记中的次序选择相应的元素。</p>
+<p><strong>:nth-last-child</strong> 除了是从后往前选择元素，跟 :nth-child 完全一样。</p>
+<p><strong>:nth-of-type</strong> 与 :nth-child 类似，<strong>主要区别是它更具体了，可以只针对特定类型的元素</strong>。</p>
+<p><strong>:nth-last-of-type</strong> 是从后往前数，其余跟 :nth-of-type 一样。</p>
+<p>所有 <strong>:nth</strong> 都接受一个参数，这个参数是一个公式。<br>公式可以是一个整数，或者关键字odd、even，或者形如an+b的结构。</p>
+<p><strong>对于an+b：</strong></p>
+<p>​    a（间隔基数，是一个整数）<br>​    n（间隔步长，从 0 开始）<br>​    + （运算符，可以是加号+或减号-）<br>​    b（起始值，也是一个整数，但只有使用了运算符的时候才会用到）</p>
+<p><strong>参考文章：</strong></p>
+<p>1，“<a href="http://lea.verou.me/demos/nth.html" target="_blank" rel="external">CSS3 Structural Pseudo-Class Selector Tester</a>” Lea Verou<br>2，“<a href="https://css-tricks.com/examples/nth-child-tester/" target="_blank" rel="external">:nth Tester</a>” CSS-Tricks</p>
+<p><strong>:only-child</strong> 选择父元素中唯一的子元素。</p>
+<p><strong>:only-of-type</strong> 选择同级中类型唯一的元素，与 :only-child 类似，<strong>但针对特定类型的元素时，让选择符有了更强的意义</strong>。</p>
+<p><strong>:target 伪类</strong> 通过元素的ID及URL中的锚名称选择元素。</p>
+<h4 id="验证伪类"><a href="#验证伪类" class="headerlink" title="验证伪类"></a>验证伪类</h4><p>验证伪类也可以用于其他HTML元素。</p>
+<p><strong>:checked</strong> 选择被勾选或选中的单选按钮、多选按钮及列表选项。</p>
+<p><strong>:default</strong> 从表单中一组类似元素里选择默认的元素（即“提交”按钮。——译者注）。</p>
+<p>如果要选择表单中没有类的默认按钮，可以使用 :default。</p>
+<p><strong>注意：</strong>在表单中使用 Reset 或 Clear 按钮会招致严重的可用性问题，<strong>慎用</strong>。</p>
+<p><strong>参考文章：</strong></p>
+<p>“<a href="http://www.nngroup.com/articles/reset-and-cancel-buttons/" target="_blank" rel="external">Reset and Cancel Buttons</a>,” Nielsen Norman Group (2000)</p>
+<p>“<a href="http://uxmovement.com/forms/killing-the-cancel-button-on-forms-for-good/" target="_blank" rel="external">Killing the Cancel Button on Forms for Good</a>,” UX Movement (2010)</p>
+<p><strong>:enabled</strong> 选择启用的元素。<br>所有表单元素默认都是启用的，除非在标记中添加了disabled 属性。</p>
+<p><strong>:disabled</strong> 选择禁用状态的表单元素。<br>处于禁用状态的元素，<strong>不能被选中、勾选，不能获得焦点</strong>。</p>
+<p>通过 :enabled 和 :disabled 可以提供视觉上的反馈，改善用户体验。</p>
+<p><strong>:empty</strong> 选择其中不包含任何内容的空元素。<br>只要包含一个字母、其他HTML元素，甚至一个空格，都不算空。</p>
+<p><strong>:in-range</strong> 选择<strong>有范围且值在指定范围内</strong>的元素。</p>
+<p><strong>:out-of-range</strong> 选择<strong>有范围且值超出指定范围</strong>的元素。</p>
+<p><strong>:indeterminate</strong> 选择<strong>单选按钮</strong>或<strong>复选框</strong>在页面加载时没有被勾选的。</p>
+<p><strong>两种情况：</strong></p>
+<p>​    一组单选按钮中没有默认或预先勾选的，<br>​    一个复选框已经通过 JavaScript 设置为 indeterminate = true 状态。</p>
+<p><strong>:valid</strong> 选择输入格式符合要求的表单元素。</p>
+<p><strong>:invalid</strong> 选择输入格式不符合要求的表单元素。</p>
+<p><strong>:optional</strong> 选择表单中非必填的输入字段。<br>只要输入字段中没有 required 属性，就会被 :optional 选中。</p>
+<p><strong>:required</strong> 选择有 required 属性的表单元素。</p>
+<p><strong>:read-only</strong> 选择用户不能编辑的元素。<br>与 :disabled 伪类相似，标记中使用的属性决定了使用哪个伪类。</p>
+<p><strong>:read-write</strong> 选择用户可以编辑的元素。<br>适用于有 contenteditable 属性的HTML元素。</p>
+<p><strong>:scope</strong> 适用于 style 标签中有 scoped 属性的情形。</p>
+<p>如果页面中某一部分的 style 标签里没有 scoped 属性，那么 :scope 会一直向上查找，直到 html 元素，即当前样式表的默认作用范围。</p>
+<h4 id="语言伪类"><a href="#语言伪类" class="headerlink" title="语言伪类"></a>语言伪类</h4><p><strong>:dir</strong> 选择文档中指定了语言方向的元素。<br>为了使用 :dir，需要在标记中为相关元素指定dir属性。</p>
+<p><strong>:lang</strong> 选择的元素通过lang=””属性、相应的 meta 元素以及 HTTP 头部的协议信息来确定。</p>
+<h4 id="其他伪类"><a href="#其他伪类" class="headerlink" title="其他伪类"></a>其他伪类</h4><p><strong>:root</strong> 选择文档中最高层次的父元素。</p>
+<p>在HTML中，:root 选择的就是 html 元素。但在SVG或XML等标记语言中，它可能选择不同的元素。</p>
+<p><strong>注意：</strong>使用html也可以设置相同的样式，但 <strong>:root 是一个类，拥有比元素选择符（即html）更高的特指度。</strong></p>
+<p><strong>:fullscreen</strong> 选择在全屏模式下显示的元素。</p>
+<p>只适用于通过 JavaScript Fullscreen API 切换进入的全屏模式，通常由父容器中的图片、视频或游戏来调用。</p>
+<p>使用 :fullscreen 前必须知道，浏览器应用样式的方式差别很大。</p>
+<p>而且，不仅要在CSS中使用前缀，JavaScript中也一样。</p>
+<p>推荐使用Hernan Rajchert的<a href="https://github.com/sindresorhus/screenfull.js/" target="_blank" rel="external">screenfull.js</a>，它帮我们填了不少浏览器的“坑”。</p>
+<h3 id="伪元素-1"><a href="#伪元素-1" class="headerlink" title="伪元素"></a>伪元素</h3><p>伪元素类似一种虚拟元素，可以将其视为普通的HTML元素。</p>
+<p>但伪元素并不存在于文档树或DOM中，因此不能在HTML中输入，只能通过CSS创建。</p>
+<p><strong>:after(::after)</strong> 和 <strong>:before(::before)</strong> 用于为其他HTML元素<strong>添加内容</strong>（文本或图形）。</p>
+<p><strong>只能用于能添加内容的HTML元素</strong>。<a href="http://www.zhihu.com/question/21296044" target="_blank" rel="external">为什么input不支持伪元素(:after,:before)？</a></p>
+<p>这里的内容并不实际存在于DOM中，但可以像存在一样操作它们。</p>
+<p>使用这个伪元素，必须在CSS中声明 content 属性。</p>
+<p>通过这个伪元素添加的任何内容都无法通过其他选择符选中。</p>
+<p><strong>::backdrop</strong> 是在全屏元素后面生成的一个盒子，与 :fullscreen 连用，修改全屏后元素的背景颜色。</p>
+<p><strong>注意：</strong> ::backdrop 必须用双冒号。</p>
+<p><strong>:first-letter(::first-letter)</strong> 选择一行文本第一个字符。</p>
+<p>如果相应行前面包含图片、视频或表格元素，那么不会影响选择第一个字符。</p>
+<p><strong>注意：</strong>这个伪元素也可以选中 :before 生成的第一个字符。</p>
+<p><strong>:first-line(::first-line)</strong> 选择元素的第一行，只适用于块级元素，行内元素不适用。</p>
+<p><strong>::selection</strong> 选择文档中被高亮选中的部分。</p>
+<p>注意：基于Gecko的浏览器要求使用 <strong>::-moz-selection</strong>。 带前缀和不带前缀的 ::selection 要分别写。</p>
+<p><strong>::placeholder</strong> 选择表单元素中通过 placeholder 属性设置的占位文本，也可以写成 ::input-placeholder。</p>
+<p><strong>注意：</strong>这个伪元素不是标准的。</p>
+<p><strong>兼容性写法：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-moz-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-webkit-input-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* IE 10 only */</span></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-ms-input-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Firefox 18 and below */</span></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-moz-input-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/07/css-flex1/" rel="next" title="CSS3 - Flexible Box 基本概念">
+                <i class="fa fa-chevron-left"></i> CSS3 - Flexible Box 基本概念
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/29/life-anewfather17/" rel="prev" title="奶爸笔记（十七）">
+                奶爸笔记（十七） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="bell" />
+          <p class="site-author-name" itemprop="name">bell</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1，概念"><span class="nav-number">1.</span> <span class="nav-text">1，概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#伪类"><span class="nav-number">1.1.</span> <span class="nav-text">伪类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪元素"><span class="nav-number">1.2.</span> <span class="nav-text">伪元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪元素是一个冒号还是两个冒号？"><span class="nav-number">1.3.</span> <span class="nav-text">伪元素是一个冒号还是两个冒号？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正确使用生成的内容（content）"><span class="nav-number">1.4.</span> <span class="nav-text">正确使用生成的内容（content）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验性的伪类和伪元素"><span class="nav-number">1.5.</span> <span class="nav-text">实验性的伪类和伪元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2，伪类"><span class="nav-number">2.</span> <span class="nav-text">2，伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#状态伪类"><span class="nav-number">2.1.</span> <span class="nav-text">状态伪类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结构化伪类"><span class="nav-number">2.2.</span> <span class="nav-text">结构化伪类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证伪类"><span class="nav-number">2.3.</span> <span class="nav-text">验证伪类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言伪类"><span class="nav-number">2.4.</span> <span class="nav-text">语言伪类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他伪类"><span class="nav-number">2.5.</span> <span class="nav-text">其他伪类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪元素-1"><span class="nav-number">3.</span> <span class="nav-text">伪元素</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bell</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
