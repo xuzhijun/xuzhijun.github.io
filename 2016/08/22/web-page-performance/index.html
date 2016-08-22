@@ -84,35 +84,32 @@
 
 
 
-<meta name="description" content="###原理：
+<meta name="description" content="原理：
 1，HTML 部分生成 DOM Tree，CSS 部分生成 Style Rules，合并成 Render Tree4，生成布局（layout）5，绘制到屏幕上（painting）
-###重排和重绘： 
-网页生成的时候，至少会渲染一次。
+重排和重绘：网页生成的时候，至少会渲染一次。
 重新渲染 = 重新生成布局（重排 reflow）+ 重新绘制（重绘 repaint）
 重排必然重绘，重绘未必重排。
-提高网页性能的根本：降低重排和重绘">
+提高网页性能的根本：降低重排和重绘的频率和成本，尽">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习阮一峰的网页性能管理详解">
 <meta property="og:url" content="http://xuzhijun.github.io/2016/08/22/web-page-performance/index.html">
 <meta property="og:site_name" content="徐记">
-<meta property="og:description" content="###原理：
+<meta property="og:description" content="原理：
 1，HTML 部分生成 DOM Tree，CSS 部分生成 Style Rules，合并成 Render Tree4，生成布局（layout）5，绘制到屏幕上（painting）
-###重排和重绘： 
-网页生成的时候，至少会渲染一次。
+重排和重绘：网页生成的时候，至少会渲染一次。
 重新渲染 = 重新生成布局（重排 reflow）+ 重新绘制（重绘 repaint）
 重排必然重绘，重绘未必重排。
-提高网页性能的根本：降低重排和重绘">
+提高网页性能的根本：降低重排和重绘的频率和成本，尽">
 <meta property="og:image" content="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png">
-<meta property="og:updated_time" content="2016-08-22T02:45:08.000Z">
+<meta property="og:updated_time" content="2016-08-22T03:15:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习阮一峰的网页性能管理详解">
-<meta name="twitter:description" content="###原理：
+<meta name="twitter:description" content="原理：
 1，HTML 部分生成 DOM Tree，CSS 部分生成 Style Rules，合并成 Render Tree4，生成布局（layout）5，绘制到屏幕上（painting）
-###重排和重绘： 
-网页生成的时候，至少会渲染一次。
+重排和重绘：网页生成的时候，至少会渲染一次。
 重新渲染 = 重新生成布局（重排 reflow）+ 重新绘制（重绘 repaint）
 重排必然重绘，重绘未必重排。
-提高网页性能的根本：降低重排和重绘">
+提高网页性能的根本：降低重排和重绘的频率和成本，尽">
 <meta name="twitter:image" content="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png">
 
 
@@ -345,14 +342,13 @@
       
 
       
-        <p>###原理：<br><img src="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png" alt=""></p>
+        <h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png" alt=""></p>
 <p>1，HTML 部分生成 <strong>DOM Tree</strong>，CSS 部分生成 <strong>Style Rules</strong>，合并成 <strong>Render Tree</strong><br>4，生成布局（<strong>layout</strong>）<br>5，绘制到屏幕上（<strong>painting</strong>）</p>
-<p>###重排和重绘： </p>
-<p>网页生成的时候，至少会渲染一次。</p>
+<h3 id="重排和重绘："><a href="#重排和重绘：" class="headerlink" title="重排和重绘："></a>重排和重绘：</h3><p>网页生成的时候，至少会渲染一次。</p>
 <p>重新渲染 = 重新生成布局（重排 <strong>reflow</strong>）+ 重新绘制（重绘 <strong>repaint</strong>）</p>
 <p><strong>重排必然重绘，重绘未必重排。</strong></p>
 <p><strong>提高网页性能的根本：</strong>降低重排和重绘的频率和成本，尽量少触发重新渲染。</p>
-<p>###提高性能的几个技巧：<br>1，JS中，从性能角度考虑，尽量不要把读操作和写操作，放在一个语句里面。</p>
+<h3 id="提高性能的几个技巧："><a href="#提高性能的几个技巧：" class="headerlink" title="提高性能的几个技巧："></a>提高性能的几个技巧：</h3><p>1，JS中，从性能角度考虑，尽量不要把读操作和写操作，放在一个语句里面。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">div.style.left = div.offsetLeft + <span class="number">10</span> + <span class="string">"px"</span>;</span><br><span class="line">div.style.top = div.offsetTop + <span class="number">10</span> + <span class="string">"px"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">var</span> left = div.offsetLeft;</span><br><span class="line"><span class="keyword">var</span> top  = div.offsetTop;</span><br><span class="line">div.style.left = left + <span class="number">10</span> + <span class="string">"px"</span>;</span><br><span class="line">div.style.top = top + <span class="number">10</span> + <span class="string">"px"</span>;</span><br></pre></td></tr></table></figure>
 <p>2，CSS动画中，尽量重绘，少用重排。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad, left 属性会造成重排+重绘，transition只会重绘。</span></span><br><span class="line">.app-menu &#123;</span><br><span class="line">  left: <span class="number">-300</span>px;</span><br><span class="line">  transition: left <span class="number">300</span>ms linear;</span><br><span class="line">&#125;</span><br><span class="line">.app-menu-open .app-menu &#123;</span><br><span class="line">  left: <span class="number">0</span>px;</span><br><span class="line">  transition: left <span class="number">300</span>ms linear;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// better,transform 属性会影响 Composite 合成阶段。</span></span><br><span class="line">.app-menu &#123;</span><br><span class="line">  -webkit-transform: translateX(<span class="number">-100</span>%);</span><br><span class="line">  transform: translateX(<span class="number">-100</span>%);</span><br><span class="line">  transition: transform <span class="number">300</span>ms linear;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.app-menu-open .app-menu &#123;</span><br><span class="line">  -webkit-transform: none;</span><br><span class="line">  transform: none;</span><br><span class="line">  transition: transform <span class="number">300</span>ms linear;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line">.app-menu &#123;</span><br><span class="line">  -webkit-transform: translateX(<span class="number">-100</span>%);</span><br><span class="line">          transform: translateX(<span class="number">-100</span>%);</span><br><span class="line">  transition: transform <span class="number">300</span>ms linear;</span><br><span class="line">  will-change: transform; <span class="comment">// 使用 will change 属性，告知浏览器变化</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -375,9 +371,8 @@
 <p>如果想达到 60 帧的刷新率，就意味着 JavaScript 线程每个任务的耗时，必须少于16毫秒。</p>
 <p>一个解决办法是使用 Web Worker，主线程只用于 UI 渲染，然后跟UI渲染不相干的任务，都放在 Worker 线程。</p>
 <h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank" rel="external">使用 Web Workers</a></p>
-<p>###Chrome的Timeline<br>Timeline面板提供两种查看方式：横条的是”事件模式”（Event Mode），显示重新渲染的各种事件所耗费的时间；竖条的是”帧模式”（Frame Mode），显示每一帧的时间耗费在哪里。<br>事件模式：<br>哪种色块比较多，就说明性能耗费在那里。色块越长，问题越大。<br>帧模式：<br>用来查看单个帧的耗时情况。每帧的色柱高度越低越好，表示耗时少。<br>帧模式有两条水平的参考线。<br>下面的一条是60FPS，低于这条线，可以达到每秒60帧；<br>上面的一条是30FPS，低于这条线，可以达到每秒30次渲染。<br>如果色柱都超过30FPS，这个网页就有性能问题了。</p>
-<p>###window.requestAnimationFrame()</p>
-<p>它可以将某些代码放到下一次重新渲染时执行。<br>可以使用window.requestAnimationFrame()，让读操作和写操作分离，把所有的写操作放到下一次重新渲染。 </p>
+<h3 id="Chrome的Timeline"><a href="#Chrome的Timeline" class="headerlink" title="Chrome的Timeline"></a>Chrome的Timeline</h3><p>Timeline面板提供两种查看方式：横条的是”事件模式”（Event Mode），显示重新渲染的各种事件所耗费的时间；竖条的是”帧模式”（Frame Mode），显示每一帧的时间耗费在哪里。<br>事件模式：<br>哪种色块比较多，就说明性能耗费在那里。色块越长，问题越大。<br>帧模式：<br>用来查看单个帧的耗时情况。每帧的色柱高度越低越好，表示耗时少。<br>帧模式有两条水平的参考线。<br>下面的一条是60FPS，低于这条线，可以达到每秒60帧；<br>上面的一条是30FPS，低于这条线，可以达到每秒30次渲染。<br>如果色柱都超过30FPS，这个网页就有性能问题了。</p>
+<h3 id="window-requestAnimationFrame"><a href="#window-requestAnimationFrame" class="headerlink" title="window.requestAnimationFrame()"></a>window.requestAnimationFrame()</h3><p>它可以将某些代码放到下一次重新渲染时执行。<br>可以使用window.requestAnimationFrame()，让读操作和写操作分离，把所有的写操作放到下一次重新渲染。 </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function doubleHeight(element) &#123;</span><br><span class="line">  var currentHeight = element.clientHeight;</span><br><span class="line">  element.style.height = (currentHeight * 2) + \'px\';</span><br><span class="line">&#125; </span><br><span class="line">elements.forEach(doubleHeight); </span><br><span class="line"></span><br><span class="line">// 优化 </span><br><span class="line">function doubleHeight(element) &#123; </span><br><span class="line">  var currentHeight = element.clientHeight; </span><br><span class="line">// 使用window.requestAnimationFrame()，让读操作和写操作分离，把所有的写操作放到下一次重新渲染。 </span><br><span class="line">  window.requestAnimationFrame(function () &#123;</span><br><span class="line">    element.style.height = (currentHeight * 2) + \'px\';</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; </span><br><span class="line">elements.forEach(doubleHeight);</span><br></pre></td></tr></table></figure>
 <p>页面滚动事件（scroll）的监听函数，就很适合用 window.requestAnimationFrame() ，推迟到下一次重新渲染。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">window</span>).on(<span class="string">'scroll'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">window</span>.requestAnimationFrame(scrollHandler);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
@@ -553,7 +548,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解："><span class="nav-number">1.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷新率"><span class="nav-number"></span> <span class="nav-text">刷新率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">1.</span> <span class="nav-text">参考：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解：-1"><span class="nav-number">2.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-requestIdleCallback"><span class="nav-number"></span> <span class="nav-text">window.requestIdleCallback()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#deadline-对象"><span class="nav-number">1.</span> <span class="nav-text">deadline 对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#timeRemaining-方法"><span class="nav-number">1.1.</span> <span class="nav-text">timeRemaining() 方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#didTimeout-属性"><span class="nav-number">1.2.</span> <span class="nav-text">didTimeout 属性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解：-2"><span class="nav-number">2.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考：-1"><span class="nav-number"></span> <span class="nav-text">参考：</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理："><span class="nav-number">1.</span> <span class="nav-text">原理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重排和重绘："><span class="nav-number">2.</span> <span class="nav-text">重排和重绘：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提高性能的几个技巧："><span class="nav-number">3.</span> <span class="nav-text">提高性能的几个技巧：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解："><span class="nav-number">3.1.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷新率"><span class="nav-number">4.</span> <span class="nav-text">刷新率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">4.1.</span> <span class="nav-text">参考：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chrome的Timeline"><span class="nav-number">5.</span> <span class="nav-text">Chrome的Timeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-requestAnimationFrame"><span class="nav-number">6.</span> <span class="nav-text">window.requestAnimationFrame()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解：-1"><span class="nav-number">6.1.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-requestIdleCallback"><span class="nav-number">7.</span> <span class="nav-text">window.requestIdleCallback()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#deadline-对象"><span class="nav-number">7.1.</span> <span class="nav-text">deadline 对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#timeRemaining-方法"><span class="nav-number">7.1.1.</span> <span class="nav-text">timeRemaining() 方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#didTimeout-属性"><span class="nav-number">7.1.2.</span> <span class="nav-text">didTimeout 属性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解：-2"><span class="nav-number">7.2.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考：-1"><span class="nav-number">8.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
           </div>
         </section>
