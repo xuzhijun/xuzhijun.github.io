@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="前端," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="徐记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="原理：
+1，HTML 部分生成 DOM Tree，CSS 部分生成 Style Rules，合并成 Render Tree4，生成布局（layout）5，绘制到屏幕上（painting）
+重排和重绘：网页生成的时候，至少会渲染一次。
+重新渲染 = 重新生成布局（重排 reflow）+ 重新绘制（重绘 repaint）
+重排必然重绘，重绘未必重排。
+提高网页性能的根本：降低重排和重绘的频率和成本，尽">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习阮一峰的网页性能管理详解">
+<meta property="og:url" content="http://xuzhijun.github.io/2016/08/22/web-page-performance/index.html">
+<meta property="og:site_name" content="徐记">
+<meta property="og:description" content="原理：
+1，HTML 部分生成 DOM Tree，CSS 部分生成 Style Rules，合并成 Render Tree4，生成布局（layout）5，绘制到屏幕上（painting）
+重排和重绘：网页生成的时候，至少会渲染一次。
+重新渲染 = 重新生成布局（重排 reflow）+ 重新绘制（重绘 repaint）
+重排必然重绘，重绘未必重排。
+提高网页性能的根本：降低重排和重绘的频率和成本，尽">
+<meta property="og:image" content="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png">
+<meta property="og:updated_time" content="2016-08-22T03:17:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习阮一峰的网页性能管理详解">
+<meta name="twitter:description" content="原理：
+1，HTML 部分生成 DOM Tree，CSS 部分生成 Style Rules，合并成 Render Tree4，生成布局（layout）5，绘制到屏幕上（painting）
+重排和重绘：网页生成的时候，至少会渲染一次。
+重新渲染 = 重新生成布局（重排 reflow）+ 重新绘制（重绘 repaint）
+重排必然重绘，重绘未必重排。
+提高网页性能的根本：降低重排和重绘的频率和成本，尽">
+<meta name="twitter:image" content="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://xuzhijun.github.io/2016/08/22/web-page-performance/"/>
+
+
+  <title> 学习阮一峰的网页性能管理详解 | 徐记 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">徐记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">简不单</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                学习阮一峰的网页性能管理详解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T10:00:00+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png" alt=""></p>
+<p>1，HTML 部分生成 <strong>DOM Tree</strong>，CSS 部分生成 <strong>Style Rules</strong>，合并成 <strong>Render Tree</strong><br>4，生成布局（<strong>layout</strong>）<br>5，绘制到屏幕上（<strong>painting</strong>）</p>
+<h3 id="重排和重绘："><a href="#重排和重绘：" class="headerlink" title="重排和重绘："></a>重排和重绘：</h3><p>网页生成的时候，至少会渲染一次。</p>
+<p>重新渲染 = 重新生成布局（重排 <strong>reflow</strong>）+ 重新绘制（重绘 <strong>repaint</strong>）</p>
+<p><strong>重排必然重绘，重绘未必重排。</strong></p>
+<p><strong>提高网页性能的根本：</strong>降低重排和重绘的频率和成本，尽量少触发重新渲染。</p>
+<h3 id="提高性能的几个技巧："><a href="#提高性能的几个技巧：" class="headerlink" title="提高性能的几个技巧："></a>提高性能的几个技巧：</h3><p>1，JS中，从性能角度考虑，尽量不要把读操作和写操作，放在一个语句里面。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">div.style.left = div.offsetLeft + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line">div.style.top = div.offsetTop + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> left = div.offsetLeft;</div><div class="line"><span class="keyword">var</span> top  = div.offsetTop;</div><div class="line">div.style.left = left + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line">div.style.top = top + <span class="number">10</span> + <span class="string">"px"</span>;</div></pre></td></tr></table></figure>
+<p>2，CSS动画中，尽量重绘，少用重排。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad, left 属性会造成重排+重绘，transition只会重绘。</span></div><div class="line">.app-menu &#123;</div><div class="line">  <span class="attr">left</span>: <span class="number">-300</span>px;</div><div class="line">  transition: left <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line">.app-menu-open .app-menu &#123;</div><div class="line">  <span class="attr">left</span>: <span class="number">0</span>px;</div><div class="line">  transition: left <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// better,transform 属性会影响 Composite 合成阶段。</span></div><div class="line">.app-menu &#123;</div><div class="line">  -webkit-transform: translateX(<span class="number">-100</span>%);</div><div class="line">  transform: translateX(<span class="number">-100</span>%);</div><div class="line">  transition: transform <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.app-menu-open .app-menu &#123;</div><div class="line">  -webkit-transform: none;</div><div class="line">  transform: none;</div><div class="line">  transition: transform <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// best</span></div><div class="line">.app-menu &#123;</div><div class="line">  -webkit-transform: translateX(<span class="number">-100</span>%);</div><div class="line">          transform: translateX(<span class="number">-100</span>%);</div><div class="line">  transition: transform <span class="number">300</span>ms linear;</div><div class="line">  will-change: transform; <span class="comment">// 使用 will change 属性，告知浏览器变化</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/will-change" target="_blank" rel="external">MDN - will-change</a></p>
+<p>3，样式表越简单，重排和重绘就越快。 </p>
+<p>4，重排和重绘的DOM元素层级越高，成本就越高。 </p>
+<p>5，table 元素的重排和重绘成本，要高于 div 元素。 </p>
+<p>6，不要一条条地改变样式，而要通过改变 class，或者 csstext 属性，一次性地改变样式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> left = <span class="number">10</span>;</div><div class="line"><span class="keyword">var</span> top = <span class="number">10</span>;</div><div class="line">el.style.left = left + <span class="string">"px"</span>;</div><div class="line">el.style.top = top + <span class="string">"px"</span>;</div><div class="line"></div><div class="line"><span class="comment">// good </span></div><div class="line">el.className += <span class="string">" theclassname"</span>;</div><div class="line">el.style.cssText += <span class="string">"; left: "</span> + left + <span class="string">"px; top: "</span> + top + <span class="string">"px;"</span>;</div></pre></td></tr></table></figure>
+<p>6，尽量使用离线DOM，虚拟DOM的脚本库，比如React，而不是真实的网面DOM，来改变元素样式。<br>比如，<strong>操作 Document Fragment 对象</strong>，完成后再把这个对象加入DOM。<br>再比如，<strong>使用 cloneNode() 方法</strong>，在克隆的节点上进行操作，然后再用克隆的节点替换原始节点。 </p>
+<p>7，先将元素设为display: none（需要1次重排和重绘），然后对这个节点进行100次操作，最后再恢复显示（需要1次重排和重绘）。这样一来，你就<strong>用两次重新渲染，取代了可能高达100次的重新渲染</strong>。  </p>
+<p>只在必要的时候，才将元素的display属性为可见，因为不可见的元素不影响重排和重绘。</p>
+<p>另外，visibility : hidden的元素只对重绘有影响，不影响重排。 </p>
+<p>8，position 属性为 absolute 或 fixed 的元素，重排的开销会比较小，因为不用考虑它对其他元素的影响。 </p>
+<p>9，使用 window.requestAnimationFrame()、window.requestIdleCallback() 这两个方法调节重新渲染（详见后文）。</p>
+<h4 id="深入理解："><a href="#深入理解：" class="headerlink" title="深入理解："></a>深入理解：</h4><p><a href="https://csstriggers.com/" target="_blank" rel="external">csstriggers.com - 重绘和重排的数据</a></p>
+<p><a href="http://www.zcfy.cc/article/smooth-as-butter-achieving-60-fps-animations-with-css3-1054.html" target="_blank" rel="external">如丝般顺滑：使用 CSS3 实现 60 帧的动画</a></p>
+<h3 id="刷新率"><a href="#刷新率" class="headerlink" title="刷新率"></a>刷新率</h3><p>如果网页动画能够做到每秒60帧，就会跟显示器同步刷新，达到最佳的视觉效果。</p>
+<p>这意味着，<strong>一秒之内进行60次重新渲染（60 FPS），每次重新渲染的时间不能超过16.66毫秒</strong>。</p>
+<p>如果想达到 60 帧的刷新率，就意味着 JavaScript 线程每个任务的耗时，必须少于16毫秒。</p>
+<p>一个解决办法是使用 Web Worker，主线程只用于 UI 渲染，然后跟UI渲染不相干的任务，都放在 Worker 线程。</p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank" rel="external">使用 Web Workers</a></p>
+<h3 id="Chrome的Timeline"><a href="#Chrome的Timeline" class="headerlink" title="Chrome的Timeline"></a>Chrome的Timeline</h3><p>Timeline面板提供两种查看方式：横条的是”事件模式”（Event Mode），显示重新渲染的各种事件所耗费的时间；竖条的是”帧模式”（Frame Mode），显示每一帧的时间耗费在哪里。<br>事件模式：<br>哪种色块比较多，就说明性能耗费在那里。色块越长，问题越大。<br>帧模式：<br>用来查看单个帧的耗时情况。每帧的色柱高度越低越好，表示耗时少。<br>帧模式有两条水平的参考线。<br>下面的一条是60FPS，低于这条线，可以达到每秒60帧；<br>上面的一条是30FPS，低于这条线，可以达到每秒30次渲染。<br>如果色柱都超过30FPS，这个网页就有性能问题了。</p>
+<h3 id="window-requestAnimationFrame"><a href="#window-requestAnimationFrame" class="headerlink" title="window.requestAnimationFrame()"></a>window.requestAnimationFrame()</h3><p>它可以将某些代码放到下一次重新渲染时执行。<br>可以使用window.requestAnimationFrame()，让读操作和写操作分离，把所有的写操作放到下一次重新渲染。 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function doubleHeight(element) &#123;</div><div class="line">  var currentHeight = element.clientHeight;</div><div class="line">  element.style.height = (currentHeight * 2) + \'px\';</div><div class="line">&#125; </div><div class="line">elements.forEach(doubleHeight); </div><div class="line"></div><div class="line">// 优化 </div><div class="line">function doubleHeight(element) &#123; </div><div class="line">  var currentHeight = element.clientHeight; </div><div class="line">// 使用window.requestAnimationFrame()，让读操作和写操作分离，把所有的写操作放到下一次重新渲染。 </div><div class="line">  window.requestAnimationFrame(function () &#123;</div><div class="line">    element.style.height = (currentHeight * 2) + \'px\';</div><div class="line">  &#125;);</div><div class="line">&#125; </div><div class="line">elements.forEach(doubleHeight);</div></pre></td></tr></table></figure>
+<p>页面滚动事件（scroll）的监听函数，就很适合用 window.requestAnimationFrame() ，推迟到下一次重新渲染。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">window</span>).on(<span class="string">'scroll'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">   <span class="built_in">window</span>.requestAnimationFrame(scrollHandler);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>最适用的场合还是网页动画。下面是一个旋转动画的例子，元素每一帧旋转1度。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rAF = <span class="built_in">window</span>.requestAnimationFrame;</div><div class="line"></div><div class="line"><span class="keyword">var</span> degrees = <span class="number">0</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">update</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.body.style.transform = <span class="string">"rotate("</span> + degrees + <span class="string">"deg)"</span>;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'updated to degrees '</span> + degrees);</div><div class="line">  degrees = degrees + <span class="number">1</span>;</div><div class="line">  rAF(update);</div><div class="line">&#125;</div><div class="line">rAF(update);</div></pre></td></tr></table></figure>
+<h4 id="深入理解：-1"><a href="#深入理解：-1" class="headerlink" title="深入理解："></a>深入理解：</h4><p><a href="http://www.zhangxinxu.com/wordpress/?p=3695" target="_blank" rel="external">CSS3动画那么强，requestAnimationFrame还有毛线用？</a></p>
+<p><a href="http://www.cnblogs.com/Wayou/p/requestAnimationFrame.html" target="_blank" rel="external">requestAnimationFrame，Web中写动画的另一种选择</a></p>
+<p><a href="http://creativejs.com/resources/requestanimationframe/" target="_blank" rel="external">creative JS - requestAnimationFrame</a></p>
+<p><a href="https://gist.github.com/joelambert/1002116" target="_blank" rel="external">https://gist.github.com/joelambert/1002116</a></p>
+<p><a href="http://www.cnblogs.com/chaogex/p/3960175.html" target="_blank" rel="external">深入理解requestAnimationFrame</a></p>
+<h3 id="window-requestIdleCallback"><a href="#window-requestIdleCallback" class="headerlink" title="window.requestIdleCallback()"></a>window.requestIdleCallback()</h3><p>它指定只有当一帧的末尾有空闲时间，才会执行回调函数。<br>1，只有当前帧的运行时间小于16.66ms时，函数fn才会执行。否则，就推迟到下一帧，如果下一帧也没有空闲时间，就推迟到下下一帧，以此类推。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">requestIdleCallback(fn);</div></pre></td></tr></table></figure>
+<p>2，<strong>它还可以接受第二个参数，表示指定的毫秒数</strong>。如果在指定的这段时间之内，每一帧都没有空闲时间，那么函数fn将会强制执行。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">requestIdleCallback(fn, <span class="number">5000</span>); <span class="comment">//函数fn最迟会在5000毫秒之后执行。</span></div></pre></td></tr></table></figure>
+<p>3，函数 fn 可以接受一个 deadline 对象作为参数。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">requestIdleCallback(<span class="function"><span class="keyword">function</span> <span class="title">someHeavyComputation</span>(<span class="params">deadline</span>) </span>&#123; </div><div class="line">  <span class="comment">// 只要当前帧还有空闲时间，就不断调用doWorkIfNeeded方法。</span></div><div class="line">  <span class="keyword">while</span>(deadline.timeRemaining() &gt; <span class="number">0</span>) &#123;</div><div class="line">    doWorkIfNeeded();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 一旦没有空闲时间，但是任务还没有全执行，就分配到下一轮requestIdleCallback。 </span></div><div class="line">  <span class="keyword">if</span>(thereIsMoreWorkToDo) &#123;</div><div class="line">    requestIdleCallback(someHeavyComputation);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="deadline-对象"><a href="#deadline-对象" class="headerlink" title="deadline 对象"></a>deadline 对象</h4><p>回调函数 someHeavyComputation 的参数是一个 <strong>deadline 对象</strong>。<br>deadline 对象有一个方法和一个属性：<strong>timeRemaining()</strong> 和 <strong>didTimeout</strong>。 </p>
+<h5 id="timeRemaining-方法"><a href="#timeRemaining-方法" class="headerlink" title="timeRemaining() 方法"></a>timeRemaining() 方法</h5><p>timeRemaining() 方法返回当前帧还剩余的毫秒。<br>这个方法只能读，不能写，而且会动态更新。<br>因此可以不断检查这个属性，如果还有剩余时间的话，就不断执行某些任务。<br>一旦这个属性等于0，就把任务分配到下一轮requestIdleCallback。</p>
+<h5 id="didTimeout-属性"><a href="#didTimeout-属性" class="headerlink" title="didTimeout 属性"></a>didTimeout 属性</h5><p>deadline 对象的 didTimeout 属性会返回一个布尔值，表示指定的时间是否过期。<br>这意味着，如果回调函数由于指定时间过期而触发，那么你会得到两个结果。<br>1，timeRemaining 方法返回 0<br>2，didTimeout 属性等于true<br><strong>如果回调函数执行了，无非是两种原因：当前帧有空闲时间，或者指定时间到了。</strong> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNonEssentialWork</span> (<span class="params">deadline</span>) </span>&#123; </div><div class="line">  <span class="keyword">while</span> ((deadline.timeRemaining() &gt; <span class="number">0</span> || deadline.didTimeout) &amp;&amp; tasks.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    doWorkIfNeeded(); </div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (tasks.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    requestIdleCallback(myNonEssentialWork); </div><div class="line">  &#125;</div><div class="line">&#125; </div><div class="line">requestIdleCallback(myNonEssentialWork, <span class="number">5000</span>);</div></pre></td></tr></table></figure>
+<p>doWorkIfNeeded 函数一定会在将来某个比较空闲的时间（或者在指定时间过期后）得到反复执行。 </p>
+<h4 id="深入理解：-2"><a href="#深入理解：-2" class="headerlink" title="深入理解："></a>深入理解：</h4><p><a href="https://zhuanlan.zhihu.com/p/20273185" target="_blank" rel="external">requestIdleCallback 与前端渲染卡顿</a></p>
+<p><a href="https://developers.google.com/web/updates/2015/08/using-requestidlecallback" target="_blank" rel="external">Using requestIdleCallback</a></p>
+<h3 id="参考：-1"><a href="#参考：-1" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" target="_blank" rel="external">阮一峰 - 网页性能管理详解</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag">#前端</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/29/life-anewfather17/" rel="next" title="奶爸笔记（十七）">
+                <i class="fa fa-chevron-left"></i> 奶爸笔记（十七）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/24/life-anewfather18/" rel="prev" title="奶爸笔记（十八）">
+                奶爸笔记（十八） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="bell" />
+          <p class="site-author-name" itemprop="name">bell</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理："><span class="nav-number">1.</span> <span class="nav-text">原理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重排和重绘："><span class="nav-number">2.</span> <span class="nav-text">重排和重绘：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提高性能的几个技巧："><span class="nav-number">3.</span> <span class="nav-text">提高性能的几个技巧：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解："><span class="nav-number">3.1.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷新率"><span class="nav-number">4.</span> <span class="nav-text">刷新率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">4.1.</span> <span class="nav-text">参考：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chrome的Timeline"><span class="nav-number">5.</span> <span class="nav-text">Chrome的Timeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-requestAnimationFrame"><span class="nav-number">6.</span> <span class="nav-text">window.requestAnimationFrame()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解：-1"><span class="nav-number">6.1.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-requestIdleCallback"><span class="nav-number">7.</span> <span class="nav-text">window.requestIdleCallback()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#deadline-对象"><span class="nav-number">7.1.</span> <span class="nav-text">deadline 对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#timeRemaining-方法"><span class="nav-number">7.1.1.</span> <span class="nav-text">timeRemaining() 方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#didTimeout-属性"><span class="nav-number">7.1.2.</span> <span class="nav-text">didTimeout 属性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深入理解：-2"><span class="nav-number">7.2.</span> <span class="nav-text">深入理解：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考：-1"><span class="nav-number">8.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bell</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

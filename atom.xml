@@ -1,0 +1,1507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>徐记</title>
+  <subtitle>简不单</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://xuzhijun.github.io/"/>
+  <updated>2016-11-24T02:46:28.000Z</updated>
+  <id>http://xuzhijun.github.io/</id>
+  
+  <author>
+    <name>bell</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CSS 揭秘 - 关于本书</title>
+    <link href="http://xuzhijun.github.io/2016/11/17/css-secrets-chap0/"/>
+    <id>http://xuzhijun.github.io/2016/11/17/css-secrets-chap0/</id>
+    <published>2016-11-17T07:00:00.000Z</published>
+    <updated>2016-11-24T02:46:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="几个函数："><a href="#几个函数：" class="headerlink" title="几个函数："></a>几个函数：</h3><h4 id="一，选择器函数"><a href="#一，选择器函数" class="headerlink" title="一，选择器函数"></a>一，选择器函数</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 选择器函数</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">$$</span>(<span class="params">selector, context</span>) </span>&#123;</div><div class="line">  context = context || <span class="built_in">document</span>;</div><div class="line">  <span class="keyword">var</span> elements = context.querySelectorAll(selector);</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.slice.call(elements);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h4><p>1）使用 <strong><em>ES5</em></strong> 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelectorAll" target="_blank" rel="external">querySelectorAll</a> 方法，返回一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/NodeList" target="_blank" rel="external">NodeList</a> 对象。</p>
+<p>2）<strong><em>NodeList</em></strong> 对象不是数组，需要使用 <strong><em>Array.prototype.slice.call(NodeList)</em></strong> 方法进行转换。</p>
+<h4 id="二，检测当前浏览器是否支持CSS属性"><a href="#二，检测当前浏览器是否支持CSS属性" class="headerlink" title="二，检测当前浏览器是否支持CSS属性"></a>二，检测当前浏览器是否支持CSS属性</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 检测多个属性</div><div class="line"> */</div><div class="line"><span class="comment">// 单一功能</span></div><div class="line"><span class="keyword">var</span> root = <span class="built_in">document</span>.documentElement;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="string">'textShadow'</span> <span class="keyword">in</span> root.style) &#123;</div><div class="line">  root.classList.add(<span class="string">'textShadow'</span>);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  root.classList.add(<span class="string">'no-textShadow'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 通用函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">testProperty</span>(<span class="params">property</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> root = <span class="built_in">document</span>.documentElement;</div><div class="line">  </div><div class="line">  <span class="keyword">if</span>(property <span class="keyword">in</span> root.style) &#123;</div><div class="line">    root.classList.add(property.toLowerCase());</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  root.classList.add(<span class="string">'no-'</span> + property.toLowerCase());</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="注解：-1"><a href="#注解：-1" class="headerlink" title="注解："></a>注解：</h4><p>1）通过 document 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/documentElement" target="_blank" rel="external">documentElement</a> 只读属性，获得文档的 root 元素。</p>
+<p>2）通过 HTMLElement 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/style" target="_blank" rel="external">style</a> 属性，获得 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CSSStyleDeclaration" target="_blank" rel="external">CSSStyleDeclaration</a> 对象，使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/in" target="_blank" rel="external">in</a> 运算符查询对象中是否包含该属性。</p>
+<p>3）通过 Element 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/classList" target="_blank" rel="external">classList</a> 属性，获得一个实时 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMTokenList" target="_blank" rel="external">DOMTokenList</a> 集合，使用 add 方法添加 class 属性。</p>
+<h4 id="三，检测当前浏览器支持的CSS属性是否支持某属性值"><a href="#三，检测当前浏览器支持的CSS属性是否支持某属性值" class="headerlink" title="三，检测当前浏览器支持的CSS属性是否支持某属性值"></a>三，检测当前浏览器支持的CSS属性是否支持某属性值</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 检测属性值是否支持</div><div class="line"> */</div><div class="line"><span class="comment">// 单一功能</span></div><div class="line"><span class="keyword">var</span> dummy = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</div><div class="line">dummy.style.backgroundImage = <span class="string">'linear-gradient(red, tan)'</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(dummy.style.backgroundImage) &#123;</div><div class="line">  root.classList.add(<span class="string">'lineargradients'</span>);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  root.classList.add(<span class="string">'no-lineargradients'</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 通用函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">testValue</span>(<span class="params">id, value, property</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> dummy = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</div><div class="line">  dummy.style[property] = value;</div><div class="line">  </div><div class="line">  <span class="keyword">if</span>(dummy.style[property]) &#123;</div><div class="line">    root.classList.add(id);</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  root.classList.add(<span class="string">'no-'</span> + id);</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;几个函数：&quot;&gt;&lt;a href=&quot;#几个函数：&quot; class=&quot;headerlink&quot; title=&quot;几个函数：&quot;&gt;&lt;/a&gt;几个函数：&lt;/h3&gt;&lt;h4 id=&quot;一，选择器函数&quot;&gt;&lt;a href=&quot;#一，选择器函数&quot; class=&quot;headerlink&quot; title=
+    
+    </summary>
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/categories/CSS/"/>
+    
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/tags/CSS/"/>
+    
+      <category term="CSS3" scheme="http://xuzhijun.github.io/tags/CSS3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十七）</title>
+    <link href="http://xuzhijun.github.io/2016/10/20/life-anewfather27/"/>
+    <id>http://xuzhijun.github.io/2016/10/20/life-anewfather27/</id>
+    <published>2016-10-20T13:00:00.000Z</published>
+    <updated>2016-10-21T08:20:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-10-07 期，2016-10-11 期，2016-10-18 期</p>
+</blockquote>
+<h3 id="一，添加辅食"><a href="#一，添加辅食" class="headerlink" title="一，添加辅食"></a>一，添加辅食</h3><p>1，胡萝卜素需要和油一起加热才易吸收，小宝宝需要打成泥。</p>
+<p>2，宝宝吃的绿叶菜一定不要煮的过烂，给小宝宝吃要焯一下剁烂了，大宝宝吃就可以剁碎了。</p>
+<p>3，给宝宝不能吃单一的一种油，要换着吃。</p>
+<p>4，满七个月就可以吃肉（肉泥）。</p>
+<p>5，太易嚼的食物不利于宝宝口腔发育。</p>
+<p>6，建议一岁以内把所有食物混在一起吃，一岁以上建议分开吃，锻炼孩子的分辨能力。</p>
+<h3 id="二，育儿"><a href="#二，育儿" class="headerlink" title="二，育儿"></a>二，育儿</h3><p>1，育儿四大能力：待人，待物，语言，运动。</p>
+<p>2，穷养儿，有创造性，勇于担当。富养女，主动给予多一些，不超过自家的经历状况。</p>
+<p>3，帮助宝宝趴着：一手扶肩关节，一手扶髋关节，将宝宝双手向前并轻轻按摩宝宝脊背。</p>
+<p>4，帮助宝宝平躺：一手扶肩关节，一手扶颈部，一提一托，翻回来平躺。</p>
+<h3 id="三，新手爸妈培训手册"><a href="#三，新手爸妈培训手册" class="headerlink" title="三，新手爸妈培训手册"></a>三，新手爸妈培训手册</h3><p>1，缓解宝宝肠绞痛的五种方法：</p>
+<p>​    1）将宝宝包裹紧</p>
+<p>​    2）尽量侧卧或者趴着</p>
+<p>​    3）头部略低适当摇晃</p>
+<p>​    4）在耳边发 “shi” 声</p>
+<p>​    5）给宝宝喂奶吸吮</p>
+<p>2，宝宝洗澡时耳朵进水，用棉球置于耳朵口。</p>
+<h3 id="四，增强婴幼儿的抵抗力"><a href="#四，增强婴幼儿的抵抗力" class="headerlink" title="四，增强婴幼儿的抵抗力"></a>四，增强婴幼儿的抵抗力</h3><p>1，三浴训练：</p>
+<p>​    1）日光浴（新生儿起，晒后背，晒屁股）。</p>
+<p>​    2）空气浴（在室外温度不低于25度），多做户外活动。</p>
+<p>​    3）冷水浴（用冷水擦脸，四肢），用不低于25度的冷水淋浴，30秒到1分钟。</p>
+<p>2，儿童膳食算盘</p>
+<p>​    1）谷薯类5～6份（粮食，山药，南瓜，土豆等）</p>
+<p>​    2）蔬果类4～5份（深色蔬菜可为宝宝提供体内多种营养，叶黄素可以保护宝宝眼睛）</p>
+<p>​    3）水果类3～4份（提供矿物盐河膳食纤维）</p>
+<p>​    4）畜禽肉淡水产品类2～3份（红肉补铁，海产品含有不饱和脂肪酸）</p>
+<p>​    5）大豆坚果奶类2～3份（矿物质，不饱和脂肪酸）</p>
+<p>​    6）油盐类适量</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-10-07 期，2016-10-11 期，2016-10-18 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，添加辅食&quot;&gt;&lt;a href=&quot;#一，添加辅食&quot; class=&quot;headerlink&quot; title=&quot;一
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="辅食" scheme="http://xuzhijun.github.io/tags/%E8%BE%85%E9%A3%9F/"/>
+    
+      <category term="肠绞痛" scheme="http://xuzhijun.github.io/tags/%E8%82%A0%E7%BB%9E%E7%97%9B/"/>
+    
+      <category term="疫苗" scheme="http://xuzhijun.github.io/tags/%E7%96%AB%E8%8B%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十六）</title>
+    <link href="http://xuzhijun.github.io/2016/10/20/life-anewfather26/"/>
+    <id>http://xuzhijun.github.io/2016/10/20/life-anewfather26/</id>
+    <published>2016-10-20T05:00:00.000Z</published>
+    <updated>2016-10-20T13:38:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-09-20 期，2016-09-27 期</p>
+</blockquote>
+<h3 id="一，给宝宝挑鞋"><a href="#一，给宝宝挑鞋" class="headerlink" title="一，给宝宝挑鞋"></a>一，给宝宝挑鞋</h3><p>1，宝宝穿了不合适的鞋子和鞋垫，造成足弓消失或僵硬，对于保护孩子的大脑脊髓都起着相反或者坏的作用。</p>
+<p>2，儿童常见足部毛病：扁平足，足外翻，X型腿，高弓足，O型腿。</p>
+<p>3，量脚长应该站着量。</p>
+<p>4，宝宝什么时候都能穿鞋。</p>
+<p>5，建议赤脚学走路，赤足可以促进宝宝脑神经发育。</p>
+<p>6，买鞋注意鞋子本身的甲醛和甲苯的污染。</p>
+<p>7，宝宝鞋子的三个阶段：</p>
+<p>​    1）小于 6 个月宝宝穿的步前鞋（不用与走路，很随脚柔软，鞋底和鞋面光滑，可对折）</p>
+<p>​    2）宝宝能站立时穿的学步鞋（最好是光脚学步，能调节鞋面，鞋垫前掌要薄，鞋底不能太防滑，1/3处弯折）</p>
+<p>​    3）宝宝会走路时穿的稳步鞋（鞋头要圆要硬，鞋面透气柔软，1/3处弯折，后帮要硬保护踝关节，鞋垫前面要薄，后面要有减震，带3～5毫米鞋跟）</p>
+<p>8，皮鞋的结构最完整，有益于端正宝宝的体态，从第一双鞋起就建议穿皮鞋。</p>
+<h3 id="二，宝宝出游"><a href="#二，宝宝出游" class="headerlink" title="二，宝宝出游"></a>二，宝宝出游</h3><p>1，宝宝闹情绪的原因：</p>
+<p>​    1）没有安全感</p>
+<p>​    2）对周围环境敏感</p>
+<p>​    3）生理时钟打乱</p>
+<p>2，出游时家长要准备宝宝的贴身物品，可以安抚宝宝情绪。</p>
+<p>3，宝宝哭闹解决方法：</p>
+<p>​    1）了解哭闹原因</p>
+<p>​    2）家长稳定情绪</p>
+<p>​    3）重复宝宝的最后一句话</p>
+<p>4，出游必备单品：餐具盒，一次性接洒围嘴，免洗洗手液，腰凳，防走失包，防走失手环。折叠脸盆，如厕马桶盖或尿袋，香蕉保护盒，薰衣草精油驱蚊虫、安抚情绪，甜橙精油克服水土不服引发的便秘和腹泻（滴在父母的手掌心搓搓），鲜艳的衣服便于寻找。</p>
+<p>5，橙色的衣服更容易安抚宝宝的情绪。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-09-20 期，2016-09-27 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，给宝宝挑鞋&quot;&gt;&lt;a href=&quot;#一，给宝宝挑鞋&quot; class=&quot;headerlink&quot; title=&quot;一，给宝宝挑鞋&quot;&gt;&lt;/a
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="选鞋" scheme="http://xuzhijun.github.io/tags/%E9%80%89%E9%9E%8B/"/>
+    
+      <category term="出游" scheme="http://xuzhijun.github.io/tags/%E5%87%BA%E6%B8%B8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十五）</title>
+    <link href="http://xuzhijun.github.io/2016/10/18/life-anewfather25/"/>
+    <id>http://xuzhijun.github.io/2016/10/18/life-anewfather25/</id>
+    <published>2016-10-18T07:00:00.000Z</published>
+    <updated>2016-10-19T14:03:03.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-08-30 期，2016-09-06 期</p>
+</blockquote>
+<h3 id="一，宝宝秋季腹泻"><a href="#一，宝宝秋季腹泻" class="headerlink" title="一，宝宝秋季腹泻"></a>一，宝宝秋季腹泻</h3><p>1，由轮状病毒引发的小儿腹泻又称秋季腹泻，多发于秋冬季节，一般会持续 7～10 天。</p>
+<p>2，秋季腹泻是具有传染性的疾病，一般会通过患病儿童的<strong>排泄物</strong>，<strong>呕吐物</strong>或<strong>接触日常用品</strong>及<strong>玩具</strong>进行传播。</p>
+<p>3，秋季腹泻次数多，疾病急，还会引发宝宝发烧，呕吐，脱水等一系列症状。</p>
+<p>4，宝宝腹泻可先将宝宝大便送往医院化验判断如何治疗。</p>
+<p>5，让宝宝多接触大自然，不要过度保护。</p>
+<p>6，宝宝腹泻导致脱水可使用口服补液盐补充水分和电解质。</p>
+<p>7，秋季腹泻初期尽量避免摄入高膳食纤维食物。</p>
+<p>8，秋季腹泻喂食阶段：</p>
+<p>​    1）阶段一：白米粥</p>
+<p>​    2）阶段二：白米粥＋肉泥（自制肉松）</p>
+<p>​    3）阶段三：白米粥＋根茎类蔬菜</p>
+<p>​    4）阶段四：水果＋叶菜类</p>
+<h3 id="二，宝宝的睡眠问题"><a href="#二，宝宝的睡眠问题" class="headerlink" title="二，宝宝的睡眠问题"></a>二，宝宝的睡眠问题</h3><p>1，入睡困难的原因：</p>
+<p>​    1）作息安排不够好，没有形成很好的生物钟。</p>
+<p>​    2）发育不完善，惊跳反射也叫摩罗反应，可以用襁褓裹住。</p>
+<p>​    3）规律的作息时间是好睡眠的主要因素。</p>
+<p>2，四个月内的宝宝每三个小时一个循环周期，包括：先吃，再玩，接着睡，剩下的就是你的时间。</p>
+<p>3，奶睡的坏处：</p>
+<p>​    1）吃着睡，吃的少，吃的不够，醒来的时间就会很快。</p>
+<p>​    2）奶睡影响真正的入睡质量。</p>
+<p>​    3）反复吃，没有饥饱的过程。</p>
+<p>4，玩的重要性，吃完后需要一个消化的过程，需要有疲惫感。</p>
+<p>5，奶睡和抱睡是造成宝宝夜啼和夜醒的原因，剥夺了宝宝独自入睡能力的学习和成长的过程。</p>
+<p>6，从宝宝的哭声鉴别是否有疾病，疼痛的哭声比较尖锐。</p>
+<p>7，宝宝哭闹遵循“黄金五分钟”原则。</p>
+<p>8，宝宝出现磨牙的情况多为病症。</p>
+<p>9，宝宝打鼾是呼吸道受到阻碍，常见为淋巴系统增值，鼻腔骨骼结构出现问题，长期会影响脑部发育。</p>
+<p>10，睡眠环境是影响宝宝睡眠的关键因素。</p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，当宝宝患有秋季腹泻在正确的护理下，一般几天能自愈？</p>
+<p>​    A）3～5 天</p>
+<p>​    B）5～7 天</p>
+<p>​    <strong>C）7～10 天</strong></p>
+<p>2，当宝宝患有秋季腹泻的初期，能吃以下哪类食物？</p>
+<p>​    <strong>A）大米粥</strong></p>
+<p>​    B）杂粮粥</p>
+<p>​    C）杂粮水果粥</p>
+<p>3，一至两岁的宝宝每日的睡眠总量为</p>
+<p>​    A）12～13 小时</p>
+<p>​    <strong>B）13～14 小时</strong></p>
+<p>​    C）16～18 小时</p>
+<p>4，培养宝宝的睡眠规律，正确的方法是</p>
+<p>​    <strong>A）吃－玩－睡</strong></p>
+<p>​    B）吃－睡－玩</p>
+<p>​    C）睡－吃－玩</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-08-30 期，2016-09-06 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，宝宝秋季腹泻&quot;&gt;&lt;a href=&quot;#一，宝宝秋季腹泻&quot; class=&quot;headerlink&quot; title=&quot;一，宝宝秋季腹泻&quot;&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="腹泻" scheme="http://xuzhijun.github.io/tags/%E8%85%B9%E6%B3%BB/"/>
+    
+      <category term="睡眠" scheme="http://xuzhijun.github.io/tags/%E7%9D%A1%E7%9C%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十四）</title>
+    <link href="http://xuzhijun.github.io/2016/08/31/life-anewfather24/"/>
+    <id>http://xuzhijun.github.io/2016/08/31/life-anewfather24/</id>
+    <published>2016-08-31T05:00:00.000Z</published>
+    <updated>2016-08-31T14:58:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-08-16 期，2016-08-23 期</p>
+</blockquote>
+<h3 id="一，孕前营养"><a href="#一，孕前营养" class="headerlink" title="一，孕前营养"></a>一，孕前营养</h3><p>1，吃叶酸，怀孕前三个月开始吃，吃到怀孕三个月。</p>
+<p>2，孕期过量服用叶酸会导致宝宝免疫力低下，发育迟缓。</p>
+<p>3，DNA 从怀孕 4 个月开始，吃到哺乳期 6 个月，建议每天吃 300 mg，极限是 3000 mg。</p>
+<p>4，孕晚期 7 个月开始补钙到哺乳期全程，每天 1000 - 1300 mg。</p>
+<h3 id="二，辅食"><a href="#二，辅食" class="headerlink" title="二，辅食"></a>二，辅食</h3><p>1，建议从第七个月开始添加辅食，不能早于四个月，不能晚于八个月。</p>
+<p>2，特殊情况下，每日达到 1000 毫升奶量，仍感觉饿，体重不长，才建议添加辅食。</p>
+<p>3，成品的迷糊含铁，更适合宝宝。</p>
+<p>4，六个月宝宝容易发生缺铁性贫血，尤其是母乳喂养，母乳中含铁非常少。</p>
+<p>5，加辅食的顺序：含铁的米粉，红肉泥（水煮牛羊肉，含肌红蛋白），肝泥，蛋黄泥，蔬菜泥果泥。</p>
+<p>6，一岁之前不能给宝宝吃盐，就是减少钠的摄入，防止宝宝挑食，埋下成年后高血压心血管病的隐患。</p>
+<p>7，成人每日盐摄入量为 6 克，1 岁到 2 岁宝宝每天盐摄入量不超过 1 克。</p>
+<p>8，辅食添加表：</p>
+<table>
+<thead>
+<tr>
+<th>月龄</th>
+<th>辅食</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6月龄</td>
+<td>泥状、糊状食物</td>
+</tr>
+<tr>
+<td>8~9月龄</td>
+<td>小颗粒状食物</td>
+</tr>
+<tr>
+<td>10~12月龄</td>
+<td>块状食物</td>
+</tr>
+<tr>
+<td>12月龄以上</td>
+<td>淡口味家庭食物</td>
+</tr>
+</tbody>
+</table>
+<h3 id="三，家庭小药箱"><a href="#三，家庭小药箱" class="headerlink" title="三，家庭小药箱"></a>三，家庭小药箱</h3><p>1，儿童60%的疾病是可以自愈的。</p>
+<p>2，家庭小药箱每三个月检查一次。</p>
+<p>3，宝宝每日应补充400个国际单位的维生素D。</p>
+<p>4，家庭小药箱必备药</p>
+<p>​    1）发烧：对乙酰氨基酚（首选退烧药）、布洛芬</p>
+<p>​    2）鼻塞：生理性海水鼻腔喷雾剂</p>
+<p>​    3）过敏：氯雷他定（抗组胺）</p>
+<p>​    4）腹泻：口服补液盐（防止脱水）、蒙脱石散、微生态调节剂（益生菌调节肠道菌群）</p>
+<p>​    5）咳嗽：盐酸氨溴索（有痰）、乙酰半胱氨酸（有痰）、氢溴酸右美沙芬（干咳）</p>
+<p>​    6）便秘：开塞露、乳果糖</p>
+<p>​    7）胀气：西甲硅油（缓解婴儿肠绞痛）</p>
+<p>​    8）皮肤护理：炉甘石洗剂（止痒）、红霉素眼药膏（破溃）</p>
+<p>​    9）外伤：碘伏（伤口消毒）、创可贴</p>
+<p>5，空腹：指饭前一小时，或饭后两小时。</p>
+<p>6，合理用药原则</p>
+<p>​    1）能不用药就不用药</p>
+<p>​    2）能少用药就不多用药</p>
+<p>​    3）能口服就不注射</p>
+<h3 id="四，问答"><a href="#四，问答" class="headerlink" title="四，问答"></a>四，问答</h3><p>1，产妇正常生产多久子宫降入骨盆？</p>
+<p>​    A）4 天左右</p>
+<p>​    <strong>B）10 天左右</strong></p>
+<p>​    C）20 天左右</p>
+<p>2，准妈妈们每天需要补充多少DHA？</p>
+<p>​    A）200 毫克</p>
+<p>​    <strong>B）300 毫克</strong></p>
+<p>​    C）400 毫克</p>
+<p>3，在小儿热量需要的分配中哪项比例最高？</p>
+<p>​    <strong>A）基础代谢</strong></p>
+<p>​    B）生长与储存</p>
+<p>​    C）排泄的损耗</p>
+<p>4，对于儿童相对安全的眼用抗生素</p>
+<p>​    A）庆大霉素</p>
+<p>​    <strong>B）红霉素</strong></p>
+<p>​    C）氯霉素</p>
+<p>5，2 ~ 4岁的宝宝每天盐摄入量应该少于多少？</p>
+<p>​    A）1 克</p>
+<p>​    <strong>B）2 克</strong></p>
+<p>​    C）4 克</p>
+<p>6，幼儿急疹的病原体是？</p>
+<p>​    A）腺病毒</p>
+<p>​    <strong>B）人类疱疹病毒</strong></p>
+<p>​    C）轮状病毒</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-08-16 期，2016-08-23 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，孕前营养&quot;&gt;&lt;a href=&quot;#一，孕前营养&quot; class=&quot;headerlink&quot; title=&quot;一，孕前营养&quot;&gt;&lt;/a&gt;一，
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="孕前营养" scheme="http://xuzhijun.github.io/tags/%E5%AD%95%E5%89%8D%E8%90%A5%E5%85%BB/"/>
+    
+      <category term="辅食" scheme="http://xuzhijun.github.io/tags/%E8%BE%85%E9%A3%9F/"/>
+    
+      <category term="用药" scheme="http://xuzhijun.github.io/tags/%E7%94%A8%E8%8D%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十三）</title>
+    <link href="http://xuzhijun.github.io/2016/08/26/life-anewfather23/"/>
+    <id>http://xuzhijun.github.io/2016/08/26/life-anewfather23/</id>
+    <published>2016-08-26T03:00:00.000Z</published>
+    <updated>2016-08-31T13:31:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-08-09 期</p>
+</blockquote>
+<h3 id="一，上火"><a href="#一，上火" class="headerlink" title="一，上火"></a>一，上火</h3><p>1，宝宝上火分为虚火和实火</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>实火</th>
+<th>虚火</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原因</td>
+<td>饮食热量太高，捂得过多</td>
+<td>热病伤阴</td>
+</tr>
+<tr>
+<td>表现</td>
+<td>红头涨脸，爱发脾气，爱哭爱闹，舌苔厚黄，亢奋，大便干燥</td>
+<td>手心热，盗汗，烦躁，喜欢趴睡，睡不安稳，反复口腔溃疡</td>
+</tr>
+<tr>
+<td>怎么办</td>
+<td>清热，苦瓜，莲子，绿豆</td>
+<td>滋阴，猕猴桃，梨，火龙果，白菜，黄瓜，百合</td>
+</tr>
+</tbody>
+</table>
+<p>2，肝开窍于目，宝宝眼屎多、结膜炎、眼睛红、起针眼，多为肝火旺</p>
+<p>3，心开窍于舌，舌尖红、地图舌，多为心火旺</p>
+<p>4，脾开窍于口，口腔异味、舌苔厚黄、吃得多、大便干，多为脾胃火旺</p>
+<p>5，肺开窍于鼻，咳嗽、黄痰、黄鼻涕、流鼻血，多为肺火旺</p>
+<p>6，肾开窍于耳，反复中耳炎，多为肾火旺，肾火多为虚火</p>
+<p>7，脾胃上火，多喝水可祛火。</p>
+<p>8，五脏和手指末端的对应关系，脾经（拇指）、食指（肝经）、中指（心经）、无名指（肺经）、小指（肾经）。</p>
+<p>9，不同的火，推不同的手指，手指末端最后一节，向指尖方向推，二百次左右。</p>
+<p>10，发烧推天河水，清热作用，二指沾30度酒精，腕横纹推向肘横纹，一百到二百次。</p>
+<p>11，在宝宝脚心，人字纹交接凹陷处，根据不同的火贴不同的中药贴一晚，可祛火。</p>
+<h3 id="二，呼吸道感染"><a href="#二，呼吸道感染" class="headerlink" title="二，呼吸道感染"></a>二，呼吸道感染</h3><p>1，6 岁以下宝宝免疫系统未发育成熟，易生病。</p>
+<p>2，反复呼吸道感染以一年内生病的次数为衡量标准。</p>
+<p>3，一年内2次以上肺炎或者支气管炎，疑为反复呼吸道感染，下呼吸道感染。</p>
+<p>4，反复呼吸道感染的诱因</p>
+<p>​    1）宝宝自身呼吸道结构</p>
+<p>​    2）30%的反复呼吸道感染由过敏引起，越小养宠物，越会耐受。</p>
+<p>​    3）环境因素，吸烟的尼古丁问题，家具的甲醛问题</p>
+<p>5，90%以上的呼吸道感染都是病毒感染引起，免疫系统会受到抑制。</p>
+<p>6，要保证彻底恢复，鼻腔通畅，食欲正常，排便通畅，再送入幼儿园。</p>
+<p>7，细菌感染的话，抗生素一定要足疗程，否则病情会反复。</p>
+<p>8，推荐打自费的肺炎疫苗。</p>
+<p>9，一岁以内，每个月都要体检，一岁以后到十八岁，每年体检一次。</p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，婴幼儿上火时大便秘结属于下述哪个方面？</p>
+<p>​    A）心火</p>
+<p>​    B）肺火</p>
+<p>​    <strong>C）胃火</strong></p>
+<p>2，以下最容易引起夏季腹泻的是？</p>
+<p>​    A）轮状病毒</p>
+<p>​    <strong>B）大肠杆菌</strong></p>
+<p>​    C）诺瓦克病毒</p>
+<p>3，婴幼儿平均每年呼吸感染的次数是？</p>
+<p>​    A）1 ~ 3 次</p>
+<p>​    <strong>B）6 ~ 10 次</strong></p>
+<p>​    C）11 ~ 15 次</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-08-09 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，上火&quot;&gt;&lt;a href=&quot;#一，上火&quot; class=&quot;headerlink&quot; title=&quot;一，上火&quot;&gt;&lt;/a&gt;一，上火&lt;/h3&gt;&lt;p&gt;1，宝宝上火分为虚
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="祛火" scheme="http://xuzhijun.github.io/tags/%E7%A5%9B%E7%81%AB/"/>
+    
+      <category term="口腔溃疡" scheme="http://xuzhijun.github.io/tags/%E5%8F%A3%E8%85%94%E6%BA%83%E7%96%A1/"/>
+    
+      <category term="推拿" scheme="http://xuzhijun.github.io/tags/%E6%8E%A8%E6%8B%BF/"/>
+    
+      <category term="呼吸道感染" scheme="http://xuzhijun.github.io/tags/%E5%91%BC%E5%90%B8%E9%81%93%E6%84%9F%E6%9F%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十二）</title>
+    <link href="http://xuzhijun.github.io/2016/08/25/life-anewfather22/"/>
+    <id>http://xuzhijun.github.io/2016/08/25/life-anewfather22/</id>
+    <published>2016-08-25T06:00:00.000Z</published>
+    <updated>2016-08-25T08:17:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-08-02 期</p>
+</blockquote>
+<h3 id="一，运动"><a href="#一，运动" class="headerlink" title="一，运动"></a>一，运动</h3><p>1，提宝宝时，不要抓腿，捧头，抓手。</p>
+<p>2，专业方面的运动不是越早越好。</p>
+<p>3，0 ~ 1 岁，宝宝运动发育的关键期，俯卧、抬头、翻身、坐、爬行、扶站、行走。</p>
+<p>4，1 ~ 3 岁，大脑发育逐渐成熟，2 岁的宝宝能跑、跳。</p>
+<p>5，4 岁以后，根据天赋可以培养宝宝运动。</p>
+<p>6，宝宝站立的最佳时间为八个半月，3 岁滑轮，4 岁舞蹈，12 岁跆拳道等。</p>
+<p>7，家长可以为 0 ~ 6 个月婴儿做被动操。</p>
+<p>8，通过被动操可以给宝宝做身体检查，检查肌张力是否正常。</p>
+<p>9，被动操：</p>
+<p>​    1）预备：婴儿仰卧，家长双手握住婴儿双手，把拇指放在婴儿手掌内，婴儿握拳。</p>
+<p>​    2）第一节：双手前胸交叉</p>
+<p>​    3）第二节：屈伸肘关节</p>
+<p>​    4）第三节：伸展运动</p>
+<p>​    5）第四节：屈伸踝关节</p>
+<p>​    6）第五节：两腿轮流屈伸</p>
+<p>​    7）第六节：下肢伸直上举</p>
+<h3 id="二，益生菌"><a href="#二，益生菌" class="headerlink" title="二，益生菌"></a>二，益生菌</h3><p>1，益生菌需用37度水冲服。</p>
+<p>2，一天中任何时间都可以服用益生菌。</p>
+<p>3，抗生素不会影响益生菌的活性，且能治疗和预防抗生素引起的腹泻。</p>
+<p>4，母乳中富含活性益生菌和益生元（益生菌的食物）。</p>
+<p>5，短链益生元作用于大肠前端，长链益生元作用于大肠后端。</p>
+<p>6，低聚半乳糖GOS为短链益生元，聚葡萄糖PDX为长链益生元。</p>
+<p>7，根据宝宝不同年龄段，不同月龄段，胃肠道发育的成熟度选择不同性状的食物。</p>
+<p>8，一次哺喂的量不能太多，太多会出现消化不良的问题。</p>
+<p>9，要给宝宝提供平衡膳食。</p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，肠道在人体中扮演着什么角色？</p>
+<p>​    A）动力器官</p>
+<p>​    <strong>B）最大的免疫器官</strong></p>
+<p>​    C）输送器官</p>
+<p>2，婴幼儿的营养需求是成人的几倍？</p>
+<p>​    A）3 倍</p>
+<p>​    <strong>B）6 倍</strong></p>
+<p>​    C）12 倍</p>
+<p>3，婴幼儿的大运动发育规律是？</p>
+<p>​    A）由左至右</p>
+<p>​    <strong>B）由上至下</strong></p>
+<p>​    C）由前至后</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-08-02 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，运动&quot;&gt;&lt;a href=&quot;#一，运动&quot; class=&quot;headerlink&quot; title=&quot;一，运动&quot;&gt;&lt;/a&gt;一，运动&lt;/h3&gt;&lt;p&gt;1，提宝宝时，不要
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="运动" scheme="http://xuzhijun.github.io/tags/%E8%BF%90%E5%8A%A8/"/>
+    
+      <category term="被动操" scheme="http://xuzhijun.github.io/tags/%E8%A2%AB%E5%8A%A8%E6%93%8D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十一）</title>
+    <link href="http://xuzhijun.github.io/2016/08/25/life-anewfather21/"/>
+    <id>http://xuzhijun.github.io/2016/08/25/life-anewfather21/</id>
+    <published>2016-08-25T05:00:00.000Z</published>
+    <updated>2016-08-25T05:49:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-07-26 期</p>
+</blockquote>
+<h3 id="一，育儿"><a href="#一，育儿" class="headerlink" title="一，育儿"></a>一，育儿</h3><p>1，过度喂养宝宝，肥胖几率会更高</p>
+<p>2，开空调时需注意：</p>
+<p>​    1）千万别对着宝宝直吹</p>
+<p>​    2）定期清洁过滤网、通风换气</p>
+<p>​    3）温度保持在26-28度</p>
+<h3 id="二，中暑"><a href="#二，中暑" class="headerlink" title="二，中暑"></a>二，中暑</h3><p>1，宝宝中暑的症状，不出汗，皮肤发红。</p>
+<p>2，中暑的前兆，热衰竭的症状，皮肤发热，不停流汗，宝宝烦躁不安、哭闹。</p>
+<p>3， 宝宝出现热衰竭或中暑的处理方法：</p>
+<p>​    1）移到阴凉的地方</p>
+<p>​    2）用冷水毛巾擦拭全身，进行降温</p>
+<p>​    3）喝冷盐水（一公升水，加入一匙盐）</p>
+<p>4，家长观察宝宝排尿情况，及时补充水份。</p>
+<h3 id="三，宝宝夏季蔬果"><a href="#三，宝宝夏季蔬果" class="headerlink" title="三，宝宝夏季蔬果"></a>三，宝宝夏季蔬果</h3><p>1，甜瓜（水份含量大，碱性物质）</p>
+<p>2，火龙果</p>
+<p>3，桃子</p>
+<p>4，木瓜（有蛋白酶，助消化）</p>
+<p>5，梨（钾离子含量高）</p>
+<p>6，苦瓜</p>
+<p>7，黄瓜（水份含量高）</p>
+<p>8，茄子（蒸茄子，拌茄泥）</p>
+<p>9，所有的绿叶菜</p>
+<p>10，凉拌芹菜叶</p>
+<p>11，冬瓜（冬瓜碱，助消化）</p>
+<p>12，不宜多吃</p>
+<p>​    1）荔枝（含糖量高，吃多了容易渗透性腹泻）</p>
+<p>​    2）葡萄（吃多了会腹泻）</p>
+<p>​    3）李子（有导泻成份）</p>
+<h3 id="四，问答"><a href="#四，问答" class="headerlink" title="四，问答"></a>四，问答</h3><p>1，夏季宝宝最舒服的状态是？</p>
+<p>​    <strong>A）手脚偏凉，脖子温热</strong></p>
+<p>​    B）手、脚、脖子温热</p>
+<p>​    C）手、脚、脖子偏凉</p>
+<p>2，夏天最适合吃以下哪种水果？</p>
+<p>​    A）杏</p>
+<p>​    B）荔枝</p>
+<p>​    <strong>C）甜瓜</strong></p>
+<p>3，儿童夏季出现痢疾的发病占全年痢疾发病的？</p>
+<p>​    A）30% 左右</p>
+<p>​    B）50% 左右</p>
+<p>​    <strong>C）70% 左右</strong></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-07-26 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，育儿&quot;&gt;&lt;a href=&quot;#一，育儿&quot; class=&quot;headerlink&quot; title=&quot;一，育儿&quot;&gt;&lt;/a&gt;一，育儿&lt;/h3&gt;&lt;p&gt;1，过度喂养宝宝，
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="吹空调" scheme="http://xuzhijun.github.io/tags/%E5%90%B9%E7%A9%BA%E8%B0%83/"/>
+    
+      <category term="中暑" scheme="http://xuzhijun.github.io/tags/%E4%B8%AD%E6%9A%91/"/>
+    
+      <category term="蔬果" scheme="http://xuzhijun.github.io/tags/%E8%94%AC%E6%9E%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（二十）</title>
+    <link href="http://xuzhijun.github.io/2016/08/25/life-anewfather20/"/>
+    <id>http://xuzhijun.github.io/2016/08/25/life-anewfather20/</id>
+    <published>2016-08-25T03:00:00.000Z</published>
+    <updated>2016-08-25T05:50:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-07-19 期</p>
+</blockquote>
+<h3 id="一，儿童的语言问题"><a href="#一，儿童的语言问题" class="headerlink" title="一，儿童的语言问题"></a>一，儿童的语言问题</h3><p>1，儿童语言发育过程</p>
+<p>​    1）0 ~ 1 岁是儿童语言准备期</p>
+<p>​    2）1 ~ 2 岁是儿童语言发育初期</p>
+<p>​    3）2 ~ 3 岁是儿童语言飞速发展期，容易出现语言问题，会延伸到5岁。</p>
+<p>2，判断宝宝口吃的标准：起因困难，断句</p>
+<p>3，哪些宝宝容易口吃？</p>
+<p>​    1）遗传因素占40%</p>
+<p>​    2）性格内向，敏感</p>
+<p>​    3）强行纠正左撇子</p>
+<p>​    4）吃食物过于细软</p>
+<p>​    5）家长说话语速过快</p>
+<p>4，宝宝出现口吃现象时，家长应该『当下忽略』。</p>
+<p>​    1）耐心听宝宝说话</p>
+<p>​    2）多于孩子交流，交流要平视，语速慢</p>
+<p>​    3）给孩子读书，讲故事</p>
+<p>​    4）加强口腔运动</p>
+<h3 id="二，手足口病"><a href="#二，手足口病" class="headerlink" title="二，手足口病"></a>二，手足口病</h3><p>1，手足口是轻症传染病，并非只得一次</p>
+<p>2，板蓝根和维生素B无法预防手足口</p>
+<p>3，成人也会得手足口</p>
+<p>4，手足口与疱疹性咽炎，都属于肠道病毒组引起的感染，传染力强</p>
+<p>5，疱疹性咽炎会伴随高热 39 ~ 40 度，手足口发烧以地热为主</p>
+<p>6，宝宝手足口的判断标准，不吃奶，不喝水，爱哭，会有咽痛</p>
+<p>7，建议利巴韦林要慎用</p>
+<p>8，宝宝手足口要谨防脱水</p>
+<p>9，手足口预防大于治疗，清洗手，注意个人卫生，多喝凉水，通风，户外活动。</p>
+<p>10，手足口的传染途径，粪便，口腔，呼吸道，唾液，喷嚏。</p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，以下有关手足口的说法正确的是？</p>
+<p>​    A）患有手足口一定伴随发烧症状</p>
+<p>​    B）口腔有疱疹就一定是手足口</p>
+<p>​    <strong>C）手足口是有肠道病毒引起的传染病</strong></p>
+<p>2，宝宝在几岁时，语言会飞速发育？</p>
+<p>​    A）0 ~ 1 岁</p>
+<p>​    B）1 ~ 2 岁</p>
+<p>​    <strong>C）2 ~ 3 岁</strong></p>
+<p>3，下列哪些是婴儿生长发育过程中具有重要作用的微量元素？</p>
+<p>​    A）铁、锌、钙</p>
+<p>​    B）铁、碘、铝</p>
+<p>​    <strong>C）铁、锌、碘</strong></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-07-19 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，儿童的语言问题&quot;&gt;&lt;a href=&quot;#一，儿童的语言问题&quot; class=&quot;headerlink&quot; title=&quot;一，儿童的语言问题&quot;&gt;&lt;/a&gt;一，儿童的语
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="口吃" scheme="http://xuzhijun.github.io/tags/%E5%8F%A3%E5%90%83/"/>
+    
+      <category term="手足口病" scheme="http://xuzhijun.github.io/tags/%E6%89%8B%E8%B6%B3%E5%8F%A3%E7%97%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十九）</title>
+    <link href="http://xuzhijun.github.io/2016/08/24/life-anewfather19/"/>
+    <id>http://xuzhijun.github.io/2016/08/24/life-anewfather19/</id>
+    <published>2016-08-24T05:00:00.000Z</published>
+    <updated>2016-08-31T13:41:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-07-05 期，2016-07-12 期</p>
+</blockquote>
+<h3 id="一，眼睛和近视遗传"><a href="#一，眼睛和近视遗传" class="headerlink" title="一，眼睛和近视遗传"></a>一，眼睛和近视遗传</h3><p>1，近视有很强的遗传倾向，后天近视也会遗传。</p>
+<p>2，长时间看电子产品是儿童近视的诱因，三岁以上，不要超过20分钟。</p>
+<p>3，预防近视，避免宝宝吃高脂肪，含糖量高的食物。</p>
+<p>4，玉米中的叶黄素和玉米黄素能阻碍紫外线中的蓝光对眼睛的伤害。</p>
+<p>5，吃玉米去皮，玉米面，玉米糊。</p>
+<p>6，葡萄皮中的花青素对宝宝的视力有好处。</p>
+<p>7，对视力有益的食材：</p>
+<p>​    DHA：亚麻籽油，深海鱼。</p>
+<p>​    叶黄素：深色蔬菜（南瓜，玉米，西兰花）。</p>
+<p>​    VC：彩椒，猕猴桃，樱桃，草莓。</p>
+<p>​    维生素B族：粗粮，量控制在主食的 1/10 ~ 1/5 之间。</p>
+<p>​    维生素A：有机猪肝或罐装猪肝泥，胡萝卜，木瓜，深色蔬菜，牛奶，鸡蛋。</p>
+<p>8，6 ~ 12 个月推荐食谱，胡萝卜猪肝泥。</p>
+<p>9，1 ~ 3 岁推荐食谱，水果寿司（手指粗），放入水果，鸡蛋。</p>
+<p>10，4 ~ 6 岁推荐食谱，南瓜粥。</p>
+<h3 id="二，问答"><a href="#二，问答" class="headerlink" title="二，问答"></a>二，问答</h3><p>1，有关补充DHA和ARA的科学比例，正确的是？</p>
+<p>​    <strong>A）1：2</strong></p>
+<p>​    B）2：1</p>
+<p>​    C）1：1</p>
+<p>2，宝宝两个月时，能记事几个小时？</p>
+<p>​    A）12 小时</p>
+<p>​    <strong>B）24 小时</strong></p>
+<p>​    C）48 小时</p>
+<p>3，小儿贫血好发于多大的宝宝？</p>
+<p>​    A）0 - 6 个月</p>
+<p>​    <strong>B）6 个月 - 2 岁</strong></p>
+<p>​    C）2 - 3 岁</p>
+<p>4，全国爱眼日是几月几日？</p>
+<p>​    A）6 月 7 日</p>
+<p>​    <strong>B）6 月 6 日</strong></p>
+<p>​    C）7 月 6 日</p>
+<p>5，婴儿最容易受凉和中暑的主要原因是？</p>
+<p>​    A）婴儿皮肤渗透作用强</p>
+<p>​    <strong>B）婴儿皮肤的散热和保温能力差</strong></p>
+<p>​    C）婴儿皮肤新陈代谢快</p>
+<p>6，眼保健操的第一节是？</p>
+<p>​    <strong>A）揉天应穴</strong></p>
+<p>​    B）揉四白穴</p>
+<p>​    C）挤按睛明穴</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-07-05 期，2016-07-12 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，眼睛和近视遗传&quot;&gt;&lt;a href=&quot;#一，眼睛和近视遗传&quot; class=&quot;headerlink&quot; title=&quot;一，眼睛和近视遗
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="近视" scheme="http://xuzhijun.github.io/tags/%E8%BF%91%E8%A7%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十八）</title>
+    <link href="http://xuzhijun.github.io/2016/08/24/life-anewfather18/"/>
+    <id>http://xuzhijun.github.io/2016/08/24/life-anewfather18/</id>
+    <published>2016-08-24T03:00:00.000Z</published>
+    <updated>2016-08-31T13:41:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-06-28期</p>
+</blockquote>
+<h3 id="一，宝宝的生长发育"><a href="#一，宝宝的生长发育" class="headerlink" title="一，宝宝的生长发育"></a>一，宝宝的生长发育</h3><p>1，看懂生长发育曲线</p>
+<p>2，辅食过稀会导致生长发育曲线走势趋慢</p>
+<p>3，早期生长发育过快 长大容易引起慢性病</p>
+<p>4，抚触按摩有益于宝宝的生理发育和情绪发育</p>
+<p>5，最佳的抚触时间为 0 - 12个月</p>
+<p>6，帮助哭闹的孩子进入睡眠的抚触：用拇指从大脚趾沿足弓到脚跟抚触</p>
+<p>7，宝宝多趴有助于大运动方面的发育，要让宝宝手打开</p>
+<p>8，要重视锻炼宝宝手指精细动作的发育</p>
+<p>9，家长要训练孩子多口头表达意愿</p>
+<p>10，巧妙回避孩子结巴，减缓语言发育负担</p>
+<h3 id="二，问答"><a href="#二，问答" class="headerlink" title="二，问答"></a>二，问答</h3><p>1，早产儿肺部发育不完全，易发生的疾病是？</p>
+<p>​    A）窒息</p>
+<p>​    B）肺水肿</p>
+<p>​    <strong>C）肺透明膜病</strong></p>
+<p>2，婴儿出生时，身长约多少厘米？</p>
+<p>​    A）45厘米左右</p>
+<p>​    B）48厘米左右</p>
+<p>​    <strong>C）50厘米左右</strong></p>
+<p>3，婴儿抚触的最佳时间是？</p>
+<p>​    <strong>A）0 - 12 个月</strong></p>
+<p>​    B）12 - 24 个月</p>
+<p>​    C）24 - 36 个月</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-06-28期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，宝宝的生长发育&quot;&gt;&lt;a href=&quot;#一，宝宝的生长发育&quot; class=&quot;headerlink&quot; title=&quot;一，宝宝的生长发育&quot;&gt;&lt;/a&gt;一，宝宝的生长
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="生长发育" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E9%95%BF%E5%8F%91%E8%82%B2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>学习阮一峰的网页性能管理详解</title>
+    <link href="http://xuzhijun.github.io/2016/08/22/web-page-performance/"/>
+    <id>http://xuzhijun.github.io/2016/08/22/web-page-performance/</id>
+    <published>2016-08-22T02:00:00.000Z</published>
+    <updated>2016-08-22T03:17:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png" alt=""></p>
+<p>1，HTML 部分生成 <strong>DOM Tree</strong>，CSS 部分生成 <strong>Style Rules</strong>，合并成 <strong>Render Tree</strong><br>4，生成布局（<strong>layout</strong>）<br>5，绘制到屏幕上（<strong>painting</strong>）</p>
+<h3 id="重排和重绘："><a href="#重排和重绘：" class="headerlink" title="重排和重绘："></a>重排和重绘：</h3><p>网页生成的时候，至少会渲染一次。</p>
+<p>重新渲染 = 重新生成布局（重排 <strong>reflow</strong>）+ 重新绘制（重绘 <strong>repaint</strong>）</p>
+<p><strong>重排必然重绘，重绘未必重排。</strong></p>
+<p><strong>提高网页性能的根本：</strong>降低重排和重绘的频率和成本，尽量少触发重新渲染。</p>
+<h3 id="提高性能的几个技巧："><a href="#提高性能的几个技巧：" class="headerlink" title="提高性能的几个技巧："></a>提高性能的几个技巧：</h3><p>1，JS中，从性能角度考虑，尽量不要把读操作和写操作，放在一个语句里面。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">div.style.left = div.offsetLeft + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line">div.style.top = div.offsetTop + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">var</span> left = div.offsetLeft;</div><div class="line"><span class="keyword">var</span> top  = div.offsetTop;</div><div class="line">div.style.left = left + <span class="number">10</span> + <span class="string">"px"</span>;</div><div class="line">div.style.top = top + <span class="number">10</span> + <span class="string">"px"</span>;</div></pre></td></tr></table></figure>
+<p>2，CSS动画中，尽量重绘，少用重排。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad, left 属性会造成重排+重绘，transition只会重绘。</span></div><div class="line">.app-menu &#123;</div><div class="line">  <span class="attr">left</span>: <span class="number">-300</span>px;</div><div class="line">  transition: left <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line">.app-menu-open .app-menu &#123;</div><div class="line">  <span class="attr">left</span>: <span class="number">0</span>px;</div><div class="line">  transition: left <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// better,transform 属性会影响 Composite 合成阶段。</span></div><div class="line">.app-menu &#123;</div><div class="line">  -webkit-transform: translateX(<span class="number">-100</span>%);</div><div class="line">  transform: translateX(<span class="number">-100</span>%);</div><div class="line">  transition: transform <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.app-menu-open .app-menu &#123;</div><div class="line">  -webkit-transform: none;</div><div class="line">  transform: none;</div><div class="line">  transition: transform <span class="number">300</span>ms linear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// best</span></div><div class="line">.app-menu &#123;</div><div class="line">  -webkit-transform: translateX(<span class="number">-100</span>%);</div><div class="line">          transform: translateX(<span class="number">-100</span>%);</div><div class="line">  transition: transform <span class="number">300</span>ms linear;</div><div class="line">  will-change: transform; <span class="comment">// 使用 will change 属性，告知浏览器变化</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/will-change" target="_blank" rel="external">MDN - will-change</a></p>
+<p>3，样式表越简单，重排和重绘就越快。 </p>
+<p>4，重排和重绘的DOM元素层级越高，成本就越高。 </p>
+<p>5，table 元素的重排和重绘成本，要高于 div 元素。 </p>
+<p>6，不要一条条地改变样式，而要通过改变 class，或者 csstext 属性，一次性地改变样式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">var</span> left = <span class="number">10</span>;</div><div class="line"><span class="keyword">var</span> top = <span class="number">10</span>;</div><div class="line">el.style.left = left + <span class="string">"px"</span>;</div><div class="line">el.style.top = top + <span class="string">"px"</span>;</div><div class="line"></div><div class="line"><span class="comment">// good </span></div><div class="line">el.className += <span class="string">" theclassname"</span>;</div><div class="line">el.style.cssText += <span class="string">"; left: "</span> + left + <span class="string">"px; top: "</span> + top + <span class="string">"px;"</span>;</div></pre></td></tr></table></figure>
+<p>6，尽量使用离线DOM，虚拟DOM的脚本库，比如React，而不是真实的网面DOM，来改变元素样式。<br>比如，<strong>操作 Document Fragment 对象</strong>，完成后再把这个对象加入DOM。<br>再比如，<strong>使用 cloneNode() 方法</strong>，在克隆的节点上进行操作，然后再用克隆的节点替换原始节点。 </p>
+<p>7，先将元素设为display: none（需要1次重排和重绘），然后对这个节点进行100次操作，最后再恢复显示（需要1次重排和重绘）。这样一来，你就<strong>用两次重新渲染，取代了可能高达100次的重新渲染</strong>。  </p>
+<p>只在必要的时候，才将元素的display属性为可见，因为不可见的元素不影响重排和重绘。</p>
+<p>另外，visibility : hidden的元素只对重绘有影响，不影响重排。 </p>
+<p>8，position 属性为 absolute 或 fixed 的元素，重排的开销会比较小，因为不用考虑它对其他元素的影响。 </p>
+<p>9，使用 window.requestAnimationFrame()、window.requestIdleCallback() 这两个方法调节重新渲染（详见后文）。</p>
+<h4 id="深入理解："><a href="#深入理解：" class="headerlink" title="深入理解："></a>深入理解：</h4><p><a href="https://csstriggers.com/" target="_blank" rel="external">csstriggers.com - 重绘和重排的数据</a></p>
+<p><a href="http://www.zcfy.cc/article/smooth-as-butter-achieving-60-fps-animations-with-css3-1054.html" target="_blank" rel="external">如丝般顺滑：使用 CSS3 实现 60 帧的动画</a></p>
+<h3 id="刷新率"><a href="#刷新率" class="headerlink" title="刷新率"></a>刷新率</h3><p>如果网页动画能够做到每秒60帧，就会跟显示器同步刷新，达到最佳的视觉效果。</p>
+<p>这意味着，<strong>一秒之内进行60次重新渲染（60 FPS），每次重新渲染的时间不能超过16.66毫秒</strong>。</p>
+<p>如果想达到 60 帧的刷新率，就意味着 JavaScript 线程每个任务的耗时，必须少于16毫秒。</p>
+<p>一个解决办法是使用 Web Worker，主线程只用于 UI 渲染，然后跟UI渲染不相干的任务，都放在 Worker 线程。</p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank" rel="external">使用 Web Workers</a></p>
+<h3 id="Chrome的Timeline"><a href="#Chrome的Timeline" class="headerlink" title="Chrome的Timeline"></a>Chrome的Timeline</h3><p>Timeline面板提供两种查看方式：横条的是”事件模式”（Event Mode），显示重新渲染的各种事件所耗费的时间；竖条的是”帧模式”（Frame Mode），显示每一帧的时间耗费在哪里。<br>事件模式：<br>哪种色块比较多，就说明性能耗费在那里。色块越长，问题越大。<br>帧模式：<br>用来查看单个帧的耗时情况。每帧的色柱高度越低越好，表示耗时少。<br>帧模式有两条水平的参考线。<br>下面的一条是60FPS，低于这条线，可以达到每秒60帧；<br>上面的一条是30FPS，低于这条线，可以达到每秒30次渲染。<br>如果色柱都超过30FPS，这个网页就有性能问题了。</p>
+<h3 id="window-requestAnimationFrame"><a href="#window-requestAnimationFrame" class="headerlink" title="window.requestAnimationFrame()"></a>window.requestAnimationFrame()</h3><p>它可以将某些代码放到下一次重新渲染时执行。<br>可以使用window.requestAnimationFrame()，让读操作和写操作分离，把所有的写操作放到下一次重新渲染。 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function doubleHeight(element) &#123;</div><div class="line">  var currentHeight = element.clientHeight;</div><div class="line">  element.style.height = (currentHeight * 2) + \'px\';</div><div class="line">&#125; </div><div class="line">elements.forEach(doubleHeight); </div><div class="line"></div><div class="line">// 优化 </div><div class="line">function doubleHeight(element) &#123; </div><div class="line">  var currentHeight = element.clientHeight; </div><div class="line">// 使用window.requestAnimationFrame()，让读操作和写操作分离，把所有的写操作放到下一次重新渲染。 </div><div class="line">  window.requestAnimationFrame(function () &#123;</div><div class="line">    element.style.height = (currentHeight * 2) + \'px\';</div><div class="line">  &#125;);</div><div class="line">&#125; </div><div class="line">elements.forEach(doubleHeight);</div></pre></td></tr></table></figure>
+<p>页面滚动事件（scroll）的监听函数，就很适合用 window.requestAnimationFrame() ，推迟到下一次重新渲染。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">window</span>).on(<span class="string">'scroll'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">   <span class="built_in">window</span>.requestAnimationFrame(scrollHandler);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>最适用的场合还是网页动画。下面是一个旋转动画的例子，元素每一帧旋转1度。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rAF = <span class="built_in">window</span>.requestAnimationFrame;</div><div class="line"></div><div class="line"><span class="keyword">var</span> degrees = <span class="number">0</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">update</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.body.style.transform = <span class="string">"rotate("</span> + degrees + <span class="string">"deg)"</span>;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'updated to degrees '</span> + degrees);</div><div class="line">  degrees = degrees + <span class="number">1</span>;</div><div class="line">  rAF(update);</div><div class="line">&#125;</div><div class="line">rAF(update);</div></pre></td></tr></table></figure>
+<h4 id="深入理解：-1"><a href="#深入理解：-1" class="headerlink" title="深入理解："></a>深入理解：</h4><p><a href="http://www.zhangxinxu.com/wordpress/?p=3695" target="_blank" rel="external">CSS3动画那么强，requestAnimationFrame还有毛线用？</a></p>
+<p><a href="http://www.cnblogs.com/Wayou/p/requestAnimationFrame.html" target="_blank" rel="external">requestAnimationFrame，Web中写动画的另一种选择</a></p>
+<p><a href="http://creativejs.com/resources/requestanimationframe/" target="_blank" rel="external">creative JS - requestAnimationFrame</a></p>
+<p><a href="https://gist.github.com/joelambert/1002116" target="_blank" rel="external">https://gist.github.com/joelambert/1002116</a></p>
+<p><a href="http://www.cnblogs.com/chaogex/p/3960175.html" target="_blank" rel="external">深入理解requestAnimationFrame</a></p>
+<h3 id="window-requestIdleCallback"><a href="#window-requestIdleCallback" class="headerlink" title="window.requestIdleCallback()"></a>window.requestIdleCallback()</h3><p>它指定只有当一帧的末尾有空闲时间，才会执行回调函数。<br>1，只有当前帧的运行时间小于16.66ms时，函数fn才会执行。否则，就推迟到下一帧，如果下一帧也没有空闲时间，就推迟到下下一帧，以此类推。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">requestIdleCallback(fn);</div></pre></td></tr></table></figure>
+<p>2，<strong>它还可以接受第二个参数，表示指定的毫秒数</strong>。如果在指定的这段时间之内，每一帧都没有空闲时间，那么函数fn将会强制执行。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">requestIdleCallback(fn, <span class="number">5000</span>); <span class="comment">//函数fn最迟会在5000毫秒之后执行。</span></div></pre></td></tr></table></figure>
+<p>3，函数 fn 可以接受一个 deadline 对象作为参数。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">requestIdleCallback(<span class="function"><span class="keyword">function</span> <span class="title">someHeavyComputation</span>(<span class="params">deadline</span>) </span>&#123; </div><div class="line">  <span class="comment">// 只要当前帧还有空闲时间，就不断调用doWorkIfNeeded方法。</span></div><div class="line">  <span class="keyword">while</span>(deadline.timeRemaining() &gt; <span class="number">0</span>) &#123;</div><div class="line">    doWorkIfNeeded();</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 一旦没有空闲时间，但是任务还没有全执行，就分配到下一轮requestIdleCallback。 </span></div><div class="line">  <span class="keyword">if</span>(thereIsMoreWorkToDo) &#123;</div><div class="line">    requestIdleCallback(someHeavyComputation);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="deadline-对象"><a href="#deadline-对象" class="headerlink" title="deadline 对象"></a>deadline 对象</h4><p>回调函数 someHeavyComputation 的参数是一个 <strong>deadline 对象</strong>。<br>deadline 对象有一个方法和一个属性：<strong>timeRemaining()</strong> 和 <strong>didTimeout</strong>。 </p>
+<h5 id="timeRemaining-方法"><a href="#timeRemaining-方法" class="headerlink" title="timeRemaining() 方法"></a>timeRemaining() 方法</h5><p>timeRemaining() 方法返回当前帧还剩余的毫秒。<br>这个方法只能读，不能写，而且会动态更新。<br>因此可以不断检查这个属性，如果还有剩余时间的话，就不断执行某些任务。<br>一旦这个属性等于0，就把任务分配到下一轮requestIdleCallback。</p>
+<h5 id="didTimeout-属性"><a href="#didTimeout-属性" class="headerlink" title="didTimeout 属性"></a>didTimeout 属性</h5><p>deadline 对象的 didTimeout 属性会返回一个布尔值，表示指定的时间是否过期。<br>这意味着，如果回调函数由于指定时间过期而触发，那么你会得到两个结果。<br>1，timeRemaining 方法返回 0<br>2，didTimeout 属性等于true<br><strong>如果回调函数执行了，无非是两种原因：当前帧有空闲时间，或者指定时间到了。</strong> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNonEssentialWork</span> (<span class="params">deadline</span>) </span>&#123; </div><div class="line">  <span class="keyword">while</span> ((deadline.timeRemaining() &gt; <span class="number">0</span> || deadline.didTimeout) &amp;&amp; tasks.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    doWorkIfNeeded(); </div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (tasks.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    requestIdleCallback(myNonEssentialWork); </div><div class="line">  &#125;</div><div class="line">&#125; </div><div class="line">requestIdleCallback(myNonEssentialWork, <span class="number">5000</span>);</div></pre></td></tr></table></figure>
+<p>doWorkIfNeeded 函数一定会在将来某个比较空闲的时间（或者在指定时间过期后）得到反复执行。 </p>
+<h4 id="深入理解：-2"><a href="#深入理解：-2" class="headerlink" title="深入理解："></a>深入理解：</h4><p><a href="https://zhuanlan.zhihu.com/p/20273185" target="_blank" rel="external">requestIdleCallback 与前端渲染卡顿</a></p>
+<p><a href="https://developers.google.com/web/updates/2015/08/using-requestidlecallback" target="_blank" rel="external">Using requestIdleCallback</a></p>
+<h3 id="参考：-1"><a href="#参考：-1" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" target="_blank" rel="external">阮一峰 - 网页性能管理详解</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;原理：&quot;&gt;&lt;a href=&quot;#原理：&quot; class=&quot;headerlink&quot; title=&quot;原理：&quot;&gt;&lt;/a&gt;原理：&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://7xw2t4.com1.z0.glb.clouddn.com/web-page.png&quot; alt=
+    
+    </summary>
+    
+      <category term="前端" scheme="http://xuzhijun.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://xuzhijun.github.io/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十七）</title>
+    <link href="http://xuzhijun.github.io/2016/07/29/life-anewfather17/"/>
+    <id>http://xuzhijun.github.io/2016/07/29/life-anewfather17/</id>
+    <published>2016-07-29T06:00:00.000Z</published>
+    <updated>2016-08-31T13:28:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-06-21期</p>
+</blockquote>
+<h3 id="一，宝宝『地包天』不容小视"><a href="#一，宝宝『地包天』不容小视" class="headerlink" title="一，宝宝『地包天』不容小视"></a>一，宝宝『地包天』不容小视</h3><p>1，环境因素是造成牙齿反咬合的罪魁祸首（喂奶瓶的姿势，与水平面呈45度角）</p>
+<p>2，治疗宝宝乳牙反咬合的最佳时间是 3~4 岁。</p>
+<p>3，从 4~6 个月长第一颗乳牙，到2岁半~3岁所有的乳牙长齐。</p>
+<p>4，乳牙反咬合不治疗会损伤颞下颌关节和影响面额发育。</p>
+<p>5，妈妈孕期的营养决定宝宝乳牙质量。</p>
+<p>6，在孩子长牙的过程中，添加辅食中，要有从流食到半固体到固体的过程，培养孩子咀嚼的习惯。</p>
+<h3 id="二，婴儿湿巾你选对了吗？"><a href="#二，婴儿湿巾你选对了吗？" class="headerlink" title="二，婴儿湿巾你选对了吗？"></a>二，婴儿湿巾你选对了吗？</h3><p>1，建议选择 PH值 4.5~6.5 之间的湿巾。</p>
+<p>2，湿巾分为普通湿巾和卫生湿巾。</p>
+<p>3，季铵盐的杀菌效果完全可以取代酒精。</p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，湿纸巾中哪种成分能起到消毒的作用？</p>
+<p>​    <strong>A. 季铵盐</strong></p>
+<p>​    B. 苯氧基乙醇</p>
+<p>​    C. 乳酸钠</p>
+<p>2，婴儿新城代谢旺盛皮肤易受伤害是因为？</p>
+<p>​    A. 表皮层薄</p>
+<p>​    B. 角质层薄</p>
+<p>​    <strong>C. 角化层薄</strong></p>
+<p>3，引起婴幼儿『地包天』最重要的原因是？</p>
+<p>​    A. 睡眠姿势</p>
+<p>​    <strong>B. 遗传因素和不良的喂养习惯</strong></p>
+<p>​    C. 牙齿的清洁习惯</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-06-21期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，宝宝『地包天』不容小视&quot;&gt;&lt;a href=&quot;#一，宝宝『地包天』不容小视&quot; class=&quot;headerlink&quot; title=&quot;一，宝宝『地包天』不容小视&quot;
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="牙齿" scheme="http://xuzhijun.github.io/tags/%E7%89%99%E9%BD%BF/"/>
+    
+      <category term="湿巾" scheme="http://xuzhijun.github.io/tags/%E6%B9%BF%E5%B7%BE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS伪类与伪元素完全指南</title>
+    <link href="http://xuzhijun.github.io/2016/07/28/css-pseudo-classes-and-pseudo-elements/"/>
+    <id>http://xuzhijun.github.io/2016/07/28/css-pseudo-classes-and-pseudo-elements/</id>
+    <published>2016-07-28T08:00:00.000Z</published>
+    <updated>2016-08-09T06:34:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>原文链接：<a href="http://www.zcfy.cc/article/an-ultimate-guide-to-css-pseudo-classes-and-pseudo-elements-smashing-magazine-239.html#h4-table-of-contents-in-alphabetical-order-link" target="_blank" rel="external">CSS伪类与伪元素完全指南</a></p>
+<h3 id="1，概念"><a href="#1，概念" class="headerlink" title="1，概念"></a>1，概念</h3><h4 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h4><p>伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。</p>
+<p>伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。</p>
+<h4 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h4><p>伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。</p>
+<h4 id="伪元素是一个冒号还是两个冒号？"><a href="#伪元素是一个冒号还是两个冒号？" class="headerlink" title="伪元素是一个冒号还是两个冒号？"></a>伪元素是一个冒号还是两个冒号？</h4><p><a href="https://www.w3.org/community/webed/wiki/Advanced_CSS_selectors#CSS3_pseudo-element_double_colon_syntax" target="_blank" rel="external">建议使用单冒号表示法</a>，原因也是向后兼容。</p>
+<h4 id="正确使用生成的内容（content）"><a href="#正确使用生成的内容（content）" class="headerlink" title="正确使用生成的内容（content）"></a><a href="https://www.smashingmagazine.com/2013/04/css-generated-content-counters/" target="_blank" rel="external">正确使用生成的内容（content）</a></h4><p>通过CSS生成内容需要用到CSS属性 content 和伪元素 :before 或 :after。</p>
+<p>其中的“内容”（content）可是纯文本，也可以是一个容器，通过CSS操作来显示<a href="http://codepen.io/ricardozea/pen/sdlvu" target="_blank" rel="external">某种图形或者装饰性元素</a>。</p>
+<p>CSS生成的内容只适用于装饰性、不重要的内容，但也要确保屏幕阅读器能够适当处理它，让使用这些辅助技术的用户不至于分心。这里适用“渐进增强”原则。</p>
+<h4 id="实验性的伪类和伪元素"><a href="#实验性的伪类和伪元素" class="headerlink" title="实验性的伪类和伪元素"></a>实验性的伪类和伪元素</h4><p>实验性的伪类和伪元素，指的是那些不稳定或没最终定案的伪类和伪元素。它们的语法和行为还可能有变。</p>
+<p>不过，加上厂商前缀就可以使用这些实验性的伪类和伪元素。</p>
+<h3 id="2，伪类"><a href="#2，伪类" class="headerlink" title="2，伪类"></a>2，伪类</h3><h4 id="状态伪类"><a href="#状态伪类" class="headerlink" title="状态伪类"></a>状态伪类</h4><p>状态伪类通常出现在用户执行某个操作的情况下。在CSS里，“操作”也可以是“无操作”，比如尚未点过的链接。</p>
+<p>:hover 必须位于 :link 和 :visited 之后，:active 必须位于 :hover 之后。</p>
+<p>所以，<strong>推荐的书写顺序为：:link、:visited、:hover、:active</strong>。</p>
+<p>a:link 可以省略成 a。</p>
+<p>:hover 可用于 a 以外的元素。</p>
+<p>:active 选择被鼠标指针或触摸操作“激活的” 元素。</p>
+<p>:focus 用于选择已经通过指针设备、触摸或键盘获得焦点的元素。</p>
+<p>:active 与 :focus 的区别在于 :active 只发生在鼠标被按下到被释放的这段时间里。</p>
+<p><strong><a href="http://codepen.io/ricardozea/pen/wMyZQe" target="_blank" rel="external">扩展内容：Sass中针对链接的混入</a></strong></p>
+<p>:focus 和 :active 的声明通常在一块，当然也可以给它们分开。</p>
+<p>注意这个 Mixin 不仅仅适用于链接，而是适用于任何 HTML元素。</p>
+<h4 id="结构化伪类"><a href="#结构化伪类" class="headerlink" title="结构化伪类"></a>结构化伪类</h4><p>结构化伪类选择通过其他选择符无法选择的文档树或DOM中的其他信息。</p>
+<p><strong>E:*-child 和 E:*-of-type 之间的区别：</strong></p>
+<p><strong>E:*-child</strong> 在满足 <strong>条件（*-child）</strong>  <strong>且</strong> 满足 <strong>条件（E）</strong>的情况下，才会生效。</p>
+<p><strong>E:*-of-type</strong> 在满足 <strong>条件（E）</strong> 的结果集里寻找满足条件 <strong>（*-of-type）</strong>的元素。</p>
+<p><strong>:not</strong> 通过括号接受一个参数，可以是一个“选择符”，也可以是另一个伪类。<strong>可以连缀使用，不能嵌套使用。</strong></p>
+<p><strong>:nth-child</strong> 根据元素在标记中的次序选择相应的元素。</p>
+<p><strong>:nth-last-child</strong> 除了是从后往前选择元素，跟 :nth-child 完全一样。</p>
+<p><strong>:nth-of-type</strong> 与 :nth-child 类似，<strong>主要区别是它更具体了，可以只针对特定类型的元素</strong>。</p>
+<p><strong>:nth-last-of-type</strong> 是从后往前数，其余跟 :nth-of-type 一样。</p>
+<p>所有 <strong>:nth</strong> 都接受一个参数，这个参数是一个公式。<br>公式可以是一个整数，或者关键字odd、even，或者形如an+b的结构。</p>
+<p><strong>对于an+b：</strong></p>
+<p>​    a（间隔基数，是一个整数）<br>​    n（间隔步长，从 0 开始）<br>​    + （运算符，可以是加号+或减号-）<br>​    b（起始值，也是一个整数，但只有使用了运算符的时候才会用到）</p>
+<p><strong>参考文章：</strong></p>
+<p>1，“<a href="http://lea.verou.me/demos/nth.html" target="_blank" rel="external">CSS3 Structural Pseudo-Class Selector Tester</a>” Lea Verou<br>2，“<a href="https://css-tricks.com/examples/nth-child-tester/" target="_blank" rel="external">:nth Tester</a>” CSS-Tricks</p>
+<p><strong>:only-child</strong> 选择父元素中唯一的子元素。</p>
+<p><strong>:only-of-type</strong> 选择同级中类型唯一的元素，与 :only-child 类似，<strong>但针对特定类型的元素时，让选择符有了更强的意义</strong>。</p>
+<p><strong>:target 伪类</strong> 通过元素的ID及URL中的锚名称选择元素。</p>
+<h4 id="验证伪类"><a href="#验证伪类" class="headerlink" title="验证伪类"></a>验证伪类</h4><p>验证伪类也可以用于其他HTML元素。</p>
+<p><strong>:checked</strong> 选择被勾选或选中的单选按钮、多选按钮及列表选项。</p>
+<p><strong>:default</strong> 从表单中一组类似元素里选择默认的元素（即“提交”按钮。——译者注）。</p>
+<p>如果要选择表单中没有类的默认按钮，可以使用 :default。</p>
+<p><strong>注意：</strong>在表单中使用 Reset 或 Clear 按钮会招致严重的可用性问题，<strong>慎用</strong>。</p>
+<p><strong>参考文章：</strong></p>
+<p>“<a href="http://www.nngroup.com/articles/reset-and-cancel-buttons/" target="_blank" rel="external">Reset and Cancel Buttons</a>,” Nielsen Norman Group (2000)</p>
+<p>“<a href="http://uxmovement.com/forms/killing-the-cancel-button-on-forms-for-good/" target="_blank" rel="external">Killing the Cancel Button on Forms for Good</a>,” UX Movement (2010)</p>
+<p><strong>:enabled</strong> 选择启用的元素。<br>所有表单元素默认都是启用的，除非在标记中添加了disabled 属性。</p>
+<p><strong>:disabled</strong> 选择禁用状态的表单元素。<br>处于禁用状态的元素，<strong>不能被选中、勾选，不能获得焦点</strong>。</p>
+<p>通过 :enabled 和 :disabled 可以提供视觉上的反馈，改善用户体验。</p>
+<p><strong>:empty</strong> 选择其中不包含任何内容的空元素。<br>只要包含一个字母、其他HTML元素，甚至一个空格，都不算空。</p>
+<p><strong>:in-range</strong> 选择<strong>有范围且值在指定范围内</strong>的元素。</p>
+<p><strong>:out-of-range</strong> 选择<strong>有范围且值超出指定范围</strong>的元素。</p>
+<p><strong>:indeterminate</strong> 选择<strong>单选按钮</strong>或<strong>复选框</strong>在页面加载时没有被勾选的。</p>
+<p><strong>两种情况：</strong></p>
+<p>​    一组单选按钮中没有默认或预先勾选的，<br>​    一个复选框已经通过 JavaScript 设置为 indeterminate = true 状态。</p>
+<p><strong>:valid</strong> 选择输入格式符合要求的表单元素。</p>
+<p><strong>:invalid</strong> 选择输入格式不符合要求的表单元素。</p>
+<p><strong>:optional</strong> 选择表单中非必填的输入字段。<br>只要输入字段中没有 required 属性，就会被 :optional 选中。</p>
+<p><strong>:required</strong> 选择有 required 属性的表单元素。</p>
+<p><strong>:read-only</strong> 选择用户不能编辑的元素。<br>与 :disabled 伪类相似，标记中使用的属性决定了使用哪个伪类。</p>
+<p><strong>:read-write</strong> 选择用户可以编辑的元素。<br>适用于有 contenteditable 属性的HTML元素。</p>
+<p><strong>:scope</strong> 适用于 style 标签中有 scoped 属性的情形。</p>
+<p>如果页面中某一部分的 style 标签里没有 scoped 属性，那么 :scope 会一直向上查找，直到 html 元素，即当前样式表的默认作用范围。</p>
+<h4 id="语言伪类"><a href="#语言伪类" class="headerlink" title="语言伪类"></a>语言伪类</h4><p><strong>:dir</strong> 选择文档中指定了语言方向的元素。<br>为了使用 :dir，需要在标记中为相关元素指定dir属性。</p>
+<p><strong>:lang</strong> 选择的元素通过lang=””属性、相应的 meta 元素以及 HTTP 头部的协议信息来确定。</p>
+<h4 id="其他伪类"><a href="#其他伪类" class="headerlink" title="其他伪类"></a>其他伪类</h4><p><strong>:root</strong> 选择文档中最高层次的父元素。</p>
+<p>在HTML中，:root 选择的就是 html 元素。但在SVG或XML等标记语言中，它可能选择不同的元素。</p>
+<p><strong>注意：</strong>使用html也可以设置相同的样式，但 <strong>:root 是一个类，拥有比元素选择符（即html）更高的特指度。</strong></p>
+<p><strong>:fullscreen</strong> 选择在全屏模式下显示的元素。</p>
+<p>只适用于通过 JavaScript Fullscreen API 切换进入的全屏模式，通常由父容器中的图片、视频或游戏来调用。</p>
+<p>使用 :fullscreen 前必须知道，浏览器应用样式的方式差别很大。</p>
+<p>而且，不仅要在CSS中使用前缀，JavaScript中也一样。</p>
+<p>推荐使用Hernan Rajchert的<a href="https://github.com/sindresorhus/screenfull.js/" target="_blank" rel="external">screenfull.js</a>，它帮我们填了不少浏览器的“坑”。</p>
+<h3 id="伪元素-1"><a href="#伪元素-1" class="headerlink" title="伪元素"></a>伪元素</h3><p>伪元素类似一种虚拟元素，可以将其视为普通的HTML元素。</p>
+<p>但伪元素并不存在于文档树或DOM中，因此不能在HTML中输入，只能通过CSS创建。</p>
+<p><strong>:after(::after)</strong> 和 <strong>:before(::before)</strong> 用于为其他HTML元素<strong>添加内容</strong>（文本或图形）。</p>
+<p><strong>只能用于能添加内容的HTML元素</strong>。<a href="http://www.zhihu.com/question/21296044" target="_blank" rel="external">为什么input不支持伪元素(:after,:before)？</a></p>
+<p>这里的内容并不实际存在于DOM中，但可以像存在一样操作它们。</p>
+<p>使用这个伪元素，必须在CSS中声明 content 属性。</p>
+<p>通过这个伪元素添加的任何内容都无法通过其他选择符选中。</p>
+<p><strong>::backdrop</strong> 是在全屏元素后面生成的一个盒子，与 :fullscreen 连用，修改全屏后元素的背景颜色。</p>
+<p><strong>注意：</strong> ::backdrop 必须用双冒号。</p>
+<p><strong>:first-letter(::first-letter)</strong> 选择一行文本第一个字符。</p>
+<p>如果相应行前面包含图片、视频或表格元素，那么不会影响选择第一个字符。</p>
+<p><strong>注意：</strong>这个伪元素也可以选中 :before 生成的第一个字符。</p>
+<p><strong>:first-line(::first-line)</strong> 选择元素的第一行，只适用于块级元素，行内元素不适用。</p>
+<p><strong>::selection</strong> 选择文档中被高亮选中的部分。</p>
+<p>注意：基于Gecko的浏览器要求使用 <strong>::-moz-selection</strong>。 带前缀和不带前缀的 ::selection 要分别写。</p>
+<p><strong>::placeholder</strong> 选择表单元素中通过 placeholder 属性设置的占位文本，也可以写成 ::input-placeholder。</p>
+<p><strong>注意：</strong>这个伪元素不是标准的。</p>
+<p><strong>兼容性写法：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-moz-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-webkit-input-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* IE 10 only */</span></div><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-ms-input-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* Firefox 18 and below */</span></div><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-moz-input-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;原文链接：&lt;a href=&quot;http://www.zcfy.cc/article/an-ultimate-guide-to-css-pseudo-classes-and-pseudo-elements-smashing-magazine-239.html#h4-table-
+    
+    </summary>
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/categories/CSS/"/>
+    
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/tags/CSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS3 - Flexible Box 基本概念</title>
+    <link href="http://xuzhijun.github.io/2016/07/07/css-flex1/"/>
+    <id>http://xuzhijun.github.io/2016/07/07/css-flex1/</id>
+    <published>2016-07-07T06:00:00.000Z</published>
+    <updated>2016-07-26T07:06:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一，基本概念"><a href="#一，基本概念" class="headerlink" title="一，基本概念"></a>一，基本概念</h3><p>图中是一个 <strong><em>flex-direction</em></strong> 属性为 <strong><em>row</em></strong> 的弹性容器，意味着其内的弹性项目将根据既定<strong>书写模式 <em>(writing-mode)</em></strong> 沿主轴水平排列，其方向为元素的文本流方向，在这个例子里，为从左到右。</p>
+<p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/flexbox.png" alt="基本概念"></p>
+<h4 id="1，弹性容器-Flex-container"><a href="#1，弹性容器-Flex-container" class="headerlink" title="1，弹性容器 (Flex container)"></a>1，弹性容器 <em>(Flex container)</em></h4><p>包含着弹性项目的<strong>父元素</strong>。<br>通过设置 <strong><em>display</em></strong> 属性的值为 <strong><em>flex</em></strong> 或 <strong><em>inline-flex</em></strong> 来定义弹性容器。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-container</span> &#123;</div><div class="line">  <span class="attribute">display</span>: flex; <span class="comment">/* or inline-flex */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="2，弹性项目-Flex-item"><a href="#2，弹性项目-Flex-item" class="headerlink" title="2，弹性项目 (Flex item)"></a>2，弹性项目 <em>(Flex item)</em></h4><p>弹性容器的<strong>每个子元素</strong>都成为弹性项目。<br>弹性容器直接包含的文本将包覆成<strong>匿名弹性项目</strong>。</p>
+<h4 id="3，轴-Axes"><a href="#3，轴-Axes" class="headerlink" title="3，轴 (Axes)"></a>3，轴 <em>(Axes)</em></h4><p>每个弹性框布局包含<strong>两个轴</strong>。<br>弹性项目沿其依次排列的那根轴称为<strong>主轴 <em>(main axis)</em></strong>。<br>垂直于主轴的那根轴称为<strong>侧轴 <em>(cross axis)</em></strong>。</p>
+<h4 id="4，方位-Direction"><a href="#4，方位-Direction" class="headerlink" title="4，方位 (Direction)"></a>4，方位 <em>(Direction)</em></h4><p>弹性容器的各个边（主轴起点 <strong><em>(main start)</em></strong>，主轴终点 <strong><em>(main end)</em></strong>，侧轴起点 <strong><em>(cross start)</em></strong>，侧轴终点 <strong><em>(cross end)</em></strong>）描述了弹性条目流的起点与终点。<br>它们具体取决于弹性容器的主轴与侧轴以及由 <strong><em>writing-mode</em></strong> 确立的方向（从左到右、从右到左，等等）。</p>
+<h4 id="5，行-Line"><a href="#5，行-Line" class="headerlink" title="5，行 (Line)"></a>5，行 <em>(Line)</em></h4><p>根据 <strong><em>flex-wrap</em></strong> 属性，弹性项目可以排布在单个行或者多个行中。此属性控制侧轴的方向和新行排列的方向。</p>
+<h4 id="6，尺寸（Dimension）"><a href="#6，尺寸（Dimension）" class="headerlink" title="6，尺寸（Dimension）"></a>6，尺寸<em>（Dimension）</em></h4><p>根据弹性容器的主轴与侧轴，弹性项目的宽和高相应称为主轴尺寸 <strong><em>(main size)</em></strong>与 侧轴尺寸 <strong><em>(cross size)</em></strong>。</p>
+<h3 id="二，例外的属性"><a href="#二，例外的属性" class="headerlink" title="二，例外的属性"></a>二，例外的属性</h3><p>1，多栏布局模块的 <strong><em>column-*</em></strong> 属性对弹性项目无效。</p>
+<p>2，<strong><em>clear</em></strong> 属性对弹性项目无效。</p>
+<p>3，使用 <strong><em>float</em></strong> 属性将使元素的 <strong><em>display</em></strong> 属性值为 <strong><em>block</em></strong>。</p>
+<p>4，<strong><em>vertical-align</em></strong> 属性对弹性项目的对齐无效。</p>
+<h3 id="三，弹性容器相关的属性"><a href="#三，弹性容器相关的属性" class="headerlink" title="三，弹性容器相关的属性"></a>三，弹性容器相关的属性</h3><h4 id="1，flex-direction-属性："><a href="#1，flex-direction-属性：" class="headerlink" title="1，flex-direction 属性："></a>1，<em>flex-direction</em> 属性：</h4><p>主轴的方向（即弹性项目的排列方向）。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-container</span> &#123;</div><div class="line">  <span class="attribute">flex-direction</span>: row | row-reverse | column | column-reverse; <span class="comment">/* 默认值 row */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/flex-direction.png" alt=""></p>
+<h4 id="2，flex-wrap-属性："><a href="#2，flex-wrap-属性：" class="headerlink" title="2，flex-wrap 属性："></a>2，<em>flex-wrap</em> 属性：</h4><p>主轴上的排列是否换行，和侧轴上的排列方向。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-container</span> &#123;</div><div class="line">  <span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse; <span class="comment">/* 默认值 nowrap */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="3，flex-flow-属性："><a href="#3，flex-flow-属性：" class="headerlink" title="3，flex-flow 属性："></a>3，<em>flex-flow</em> 属性：</h4><p>flex-direction 属性和 flex-wrap 属性的简写形式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-container</span> &#123;</div><div class="line">  <span class="attribute">flex-flow</span>: &lt;‘flex-direction’&gt; || &lt;‘flex-wrap’&gt;; <span class="comment">/* 默认值 row nowrap */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="4，justify-content-属性："><a href="#4，justify-content-属性：" class="headerlink" title="4，justify-content 属性："></a>4，<em>justify-content</em> 属性：</h4><p>定义了弹性项目在主轴上的对齐方式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-container</span> &#123;</div><div class="line">  <span class="attribute">justify-content</span>: flex-start | flex-end | center | space-between | space-around; <span class="comment">/* 默认值 flex-start */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://7xw2t4.com2.z0.glb.clouddn.com/justify-content.png" alt="justify-content"></p>
+<h4 id="5，align-items-属性："><a href="#5，align-items-属性：" class="headerlink" title="5，align-items 属性："></a>5，<em>align-items</em> 属性：</h4><p>定义弹性项目在侧轴上的对齐方式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  <span class="attribute">align-items</span>: flex-start | flex-end | center | baseline | stretch; <span class="comment">/* 默认值 stretch */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/align-items.png" alt="align-items"></p>
+<h4 id="6，align-content-属性："><a href="#6，align-content-属性：" class="headerlink" title="6，align-content 属性："></a>6，<em>align-content</em> 属性：</h4><p>定义了多根主轴在侧轴上的对齐方式，如果弹性容器内只有一根主轴则该属性无效。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-container</span> &#123;</div><div class="line">  <span class="attribute">align-content</span>: flex-start | flex-end | center | space-between | space-around | stretch; <span class="comment">/* 默认值 stretch */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/align-content.png" alt="align-content"></p>
+<h3 id="四，弹性项目相关的属性"><a href="#四，弹性项目相关的属性" class="headerlink" title="四，弹性项目相关的属性"></a>四，弹性项目相关的属性</h3><h4 id="1，order-属性："><a href="#1，order-属性：" class="headerlink" title="1，order 属性："></a>1，<em>order</em> 属性：</h4><p>定义弹性项目的排列顺序，数值越小，排列越靠前。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-item</span> &#123;</div><div class="line">  <span class="attribute">order</span>: &lt;integer&gt;; <span class="comment">/* 默认值 0 */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="2，flex-属性："><a href="#2，flex-属性：" class="headerlink" title="2，flex 属性："></a>2，<em>flex</em> 属性：</h4><p>是 <strong><em>flex-grow</em></strong>, <strong><em>flex-shrink</em></strong> 和 <strong><em>flex-basis</em></strong> 的简写，默认值为 <strong><em>0 1 auto</em></strong>，后两个属性可选。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-item</span> &#123;</div><div class="line">  <span class="attribute">flex</span>: none | [ &lt;<span class="string">'flex-grow'</span>&gt; &lt;<span class="string">'flex-shrink'</span>&gt;? || &lt;<span class="string">'flex-basis'</span>&gt; ]; <span class="comment">/* 默认值 0 1 auto */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>flex 属性有四个快捷值：</p>
+<p><strong><em>flex: initial</em></strong></p>
+<p>等同于：<strong><em>flex: 0 1 auto</em></strong></p>
+<p><strong><em>flex: auto</em></strong></p>
+<p>等同于：<strong><em>flex: 1 1 auto</em></strong></p>
+<p><strong><em>flex: none</em></strong></p>
+<p>等同于：<strong><em>flex: 0 0 auto</em></strong></p>
+<p><strong><em>flex: \<positive-number\></positive-number\></em></strong></p>
+<p>等同于：<strong><em>flex: \<positive-number\> 1 0</positive-number\></em></strong></p>
+<p><strong>建议优先使用这个属性</strong>，而不是单独写三个分离的属性，因为浏览器会推算相关值。</p>
+<h4 id="3，flex-grow-属性："><a href="#3，flex-grow-属性：" class="headerlink" title="3，flex-grow 属性："></a>3，<em>flex-grow</em> 属性：</h4><p>如果存在剩余空间时，计算弹性项目放大的权重，默认不放大。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-item</span> &#123;</div><div class="line">  <span class="attribute">flex-grow</span>: &lt;number&gt;; <span class="comment">/* 默认值 0 */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/flex-grow.png" alt="flex-grow"></p>
+<h4 id="4，flex-shrink-属性："><a href="#4，flex-shrink-属性：" class="headerlink" title="4，flex-shrink 属性："></a>4，<em>flex-shrink</em> 属性：</h4><p>如果空间不足时，计算弹性项目缩小的权重。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-item</span> &#123;</div><div class="line">  <span class="attribute">flex-shrink</span>: &lt;number&gt;; <span class="comment">/* 默认值 1 */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="flex-shrink-的计算详解："><a href="#flex-shrink-的计算详解：" class="headerlink" title="flex-shrink 的计算详解："></a>flex-shrink 的计算详解：</h4><p><a href="http://stackoverflow.com/questions/34753491/how-does-flex-shrink-factor-in-padding-and-border-box" target="_blank" rel="external">How does flex-shrink factor in padding and border-box?</a></p>
+<h4 id="5，flex-basis-属性："><a href="#5，flex-basis-属性：" class="headerlink" title="5，flex-basis 属性："></a>5，<em>flex-basis</em> 属性：</h4><p>定义在分配多余空间之前，弹性项目占据的主轴空间 <strong><em>(main size)</em></strong>。</p>
+<p>浏览器会根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-item</span> &#123;</div><div class="line">  <span class="attribute">flex-basis</span>: &lt;length&gt; | auto; <span class="comment">/* 默认值 auto */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="深入研究：flex-basis-和-width-属性在弹性布局中作用？"><a href="#深入研究：flex-basis-和-width-属性在弹性布局中作用？" class="headerlink" title="深入研究：flex-basis 和 width 属性在弹性布局中作用？"></a>深入研究：<em>flex-basis</em> 和 <em>width</em> 属性在弹性布局中作用？</h4><p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/rel-vs-abs-flex.svg" alt="rel-vs-abs-flex"></p>
+<h4 id="6，align-self-属性："><a href="#6，align-self-属性：" class="headerlink" title="6，align-self 属性："></a>6，<em>align-self</em> 属性：</h4><p>定义单个弹性项目自己的对齐方式，覆盖 <strong><em>align-items</em></strong> 属性。</p>
+<p>默认值为 <strong><em>auto</em></strong>，表示继承了弹性容器的 <strong><em>align-items</em></strong> 属性，如果弹性容器没有 <strong><em>align-items</em></strong> 属性，则为 <strong><em>stretch</em></strong>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.flex-item</span> &#123;</div><div class="line">  <span class="attribute">align-self</span>: auto | flex-start | flex-end | center | baseline | stretch;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://7xw2t4.com1.z0.glb.clouddn.com/align-self.png" alt="align-self"></p>
+<h3 id="五，参考资料："><a href="#五，参考资料：" class="headerlink" title="五，参考资料："></a>五，参考资料：</h3><p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="external">A Complete Guide to Flexbox</a></p>
+<p><a href="https://scotch.io/tutorials/a-visual-guide-to-css3-flexbox-properties" target="_blank" rel="external">A Visual Guide to CSS3 Flexbox Properties</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="external">Flex 布局教程：语法篇</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes" target="_blank" rel="external">使用 CSS 弹性盒</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一，基本概念&quot;&gt;&lt;a href=&quot;#一，基本概念&quot; class=&quot;headerlink&quot; title=&quot;一，基本概念&quot;&gt;&lt;/a&gt;一，基本概念&lt;/h3&gt;&lt;p&gt;图中是一个 &lt;strong&gt;&lt;em&gt;flex-direction&lt;/em&gt;&lt;/strong&gt; 属性为 &lt;st
+    
+    </summary>
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/categories/CSS/"/>
+    
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/tags/CSS/"/>
+    
+      <category term="CSS3" scheme="http://xuzhijun.github.io/tags/CSS3/"/>
+    
+      <category term="flex" scheme="http://xuzhijun.github.io/tags/flex/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十六）</title>
+    <link href="http://xuzhijun.github.io/2016/07/05/life-anewfather16/"/>
+    <id>http://xuzhijun.github.io/2016/07/05/life-anewfather16/</id>
+    <published>2016-07-05T06:00:00.000Z</published>
+    <updated>2016-08-31T13:27:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>拜托了妈妈 2016-06-14 期</p>
+</blockquote>
+<h3 id="一，夏季防蚊全攻略"><a href="#一，夏季防蚊全攻略" class="headerlink" title="一，夏季防蚊全攻略"></a>一，夏季防蚊全攻略</h3><p>1，蚊虫叮咬后可能引发：虫咬性皮炎，血管性水肿（过敏反应，非感染），感染（有小白脓包），荨麻疹样苔藓（过敏反应）。</p>
+<p>2，区分过敏反应和感染：被蚊虫叮咬后，当天肿起来是过敏反应，过两三天才肿起来，并带有脓包则是感染。</p>
+<p>3，以下因素会容易导致被蚊子叮咬</p>
+<p>​    1）呼出的二氧化碳较多容易吸引蚊子</p>
+<p>​    2）身体中乳酸含量较高的容易被叮咬</p>
+<p>​    3）使用化妆品</p>
+<p>​    4）穿深色的衣服</p>
+<p>4，预防蚊虫叮咬的方法</p>
+<p>​    1）宝宝皮肤最多可涂抹含20%DEET（避蚊胺）成分的驱蚊产品，驱蚊效果可达4 ~ 6小时。</p>
+<p>​    2）家长也可给宝宝选用含有 Picaridin 成分的驱蚊产品。（Aerogard）</p>
+<p>5，被蚊虫叮咬后的止痒</p>
+<p>​    1）刚被蚊虫叮咬初期，切勿抓挠防止感染。</p>
+<p>​    2）Benadryl 儿童快速止痒凝胶。</p>
+<p>​    3）皮肤若被叮咬红肿，可选用扑尔敏等内服药物。</p>
+<p>​    4）若蚊子包抓破有溃口，可涂抹百多邦等抗菌药物。</p>
+<h3 id="二，宝宝夏季食欲不振"><a href="#二，宝宝夏季食欲不振" class="headerlink" title="二，宝宝夏季食欲不振"></a>二，宝宝夏季食欲不振</h3><p>1，宝宝夏天不爱吃饭不是厌食，而是食欲减退。</p>
+<p>2，夏季多食用含钾、钠的食物，补充丢失的营养元素（芹菜，土豆，香蕉，西兰花，蓬蒿）。</p>
+<p>3，家长可利用食物中的有机酸成分，帮助宝宝开胃（酸梅汤，西红柿，草莓等）。</p>
+<p>4，出汗后应给宝宝少量多次喝温开水（体温以上）。</p>
+<p>5，水分含量高的食材（饭前喝点汤，冬瓜，生菜）。</p>
+<p>6，补充维生素B族（干豆类）。</p>
+<p>7，特别食欲差的孩子餐前喝几口汤（绿豆汤，紫菜汤，海带汤，青菜豆腐汤），可提高食欲。</p>
+<p>8，消化酶可帮助消化食物中的蛋白质（木瓜，菠萝）。</p>
+<p>9，少量多餐、大盘少放食物，可增加食欲，限制吃饭时间。</p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，蚊虫叮咬可引起的并发症有？</p>
+<p>​    A）流行性乙型脑炎</p>
+<p>​    B）流行性脑膜炎</p>
+<p>​    <strong>C）流行性出血热</strong></p>
+<p>2，腋下测量小儿体温所需要的时间为？</p>
+<p>​    A）3 ~ 5 分钟</p>
+<p>​    B）5 ~ 7 分钟</p>
+<p>​    <strong>C）7 ~ 10 分钟</strong></p>
+<p>3，谷类、薯类是我国膳食能量的主要来源但其主要的缺陷是缺乏？</p>
+<p>​    A）脂肪</p>
+<p>​    <strong>B）优质蛋白质</strong></p>
+<p>​    C）碳水化合物</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;拜托了妈妈 2016-06-14 期&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一，夏季防蚊全攻略&quot;&gt;&lt;a href=&quot;#一，夏季防蚊全攻略&quot; class=&quot;headerlink&quot; title=&quot;一，夏季防蚊全攻略&quot;&gt;&lt;/a&gt;一，夏季防蚊
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+      <category term="防蚊" scheme="http://xuzhijun.github.io/tags/%E9%98%B2%E8%9A%8A/"/>
+    
+      <category term="食欲不振" scheme="http://xuzhijun.github.io/tags/%E9%A3%9F%E6%AC%B2%E4%B8%8D%E6%8C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十五）</title>
+    <link href="http://xuzhijun.github.io/2016/07/01/life-anewfather15/"/>
+    <id>http://xuzhijun.github.io/2016/07/01/life-anewfather15/</id>
+    <published>2016-07-01T04:00:00.000Z</published>
+    <updated>2016-07-01T05:31:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一，孩子长高的问题"><a href="#一，孩子长高的问题" class="headerlink" title="一，孩子长高的问题"></a>一，孩子长高的问题</h3><h4 id="睡眠"><a href="#睡眠" class="headerlink" title="睡眠"></a>睡眠</h4><p>1，充足的睡眠是宝宝长高的重要基础。</p>
+<p>2，宝宝睡眠时间表</p>
+<table>
+<thead>
+<tr>
+<th>年龄</th>
+<th>连续睡眠时间（至少）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3 岁以下</td>
+<td>12 小时</td>
+</tr>
+<tr>
+<td>3 - 6 岁</td>
+<td>11 小时</td>
+</tr>
+<tr>
+<td>6 - 12 岁</td>
+<td>10 小时</td>
+</tr>
+<tr>
+<td>12 - 18 岁</td>
+<td>9 小时</td>
+</tr>
+<tr>
+<td>成年人</td>
+<td>8 小时</td>
+</tr>
+</tbody>
+</table>
+<p>3，夜间是宝宝生长激素分泌的最佳时期。</p>
+<h4 id="运动"><a href="#运动" class="headerlink" title="运动"></a>运动</h4><p>1，适当的腿部负重运动可以帮助宝宝长高，但高强度运动会伤害骨骼，影响宝宝生长。</p>
+<p>2，『生长痛』与宝宝长高无绝对关系。</p>
+<h4 id="营养"><a href="#营养" class="headerlink" title="营养"></a>营养</h4><p>1，宝宝生长发育的『加油站』：</p>
+<p>​    1）<strong>第一，粮谷类</strong></p>
+<p>​        粮谷类食物是能量的基础，是宝宝获取能量的关键</p>
+<p>​    2）<strong>第二，油脂类</strong></p>
+<p>​        油脂类食物能促进维生素吸收</p>
+<p>​        油脂类食物能够预防宝宝过敏体质</p>
+<p>​    3）<strong>第三，蛋白质类</strong>（首推牛奶，鸡蛋，肉类）</p>
+<p>​        蛋白质类摄入不足会影响宝宝生长速度</p>
+<p>2，深色蔬菜可以帮助宝宝骨骼强健</p>
+<h4 id="推拿"><a href="#推拿" class="headerlink" title="推拿"></a>推拿</h4><p>1，百会穴（两侧耳尖连线，到头顶正中的地方）</p>
+<p>​    手法：用拇指的螺纹面，轻轻按揉 50 ~ 100 次（有酸麻胀痛感）。</p>
+<p>2，两边足三里（外膝眼往下三寸，约四指处）</p>
+<p>​    手法：同上。</p>
+<p>3，两边涌泉穴（第二，三脚趾缝，到足跟中点的连线，前三分一次处，人字交汇处）</p>
+<p>​    手法：同上。</p>
+<p>4，磨腹</p>
+<p>​    手法：在宝宝右侧，掌心对着肚脐，手掌放下（中间是空心的），使劲的是手指，大鱼际和小鱼际。</p>
+<p>​    顺时针按揉，消食通便，逆时针揉，健脾止泻，个五分钟。</p>
+<p>5，捏脊</p>
+<p>​    手法：拇指食指中指提起脊柱两侧肌肤，从尾椎到颈椎，由下到上，五遍，捏三提一。</p>
+<h3 id="二，问答"><a href="#二，问答" class="headerlink" title="二，问答"></a>二，问答</h3><p>1，2 岁以后至青春期前，小儿身高稳步增长，平均每年增长多少？</p>
+<p>​    A）2 ~ 3 厘米</p>
+<p>​    B）3 ~ 5 厘米</p>
+<p>​    <strong>C）5 ~ 7 厘米</strong></p>
+<p>2，下列关于小儿脊柱发育，叙述正确的是？</p>
+<p>​    A）1 个月出现颈椎前凸</p>
+<p>​    B）6 个月出现腰椎前凸</p>
+<p>​    <strong>C）7 个月出现胸椎后凸</strong></p>
+<p>3，在下列小儿生长发育的特点中，哪些是正确的？</p>
+<p>​    <strong>A）男孩乳牙褪换时间和女孩相同</strong></p>
+<p>​    B）男孩的骨骼发育较女孩快</p>
+<p>​    C）女孩青春期的加速生长比男孩早 1 年</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一，孩子长高的问题&quot;&gt;&lt;a href=&quot;#一，孩子长高的问题&quot; class=&quot;headerlink&quot; title=&quot;一，孩子长高的问题&quot;&gt;&lt;/a&gt;一，孩子长高的问题&lt;/h3&gt;&lt;h4 id=&quot;睡眠&quot;&gt;&lt;a href=&quot;#睡眠&quot; class=&quot;headerlink&quot; 
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十四）</title>
+    <link href="http://xuzhijun.github.io/2016/06/30/life-anewfather14/"/>
+    <id>http://xuzhijun.github.io/2016/06/30/life-anewfather14/</id>
+    <published>2016-06-30T05:00:00.000Z</published>
+    <updated>2016-07-01T04:07:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一，如何能让宝宝的脑部发育得更好？"><a href="#一，如何能让宝宝的脑部发育得更好？" class="headerlink" title="一，如何能让宝宝的脑部发育得更好？"></a>一，如何能让宝宝的脑部发育得更好？</h3><p>1，过量进食豆腐会影响营养元素的吸收，6 个月以下不建议吃大豆蛋白为配方的豆奶。</p>
+<p>2，宝宝脑部发育黄金一千天（怀孕期，哺乳期，宝宝两岁前的发育期）。</p>
+<p>3，促进脑部发育三部曲</p>
+<p>​    1）母乳喂养（DHA，叶酸，牛磺酸）</p>
+<p>​        单独补充都不能促进大脑发育。</p>
+<p>​    2）爱抚交流</p>
+<p>​        婴幼儿进入深睡眠有助脑部发育。</p>
+<p>​        『袋鼠抱』对宝宝好处多。</p>
+<p>​    3）左右脑均衡发展</p>
+<p>​        左右手精细动作有助宝宝更聪明。</p>
+<p>​        通过游戏训练宝宝左右脑平衡发展。</p>
+<h3 id="二，管理情绪"><a href="#二，管理情绪" class="headerlink" title="二，管理情绪"></a>二，管理情绪</h3><p>1，首先要学会管理自己的情绪</p>
+<p>2，通过转移注意力发泄坏情绪</p>
+<p>3，学会倾听和接受孩子意愿</p>
+<p>​            </p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，以下情况可以判断母乳充足的是？</p>
+<p>​    <strong>A）每昼夜哺乳 8 次以上，排尿 6 次以上</strong></p>
+<p>​    B）满月体重增长大于 500 克</p>
+<p>​    C）测体重每周增长大于 100 克</p>
+<p>2，什么时候的母乳含 DHA 最多？</p>
+<p>​    <strong>A）初乳</strong></p>
+<p>​    B）28 天内</p>
+<p>​    C）满月后</p>
+<p>3，关于痱子与湿疹的说法中，正确的是？</p>
+<p>​    A）均多发于易出汗又不通风的部位</p>
+<p>​    <strong>B）痱子会随着温度的降低而逐渐自行消退</strong></p>
+<p>​    C）痱子较湿疹的瘙痒程度要重</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一，如何能让宝宝的脑部发育得更好？&quot;&gt;&lt;a href=&quot;#一，如何能让宝宝的脑部发育得更好？&quot; class=&quot;headerlink&quot; title=&quot;一，如何能让宝宝的脑部发育得更好？&quot;&gt;&lt;/a&gt;一，如何能让宝宝的脑部发育得更好？&lt;/h3&gt;&lt;p&gt;1，过量进食豆腐会影
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十三）</title>
+    <link href="http://xuzhijun.github.io/2016/06/29/life-anewfather13/"/>
+    <id>http://xuzhijun.github.io/2016/06/29/life-anewfather13/</id>
+    <published>2016-06-29T07:00:00.000Z</published>
+    <updated>2016-06-29T09:06:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一，宝宝腹泻怎么办？"><a href="#一，宝宝腹泻怎么办？" class="headerlink" title="一，宝宝腹泻怎么办？"></a>一，宝宝腹泻怎么办？</h3><p>1，宝宝常见的腹泻种类</p>
+<p>​    1）湿热泻：多由肠胃积热引起，可能是给宝宝喂食的食物未洗净。</p>
+<p>​    2）风寒泻：外感风寒，或食用过量生冷食物。</p>
+<p>​    3）伤食泻：宝宝吃多了，或者是辅食添加不当。</p>
+<p>​    4）脾虚泻：长时间慢性腹泻所导致。</p>
+<p>2，稀米粥（由其是米汤）有止泻的作用，</p>
+<p>3，少量煮熟的蛋黄煎油（吃油），有消食的作用，蛋黄量不宜多，否则不易消化。</p>
+<p>4，治疗腹泻偏方：</p>
+<p>​    1，胡萝卜泥和苹果泥（脾虚泻，风寒泻后期）。制作方法：蒸烂调成泥，胡萝卜可适当加水。</p>
+<p>​    2，把大米炒焦，加水煮，给宝宝喝水（适合伤食泻）。</p>
+<h4 id="5，小儿推拿法治疗宝宝腹泻："><a href="#5，小儿推拿法治疗宝宝腹泻：" class="headerlink" title="5，小儿推拿法治疗宝宝腹泻："></a>5，小儿推拿法治疗宝宝腹泻：</h4><p>​    1）上肢的穴位：脾经（在拇指外侧），大肠经（在食指到虎口的位置上），三关（前臂外侧）。</p>
+<p>​        脾经推法一：<strong>补脾经</strong>，屈曲为补。</p>
+<p>​            拇指屈曲，由下向上推（由拇指末梢），有温补的作用，适合脾虚泻，风寒泻。</p>
+<p>​        脾经推法二：<strong>清脾经</strong>，伸直为清。</p>
+<p>​            拇指伸直，由下向上推。适合湿热泻，伤食泻。</p>
+<p>​        大肠经推法一：<strong>补大肠</strong>。</p>
+<p>​            由末梢向虎口方向推，适合脾虚泻。</p>
+<p>​        大肠经推法二：<strong>清大肠</strong>。</p>
+<p>​            由虎口向末梢方向推，适合伤食泻，治疗便秘。</p>
+<p>​        三关推法：<strong>推三关</strong>。</p>
+<p>​            用食指和中指由下（腕）往上（肘）推，用腕力。</p>
+<p>​    2）背部的穴位：捏脊（由尾骨到颈椎），七节骨（在第四腰椎，跟胯骨平行），揉龟尾（尾骨下面）。</p>
+<p>​        捏脊推法：从下向上，拇指在前食指在后，双手沿着脊柱的两旁，用捏法把皮捏起来，边提捏，边向前推进，捏三下提一下，提要果断。</p>
+<p>​        七节骨推法一：<strong>上推七节骨</strong>。</p>
+<p>​            由尾骨向上推，适合脾虚泻，小孩不爱吃饭。</p>
+<p>​        七节骨推法二：<strong>吓退七节骨</strong>。</p>
+<p>​            由第四腰椎向下推，清和泻的作用，治疗便秘，伤食腹泻。</p>
+<p>​        揉龟尾推法：</p>
+<p>​            用手按住尾骨尖，<strong>顺时针为泻，逆时针为补</strong>。</p>
+<h3 id="二，提高孩子免疫力"><a href="#二，提高孩子免疫力" class="headerlink" title="二，提高孩子免疫力"></a>二，提高孩子免疫力</h3><p>1，合理的饮食帮助宝宝提高免疫力。</p>
+<p>2，户外锻炼可以提高宝宝的免疫力。</p>
+<p>3，0 ~ 6 个月，新生儿的免疫力由母乳提供，或使用添加了乳铁蛋白的配方奶。</p>
+<p>4，约每 100 克配方奶粉中，含 0.4 克乳铁蛋白。</p>
+<p>5，6 个月 ~ 2 岁，推荐母乳喂养到 2 岁，能降低 72% 的呼吸道感染，降低 27% 的中耳炎。</p>
+<p>6，6 个月以后添加辅食，把握好添加辅食的关键时期。</p>
+<p>7，免疫力过高过低都会导致疾病的发生。</p>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，以下哪一项属于母乳中不可缺少的营养成分？</p>
+<p>​    A）饱和脂肪酸</p>
+<p>​    B）甲型乳糖</p>
+<p>​    <strong>C）乳铁蛋白</strong></p>
+<p>2，宝宝晒出红斑后，正确的处理方法是？</p>
+<p>​    <strong>A）用冰牛奶冷敷15分钟后，在晒伤处涂抹润肤油。</strong></p>
+<p>​    B）皮肤晒出水疱，可在家进行处理。</p>
+<p>​    C）用自来水不断冲洗降温。</p>
+<p>3，下列哪项属于小儿推拿手法操作时的常用介质？</p>
+<p>​    A）热水</p>
+<p>​    B）蒜汁</p>
+<p>​    <strong>C）蛋清</strong></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一，宝宝腹泻怎么办？&quot;&gt;&lt;a href=&quot;#一，宝宝腹泻怎么办？&quot; class=&quot;headerlink&quot; title=&quot;一，宝宝腹泻怎么办？&quot;&gt;&lt;/a&gt;一，宝宝腹泻怎么办？&lt;/h3&gt;&lt;p&gt;1，宝宝常见的腹泻种类&lt;/p&gt;
+&lt;p&gt;​    1）湿热泻：多由肠胃积热引起
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>奶爸笔记（十二）</title>
+    <link href="http://xuzhijun.github.io/2016/06/27/life-anewfather12/"/>
+    <id>http://xuzhijun.github.io/2016/06/27/life-anewfather12/</id>
+    <published>2016-06-27T06:00:00.000Z</published>
+    <updated>2016-06-28T07:35:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一，宝宝便秘怎么办？"><a href="#一，宝宝便秘怎么办？" class="headerlink" title="一，宝宝便秘怎么办？"></a>一，宝宝便秘怎么办？</h3><p>1，24 小时不排便就是<strong>便秘</strong>（❌）</p>
+<p>​    1）便秘不是按时间来定义的，<strong>大便干结，排便困难</strong>的过程就叫便秘。</p>
+<p>​    2）排便的次数和时间跟年龄有关，便秘与否的关键是排的便的性状。</p>
+<p>2，腹泻和便秘完全没有关系（❌）</p>
+<p>​    <strong>建议：</strong>家长定期记录宝宝的饮食情况</p>
+<p>​    <strong>注意：</strong>腹泻和便秘交替出现的情况</p>
+<p>3，宝宝便秘是因为饮食过量，应减少食量（❌）</p>
+<p>​    0 － 12 个月的宝宝进入“口腔期”，此时，辨识被爱的标准，大部分来自于饮食，喂养。</p>
+<p>4，宝宝便秘可以给宝宝的肛门擦香油（<strong>部分正确</strong>）</p>
+<p>​    1）用香油治便秘，可能导致宝宝过敏。</p>
+<p>​    2）香油和开塞露只能起到<strong>缓解宝宝排便</strong>的作用，治标不治本。</p>
+<p>5，蜂蜜和香蕉可以缓解便秘（❌）</p>
+<p>​    缓解便秘：</p>
+<p>​    1）使用润滑剂（开塞露）排空已干燥的大便。</p>
+<p>​    预防措施：</p>
+<p>​    1）纤维素加益生菌可以缓解宝宝便秘（推荐母乳喂养）。</p>
+<p>​    2）可以吃富含纤维素，不太容易被消化的水果，比如火龙果。    </p>
+<p>​    3）母乳喂养，妈妈饮食不当不会造成宝宝便秘。</p>
+<h3 id="二，如果引导孩子度过性蕾期"><a href="#二，如果引导孩子度过性蕾期" class="headerlink" title="二，如果引导孩子度过性蕾期"></a>二，如果引导孩子度过性蕾期</h3><p>1，宝宝一岁左右，开始对自己性别特征产生好奇。</p>
+<p>2，宝宝 2 - 5 岁，是性别教育的关键期。</p>
+<p>3，宝宝 6 岁以后，开始借助视频书籍普及性别知识。</p>
+<p><strong>宝宝性蕾期教育时间表：</strong></p>
+<table>
+<thead>
+<tr>
+<th>宝宝年龄</th>
+<th>性蕾期表现</th>
+<th>妈妈这样做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 - 2 岁</td>
+<td>天生好奇心，发掘感官乐趣（吸吮，吃手）</td>
+<td>看画册，用正确词汇告诉宝宝身体各部位名称</td>
+</tr>
+<tr>
+<td>2 - 5 岁</td>
+<td>身心进一步发育，逐步发展性别意识（观察身体，模仿看病）</td>
+<td>A）平常看待孩子的好奇心，B）和孩子分床睡，C）直面经典问题</td>
+</tr>
+<tr>
+<td>6 岁以后</td>
+<td>抽象思维、逻辑思维能力增强，提出各种怪问题</td>
+<td>A）避免训斥宝宝，B）主动出击</td>
+</tr>
+</tbody>
+</table>
+<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，婴幼儿大便呈黑色需加以鉴别进一步检查确诊，一般是哪种原因？</p>
+<p>​    A）肛裂</p>
+<p>​    B）肠息肉</p>
+<p>​    <strong>C）胃肠道上部出血</strong></p>
+<p>2，婴儿缺乏叶酸会有哪种表现？</p>
+<p>​    <strong>A）指甲发白</strong></p>
+<p>​    B）口唇干裂</p>
+<p>​    C）脾气急躁</p>
+<p>3，给婴儿洗澡，洗澡水的水温应该保持在多少度？</p>
+<p>​    A）36 ~ 38 度</p>
+<p>​    <strong>B）38 ~ 42 度</strong></p>
+<p>​    C）42 ~ 45 度</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一，宝宝便秘怎么办？&quot;&gt;&lt;a href=&quot;#一，宝宝便秘怎么办？&quot; class=&quot;headerlink&quot; title=&quot;一，宝宝便秘怎么办？&quot;&gt;&lt;/a&gt;一，宝宝便秘怎么办？&lt;/h3&gt;&lt;p&gt;1，24 小时不排便就是&lt;strong&gt;便秘&lt;/strong&gt;（❌）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
+    
+  </entry>
+  
+</feed>
