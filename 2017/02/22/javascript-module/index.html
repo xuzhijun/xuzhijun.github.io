@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JavaScript,JavaScript 模块化," />
 
 
 
@@ -86,25 +86,22 @@
 
 
 
-<meta name="description" content="###Javascript模块化编程系列 - 阮一峰
-Javascript模块化编程（一）：模块的写法
+<meta name="description" content="Javascript模块化编程（一）：模块的写法
 模块的演变从全局函数，到对象，再演到立即执行函数(IIFE)返回的闭包。
-123456789101112131415var module1 = (function()&amp;#123;   var _count = 0;　var m1 = function()&amp;#123;　    //...　&amp;#12">
+123456789101112131415var module1 = (function()&amp;#123;   var _count = 0;　var m1 = function()&amp;#123;　    //...　&amp;#125;;　var m2 = function()&amp;#12">
 <meta property="og:type" content="article">
-<meta property="og:title" content="徐记">
+<meta property="og:title" content="读《Javascript模块化编程系列 - 阮一峰》">
 <meta property="og:url" content="http://xuzhijun.github.io/2017/02/22/javascript-module/index.html">
 <meta property="og:site_name" content="徐记">
-<meta property="og:description" content="###Javascript模块化编程系列 - 阮一峰
-Javascript模块化编程（一）：模块的写法
+<meta property="og:description" content="Javascript模块化编程（一）：模块的写法
 模块的演变从全局函数，到对象，再演到立即执行函数(IIFE)返回的闭包。
-123456789101112131415var module1 = (function()&amp;#123;   var _count = 0;　var m1 = function()&amp;#123;　    //...　&amp;#12">
-<meta property="og:updated_time" content="2017-02-22T09:11:37.000Z">
+123456789101112131415var module1 = (function()&amp;#123;   var _count = 0;　var m1 = function()&amp;#123;　    //...　&amp;#125;;　var m2 = function()&amp;#12">
+<meta property="og:updated_time" content="2017-03-03T09:18:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="徐记">
-<meta name="twitter:description" content="###Javascript模块化编程系列 - 阮一峰
-Javascript模块化编程（一）：模块的写法
+<meta name="twitter:title" content="读《Javascript模块化编程系列 - 阮一峰》">
+<meta name="twitter:description" content="Javascript模块化编程（一）：模块的写法
 模块的演变从全局函数，到对象，再演到立即执行函数(IIFE)返回的闭包。
-123456789101112131415var module1 = (function()&amp;#123;   var _count = 0;　var m1 = function()&amp;#123;　    //...　&amp;#12">
+123456789101112131415var module1 = (function()&amp;#123;   var _count = 0;　var m1 = function()&amp;#123;　    //...　&amp;#125;;　var m2 = function()&amp;#12">
 
 
 
@@ -128,7 +125,7 @@ Javascript模块化编程（一）：模块的写法
   <link rel="canonical" href="http://xuzhijun.github.io/2017/02/22/javascript-module/"/>
 
 
-  <title>  | 徐记 </title>
+  <title> 读《Javascript模块化编程系列 - 阮一峰》 | 徐记 </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -278,7 +275,7 @@ Javascript模块化编程（一）：模块的写法
             
             
               
-                
+                读《Javascript模块化编程系列 - 阮一峰》
               
             
           </h1>
@@ -290,11 +287,30 @@ Javascript模块化编程（一）：模块的写法
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-22T15:18:08+08:00" content="2017-02-22">
+            <time itemprop="dateCreated" datetime="2017-02-22T16:00:00+08:00" content="2017-02-22">
               2017-02-22
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -318,8 +334,7 @@ Javascript模块化编程（一）：模块的写法
       
 
       
-        <p>###Javascript模块化编程系列 - 阮一峰</p>
-<p><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="external">Javascript模块化编程（一）：模块的写法</a></p>
+        <p><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="external">Javascript模块化编程（一）：模块的写法</a></p>
 <h4 id="模块的演变"><a href="#模块的演变" class="headerlink" title="模块的演变"></a>模块的演变</h4><p>从<strong>全局函数</strong>，到<strong>对象</strong>，再演到<strong>立即执行函数(IIFE)</strong>返回的闭包。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> module1 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">   <span class="keyword">var</span> _count = <span class="number">0</span>;</div><div class="line"></div><div class="line">　<span class="keyword">var</span> m1 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　    <span class="comment">//...</span></div><div class="line">　&#125;;</div><div class="line">　<span class="keyword">var</span> m2 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　<span class="comment">//...</span></div><div class="line">　&#125;;</div><div class="line"></div><div class="line">　<span class="keyword">return</span> &#123;</div><div class="line">　　<span class="attr">m1</span> : m1,</div><div class="line">　　<span class="attr">m2</span> : m2</div><div class="line">　&#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
 <h4 id="模块的继承"><a href="#模块的继承" class="headerlink" title="模块的继承"></a>模块的继承</h4><p><strong>放大模式</strong>和<strong>宽放大模式</strong></p>
@@ -383,6 +398,14 @@ Javascript模块化编程（一）：模块的写法
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/JavaScript-模块化/" rel="tag">#JavaScript 模块化</a>
+          
+        </div>
       
 
       
@@ -484,7 +507,7 @@ Javascript模块化编程（一）：模块的写法
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
