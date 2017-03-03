@@ -1,0 +1,679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS,CSS3," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="徐记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="一，浏览器前缀的自动化1）Autoprefixer
+2）prefixfree
+3）Stylus, LESS, SASS 的 Mixin
+二，CSS 编码技巧写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）在写CSS组件时，可维护性和可扩展性都是必须要考虑的事情，然后就产生了属性之间的依赖性。
+比如：
+1）组件内 font-size 和 line-height 的依赖性，
+2） em">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS 揭秘 - 第一章，引言">
+<meta property="og:url" content="http://xuzhijun.github.io/2017/02/24/css-secrets-chap1/index.html">
+<meta property="og:site_name" content="徐记">
+<meta property="og:description" content="一，浏览器前缀的自动化1）Autoprefixer
+2）prefixfree
+3）Stylus, LESS, SASS 的 Mixin
+二，CSS 编码技巧写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）在写CSS组件时，可维护性和可扩展性都是必须要考虑的事情，然后就产生了属性之间的依赖性。
+比如：
+1）组件内 font-size 和 line-height 的依赖性，
+2） em">
+<meta property="og:updated_time" content="2017-02-24T08:07:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS 揭秘 - 第一章，引言">
+<meta name="twitter:description" content="一，浏览器前缀的自动化1）Autoprefixer
+2）prefixfree
+3）Stylus, LESS, SASS 的 Mixin
+二，CSS 编码技巧写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）在写CSS组件时，可维护性和可扩展性都是必须要考虑的事情，然后就产生了属性之间的依赖性。
+比如：
+1）组件内 font-size 和 line-height 的依赖性，
+2） em">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://xuzhijun.github.io/2017/02/24/css-secrets-chap1/"/>
+
+
+  <title> CSS 揭秘 - 第一章，引言 | 徐记 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">徐记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">简不单</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS 揭秘 - 第一章，引言
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-24T16:00:00+08:00" content="2017-02-24">
+              2017-02-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一，浏览器前缀的自动化"><a href="#一，浏览器前缀的自动化" class="headerlink" title="一，浏览器前缀的自动化"></a>一，浏览器前缀的自动化</h3><p>1）<a href="https://github.com/postcss/autoprefixer" target="_blank" rel="external">Autoprefixer</a></p>
+<p>2）<a href="https://github.com/LeaVerou/prefixfree" target="_blank" rel="external">prefixfree</a></p>
+<p>3）Stylus, LESS, SASS 的 Mixin</p>
+<h3 id="二，CSS-编码技巧"><a href="#二，CSS-编码技巧" class="headerlink" title="二，CSS 编码技巧"></a>二，CSS 编码技巧</h3><h4 id="写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）"><a href="#写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）" class="headerlink" title="写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）"></a>写可维护性高的组件（<strong>可维护性高意味着尽量减少改动时要编辑的地方</strong>）</h4><p>在写CSS组件时，<strong>可维护性</strong>和<strong>可扩展性</strong>都是必须要考虑的事情，然后就产生了属性之间的依赖性。</p>
+<p>比如：</p>
+<p>1）组件内 font-size 和 line-height 的依赖性，</p>
+<p>2） em单位和rem单位，分别对父节点和根结点中 font-size 的依赖性。</p>
+<p>在考虑扩展性时，我们需要审视哪些效果应该跟着一起改变，而哪些效果保持不变。</p>
+<p><strong>举例：</strong>几个css框架中，对于按钮组件不同的写法</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* bootstrap v4 */</span></div><div class="line"><span class="selector-class">.btn</span> &#123;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">font-weight</span>: normal;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1.25</span>;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">white-space</span>: nowrap;</div><div class="line">  <span class="attribute">vertical-align</span>: middle;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">-webkit-user-select</span>: none;</div><div class="line">     <span class="attribute">-moz-user-select</span>: none;</div><div class="line">      <span class="attribute">-ms-user-select</span>: none;</div><div class="line">          <span class="attribute">user-select</span>: none;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid transparent;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.5rem</span> <span class="number">1rem</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1rem</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">0.25rem</span>;</div><div class="line">  <span class="attribute">-webkit-transition</span>: all <span class="number">0.2s</span> ease-in-out;</div><div class="line">  <span class="attribute">-o-transition</span>: all <span class="number">0.2s</span> ease-in-out;</div><div class="line">  <span class="attribute">transition</span>: all <span class="number">0.2s</span> ease-in-out;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* semantic ui */</span></div><div class="line"><span class="selector-class">.ui</span><span class="selector-class">.button</span> &#123;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">1em</span>;</div><div class="line">  <span class="attribute">outline</span>: none;</div><div class="line">  <span class="attribute">border</span>: none;</div><div class="line">  <span class="attribute">vertical-align</span>: baseline;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#E0E1E2</span> none;</div><div class="line">  <span class="attribute">color</span>: <span class="built_in">rgba</span>(0, 0, 0, 0.6);</div><div class="line">  <span class="attribute">font-family</span>: <span class="string">'Lato'</span>, <span class="string">'Helvetica Neue'</span>, Arial, Helvetica, sans-serif;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0em</span> <span class="number">0.25em</span> <span class="number">0em</span> <span class="number">0em</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.78571429em</span> <span class="number">1.5em</span> <span class="number">0.78571429em</span>;</div><div class="line">  <span class="attribute">text-transform</span>: none;</div><div class="line">  <span class="attribute">text-shadow</span>: none;</div><div class="line">  <span class="attribute">font-weight</span>: bold;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1em</span>;</div><div class="line">  <span class="attribute">font-style</span>: normal;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">text-decoration</span>: none;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">0.28571429rem</span>;</div><div class="line">  <span class="attribute">box-shadow</span>: <span class="number">0px</span> <span class="number">0px</span> <span class="number">0px</span> <span class="number">1px</span> transparent inset, <span class="number">0px</span> <span class="number">0em</span> <span class="number">0px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(34, 36, 38, 0.15) inset;</div><div class="line">  <span class="attribute">-webkit-user-select</span>: none;</div><div class="line">     <span class="attribute">-moz-user-select</span>: none;</div><div class="line">      <span class="attribute">-ms-user-select</span>: none;</div><div class="line">          <span class="attribute">user-select</span>: none;</div><div class="line">  <span class="attribute">-webkit-transition</span>: opacity <span class="number">0.1s</span> ease, background-color <span class="number">0.1s</span> ease, color <span class="number">0.1s</span> ease, box-shadow <span class="number">0.1s</span> ease, background <span class="number">0.1s</span> ease;</div><div class="line">  <span class="attribute">transition</span>: opacity <span class="number">0.1s</span> ease, background-color <span class="number">0.1s</span> ease, color <span class="number">0.1s</span> ease, box-shadow <span class="number">0.1s</span> ease, background <span class="number">0.1s</span> ease;</div><div class="line">  <span class="attribute">will-change</span>: <span class="string">''</span>;</div><div class="line">  <span class="attribute">-webkit-tap-highlight-color</span>: transparent;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* bluma */</span></div><div class="line"><span class="selector-class">.button</span> &#123;</div><div class="line">  <span class="attribute">-moz-appearance</span>: none;</div><div class="line">  <span class="attribute">-webkit-appearance</span>: none;</div><div class="line">  <span class="attribute">-webkit-box-align</span>: center;</div><div class="line">      <span class="attribute">-ms-flex-align</span>: center;</div><div class="line">          <span class="attribute">align-items</span>: center;</div><div class="line">  <span class="attribute">border</span>: none;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">3px</span>;</div><div class="line">  <span class="attribute">box-shadow</span>: none;</div><div class="line">  <span class="attribute">display</span>: -webkit-inline-box;</div><div class="line">  <span class="attribute">display</span>: -ms-inline-flexbox;</div><div class="line">  <span class="attribute">display</span>: inline-flex;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1rem</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">2.285em</span>;</div><div class="line">  <span class="attribute">-webkit-box-pack</span>: start;</div><div class="line">      <span class="attribute">-ms-flex-pack</span>: start;</div><div class="line">          <span class="attribute">justify-content</span>: flex-start;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1.5</span>;</div><div class="line">  <span class="attribute">padding-left</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">vertical-align</span>: top;</div><div class="line">  <span class="attribute">-webkit-touch-callout</span>: none;</div><div class="line">  <span class="attribute">-webkit-user-select</span>: none;</div><div class="line">  <span class="attribute">-moz-user-select</span>: none;</div><div class="line">  <span class="attribute">-ms-user-select</span>: none;</div><div class="line">  <span class="attribute">user-select</span>: none;</div><div class="line">  <span class="attribute">background-color</span>: white;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#dbdbdb</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#363636</span>;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">-webkit-box-pack</span>: center;</div><div class="line">      <span class="attribute">-ms-flex-pack</span>: center;</div><div class="line">          <span class="attribute">justify-content</span>: center;</div><div class="line">  <span class="attribute">padding-left</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">white-space</span>: nowrap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>小技巧：</strong></p>
+<p>1）把半透明的黑色或者白色叠加在主色调上，即可产生主色调的亮色和暗色变体。这个技巧可以解决扩展后在不同颜色中，实现该颜色的亮色和暗色变体的需求。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* button */</span></div><div class="line"><span class="selector-class">.button</span> &#123;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#58a</span> <span class="built_in">linear-gradient</span>(hsla(0, 0%, 100%, .2), transparent);</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.button</span><span class="selector-class">.cancel</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#c00</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.button</span><span class="selector-class">.ok</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#6b0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="currentColor和inherit"><a href="#currentColor和inherit" class="headerlink" title="currentColor和inherit"></a>currentColor和inherit</h4><p>currentColor是CSS有史以来的第一个变量。未来，在原生CSS中拥有处理颜色的函数后，currentColor就会变得更加有用。可以用这些函数来产生其各种深浅明暗的变体。</p>
+<p>inherit可以用在任何CSS属性中，默认是绑定到父元素的计算值，伪元素中则会取生成该伪元素的宿主元素。</p>
+<h3 id="三，响应式网页设计"><a href="#三，响应式网页设计" class="headerlink" title="三，响应式网页设计"></a>三，响应式网页设计</h3><h4 id="思考："><a href="#思考：" class="headerlink" title="思考："></a>思考：</h4><p>怎样才能做好响应式？</p>
+<p>通常，我们会通过媒体查询（Media Query）规则来修补网站在各个分辨率下出现的问题。<br>然而，对于今后CSS的改动来说，<strong>每个媒体查询都会增加成本</strong>。</p>
+<p>媒体查询不能以一种连续的方式来修复问题，它们的工作原理基于某几个特定的阶梯（亦称为“断点”），<br>并且，<strong>媒体查询的断点不应该由具体的设备来决定</strong>，而应该根据设计自身来决定。</p>
+<p>遵从<strong>尽量减少代码重复</strong>的原则。</p>
+<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>1）网站的大部分样式代码以弹性的方式去编写，然后当把媒体查询作为最后的手段（实现弹性可伸缩的布局，并在媒体查询的各个断点区间内指定相应的尺寸）。</p>
+<p>2）在较大或者较小的视口下完全改变网站的设计形态。</p>
+<h4 id="建议："><a href="#建议：" class="headerlink" title="建议："></a>建议：</h4><p>1）使用百分比长度来取代固定长度，或者尝试使用与视口相关的单位（vw、vh、vmin、vmax），他们的值解析为视口宽度或高度的百分比。</p>
+<p>2）当需要在较大分辨率下得到固定宽度时，使用 <strong>max-width</strong> 而不是 width，因为它可以适应较小的分辨率，而无需使用媒体查询。</p>
+<p>3）为替换元素（比如img、object、video、iframe等）设置 <strong>max-width: 100%</strong>。</p>
+<p>4）使用 background-size: cover 可以使背景图片完整铺满一个容器，<strong>但在移动网页中不建议把大图缩小显示</strong>。</p>
+<p>5）当图片（或其他元素）以行列式进行布局时，让视口的宽度来决定列的数量。<br>Flexbox 布局或者 display:inline-block 加上常规的文本折行行为，都可以实现这一点。</p>
+<h3 id="四，合理使用简写"><a href="#四，合理使用简写" class="headerlink" title="四，合理使用简写"></a>四，合理使用简写</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 以下两行 CSS 代码并不是等价的： */</span></div><div class="line"><span class="selector-tag">background</span>: <span class="selector-tag">rebeccapurple</span>;</div><div class="line"><span class="selector-tag">background-color</span>: <span class="selector-tag">rebeccapurple</span>;</div></pre></td></tr></table></figure>
+<p>因为同时可能会有一条 background-image 声明在起作用，展开式写法并不会帮助你清空所有相关的其他属性，从而可能会干扰你想要达到的效果。</p>
+<p>合理使用简写是一种良好的防卫性编码方式，可以抵御未来的风险。</p>
+<p>如果我们要明确地去覆盖某个具体的展开式属性并保留其他相关样式，那就需要用展开式属性。</p>
+<p>CSS的“<strong>列表扩展规则</strong>”中提到，<strong>如果只为某个属性提供一个值，那它就会扩散并应用到列表中的每一项</strong>。<br>因此，我们可以把这些重复的值从简写属性中抽出来写成一个展开式属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">background</span>: <span class="selector-tag">url</span>(<span class="selector-tag">tr</span><span class="selector-class">.png</span>) <span class="selector-tag">top</span> <span class="selector-tag">right</span>, <span class="selector-tag">url</span>(<span class="selector-tag">br</span><span class="selector-class">.png</span>) <span class="selector-tag">bottom</span> <span class="selector-tag">right</span>, <span class="selector-tag">url</span>(<span class="selector-tag">bl</span><span class="selector-class">.png</span>) <span class="selector-tag">bottom</span> <span class="selector-tag">left</span>;</div><div class="line"><span class="selector-tag">background-size</span>: 2<span class="selector-tag">em</span> 2<span class="selector-tag">em</span>;</div><div class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">no-repeat</span>;</div></pre></td></tr></table></figure>
+<h3 id="五，预处理器"><a href="#五，预处理器" class="headerlink" title="五，预处理器"></a>五，预处理器</h3><p>很多受预处理器启发的特性都已经以各种方式融入到原生 CSS 中了。</p>
+<p>比如：<a href="https://drafts.csswg.org/css-variables/" target="_blank" rel="external">CSS自定义属性暨层叠式变量</a>，<a href="https://www.w3.org/TR/css3-values/#calc-notation" target="_blank" rel="external">calc() 函数</a>，<a href="https://drafts.csswg.org/css-color/" target="_blank" rel="external">color() 函数</a> 等。这些原生特性通常比预处理器提供的版本要更强大，因为<strong>他们是动态的</strong>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ul</span> &#123;</div><div class="line">  <span class="attribute">--accent-color</span>: purple;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">ol</span> &#123;</div><div class="line">  <span class="attribute">--accent-color</span>: rebeccapurple;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">li</span> &#123;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">var</span>(--accent-color);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个例子的重点在于向你展示CSS的原生变量所具备的动态性。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+            <a href="/tags/CSS3/" rel="tag">#CSS3</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/22/javascript-module/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="bell" />
+          <p class="site-author-name" itemprop="name">bell</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一，浏览器前缀的自动化"><span class="nav-number">1.</span> <span class="nav-text">一，浏览器前缀的自动化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，CSS-编码技巧"><span class="nav-number">2.</span> <span class="nav-text">二，CSS 编码技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）"><span class="nav-number">2.1.</span> <span class="nav-text">写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#currentColor和inherit"><span class="nav-number">2.2.</span> <span class="nav-text">currentColor和inherit</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三，响应式网页设计"><span class="nav-number">3.</span> <span class="nav-text">三，响应式网页设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思考："><span class="nav-number">3.1.</span> <span class="nav-text">思考：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路："><span class="nav-number">3.2.</span> <span class="nav-text">思路：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建议："><span class="nav-number">3.3.</span> <span class="nav-text">建议：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四，合理使用简写"><span class="nav-number">4.</span> <span class="nav-text">四，合理使用简写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五，预处理器"><span class="nav-number">5.</span> <span class="nav-text">五，预处理器</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bell</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

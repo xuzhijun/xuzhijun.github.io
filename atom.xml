@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xuzhijun.github.io/"/>
-  <updated>2016-11-24T02:46:28.000Z</updated>
+  <updated>2017-02-24T08:07:26.000Z</updated>
   <id>http://xuzhijun.github.io/</id>
   
   <author>
@@ -14,6 +14,131 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CSS 揭秘 - 第一章，引言</title>
+    <link href="http://xuzhijun.github.io/2017/02/24/css-secrets-chap1/"/>
+    <id>http://xuzhijun.github.io/2017/02/24/css-secrets-chap1/</id>
+    <published>2017-02-24T08:00:00.000Z</published>
+    <updated>2017-02-24T08:07:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一，浏览器前缀的自动化"><a href="#一，浏览器前缀的自动化" class="headerlink" title="一，浏览器前缀的自动化"></a>一，浏览器前缀的自动化</h3><p>1）<a href="https://github.com/postcss/autoprefixer" target="_blank" rel="external">Autoprefixer</a></p>
+<p>2）<a href="https://github.com/LeaVerou/prefixfree" target="_blank" rel="external">prefixfree</a></p>
+<p>3）Stylus, LESS, SASS 的 Mixin</p>
+<h3 id="二，CSS-编码技巧"><a href="#二，CSS-编码技巧" class="headerlink" title="二，CSS 编码技巧"></a>二，CSS 编码技巧</h3><h4 id="写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）"><a href="#写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）" class="headerlink" title="写可维护性高的组件（可维护性高意味着尽量减少改动时要编辑的地方）"></a>写可维护性高的组件（<strong>可维护性高意味着尽量减少改动时要编辑的地方</strong>）</h4><p>在写CSS组件时，<strong>可维护性</strong>和<strong>可扩展性</strong>都是必须要考虑的事情，然后就产生了属性之间的依赖性。</p>
+<p>比如：</p>
+<p>1）组件内 font-size 和 line-height 的依赖性，</p>
+<p>2） em单位和rem单位，分别对父节点和根结点中 font-size 的依赖性。</p>
+<p>在考虑扩展性时，我们需要审视哪些效果应该跟着一起改变，而哪些效果保持不变。</p>
+<p><strong>举例：</strong>几个css框架中，对于按钮组件不同的写法</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* bootstrap v4 */</span></div><div class="line"><span class="selector-class">.btn</span> &#123;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">font-weight</span>: normal;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1.25</span>;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">white-space</span>: nowrap;</div><div class="line">  <span class="attribute">vertical-align</span>: middle;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">-webkit-user-select</span>: none;</div><div class="line">     <span class="attribute">-moz-user-select</span>: none;</div><div class="line">      <span class="attribute">-ms-user-select</span>: none;</div><div class="line">          <span class="attribute">user-select</span>: none;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid transparent;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.5rem</span> <span class="number">1rem</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1rem</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">0.25rem</span>;</div><div class="line">  <span class="attribute">-webkit-transition</span>: all <span class="number">0.2s</span> ease-in-out;</div><div class="line">  <span class="attribute">-o-transition</span>: all <span class="number">0.2s</span> ease-in-out;</div><div class="line">  <span class="attribute">transition</span>: all <span class="number">0.2s</span> ease-in-out;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* semantic ui */</span></div><div class="line"><span class="selector-class">.ui</span><span class="selector-class">.button</span> &#123;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">1em</span>;</div><div class="line">  <span class="attribute">outline</span>: none;</div><div class="line">  <span class="attribute">border</span>: none;</div><div class="line">  <span class="attribute">vertical-align</span>: baseline;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#E0E1E2</span> none;</div><div class="line">  <span class="attribute">color</span>: <span class="built_in">rgba</span>(0, 0, 0, 0.6);</div><div class="line">  <span class="attribute">font-family</span>: <span class="string">'Lato'</span>, <span class="string">'Helvetica Neue'</span>, Arial, Helvetica, sans-serif;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0em</span> <span class="number">0.25em</span> <span class="number">0em</span> <span class="number">0em</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.78571429em</span> <span class="number">1.5em</span> <span class="number">0.78571429em</span>;</div><div class="line">  <span class="attribute">text-transform</span>: none;</div><div class="line">  <span class="attribute">text-shadow</span>: none;</div><div class="line">  <span class="attribute">font-weight</span>: bold;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1em</span>;</div><div class="line">  <span class="attribute">font-style</span>: normal;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">text-decoration</span>: none;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">0.28571429rem</span>;</div><div class="line">  <span class="attribute">box-shadow</span>: <span class="number">0px</span> <span class="number">0px</span> <span class="number">0px</span> <span class="number">1px</span> transparent inset, <span class="number">0px</span> <span class="number">0em</span> <span class="number">0px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(34, 36, 38, 0.15) inset;</div><div class="line">  <span class="attribute">-webkit-user-select</span>: none;</div><div class="line">     <span class="attribute">-moz-user-select</span>: none;</div><div class="line">      <span class="attribute">-ms-user-select</span>: none;</div><div class="line">          <span class="attribute">user-select</span>: none;</div><div class="line">  <span class="attribute">-webkit-transition</span>: opacity <span class="number">0.1s</span> ease, background-color <span class="number">0.1s</span> ease, color <span class="number">0.1s</span> ease, box-shadow <span class="number">0.1s</span> ease, background <span class="number">0.1s</span> ease;</div><div class="line">  <span class="attribute">transition</span>: opacity <span class="number">0.1s</span> ease, background-color <span class="number">0.1s</span> ease, color <span class="number">0.1s</span> ease, box-shadow <span class="number">0.1s</span> ease, background <span class="number">0.1s</span> ease;</div><div class="line">  <span class="attribute">will-change</span>: <span class="string">''</span>;</div><div class="line">  <span class="attribute">-webkit-tap-highlight-color</span>: transparent;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* bluma */</span></div><div class="line"><span class="selector-class">.button</span> &#123;</div><div class="line">  <span class="attribute">-moz-appearance</span>: none;</div><div class="line">  <span class="attribute">-webkit-appearance</span>: none;</div><div class="line">  <span class="attribute">-webkit-box-align</span>: center;</div><div class="line">      <span class="attribute">-ms-flex-align</span>: center;</div><div class="line">          <span class="attribute">align-items</span>: center;</div><div class="line">  <span class="attribute">border</span>: none;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">3px</span>;</div><div class="line">  <span class="attribute">box-shadow</span>: none;</div><div class="line">  <span class="attribute">display</span>: -webkit-inline-box;</div><div class="line">  <span class="attribute">display</span>: -ms-inline-flexbox;</div><div class="line">  <span class="attribute">display</span>: inline-flex;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1rem</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">2.285em</span>;</div><div class="line">  <span class="attribute">-webkit-box-pack</span>: start;</div><div class="line">      <span class="attribute">-ms-flex-pack</span>: start;</div><div class="line">          <span class="attribute">justify-content</span>: flex-start;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1.5</span>;</div><div class="line">  <span class="attribute">padding-left</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">vertical-align</span>: top;</div><div class="line">  <span class="attribute">-webkit-touch-callout</span>: none;</div><div class="line">  <span class="attribute">-webkit-user-select</span>: none;</div><div class="line">  <span class="attribute">-moz-user-select</span>: none;</div><div class="line">  <span class="attribute">-ms-user-select</span>: none;</div><div class="line">  <span class="attribute">user-select</span>: none;</div><div class="line">  <span class="attribute">background-color</span>: white;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#dbdbdb</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#363636</span>;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">-webkit-box-pack</span>: center;</div><div class="line">      <span class="attribute">-ms-flex-pack</span>: center;</div><div class="line">          <span class="attribute">justify-content</span>: center;</div><div class="line">  <span class="attribute">padding-left</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">0.75em</span>;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">white-space</span>: nowrap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>小技巧：</strong></p>
+<p>1）把半透明的黑色或者白色叠加在主色调上，即可产生主色调的亮色和暗色变体。这个技巧可以解决扩展后在不同颜色中，实现该颜色的亮色和暗色变体的需求。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* button */</span></div><div class="line"><span class="selector-class">.button</span> &#123;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#58a</span> <span class="built_in">linear-gradient</span>(hsla(0, 0%, 100%, .2), transparent);</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.button</span><span class="selector-class">.cancel</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#c00</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.button</span><span class="selector-class">.ok</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#6b0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="currentColor和inherit"><a href="#currentColor和inherit" class="headerlink" title="currentColor和inherit"></a>currentColor和inherit</h4><p>currentColor是CSS有史以来的第一个变量。未来，在原生CSS中拥有处理颜色的函数后，currentColor就会变得更加有用。可以用这些函数来产生其各种深浅明暗的变体。</p>
+<p>inherit可以用在任何CSS属性中，默认是绑定到父元素的计算值，伪元素中则会取生成该伪元素的宿主元素。</p>
+<h3 id="三，响应式网页设计"><a href="#三，响应式网页设计" class="headerlink" title="三，响应式网页设计"></a>三，响应式网页设计</h3><h4 id="思考："><a href="#思考：" class="headerlink" title="思考："></a>思考：</h4><p>怎样才能做好响应式？</p>
+<p>通常，我们会通过媒体查询（Media Query）规则来修补网站在各个分辨率下出现的问题。<br>然而，对于今后CSS的改动来说，<strong>每个媒体查询都会增加成本</strong>。</p>
+<p>媒体查询不能以一种连续的方式来修复问题，它们的工作原理基于某几个特定的阶梯（亦称为“断点”），<br>并且，<strong>媒体查询的断点不应该由具体的设备来决定</strong>，而应该根据设计自身来决定。</p>
+<p>遵从<strong>尽量减少代码重复</strong>的原则。</p>
+<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>1）网站的大部分样式代码以弹性的方式去编写，然后当把媒体查询作为最后的手段（实现弹性可伸缩的布局，并在媒体查询的各个断点区间内指定相应的尺寸）。</p>
+<p>2）在较大或者较小的视口下完全改变网站的设计形态。</p>
+<h4 id="建议："><a href="#建议：" class="headerlink" title="建议："></a>建议：</h4><p>1）使用百分比长度来取代固定长度，或者尝试使用与视口相关的单位（vw、vh、vmin、vmax），他们的值解析为视口宽度或高度的百分比。</p>
+<p>2）当需要在较大分辨率下得到固定宽度时，使用 <strong>max-width</strong> 而不是 width，因为它可以适应较小的分辨率，而无需使用媒体查询。</p>
+<p>3）为替换元素（比如img、object、video、iframe等）设置 <strong>max-width: 100%</strong>。</p>
+<p>4）使用 background-size: cover 可以使背景图片完整铺满一个容器，<strong>但在移动网页中不建议把大图缩小显示</strong>。</p>
+<p>5）当图片（或其他元素）以行列式进行布局时，让视口的宽度来决定列的数量。<br>Flexbox 布局或者 display:inline-block 加上常规的文本折行行为，都可以实现这一点。</p>
+<h3 id="四，合理使用简写"><a href="#四，合理使用简写" class="headerlink" title="四，合理使用简写"></a>四，合理使用简写</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 以下两行 CSS 代码并不是等价的： */</span></div><div class="line"><span class="selector-tag">background</span>: <span class="selector-tag">rebeccapurple</span>;</div><div class="line"><span class="selector-tag">background-color</span>: <span class="selector-tag">rebeccapurple</span>;</div></pre></td></tr></table></figure>
+<p>因为同时可能会有一条 background-image 声明在起作用，展开式写法并不会帮助你清空所有相关的其他属性，从而可能会干扰你想要达到的效果。</p>
+<p>合理使用简写是一种良好的防卫性编码方式，可以抵御未来的风险。</p>
+<p>如果我们要明确地去覆盖某个具体的展开式属性并保留其他相关样式，那就需要用展开式属性。</p>
+<p>CSS的“<strong>列表扩展规则</strong>”中提到，<strong>如果只为某个属性提供一个值，那它就会扩散并应用到列表中的每一项</strong>。<br>因此，我们可以把这些重复的值从简写属性中抽出来写成一个展开式属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">background</span>: <span class="selector-tag">url</span>(<span class="selector-tag">tr</span><span class="selector-class">.png</span>) <span class="selector-tag">top</span> <span class="selector-tag">right</span>, <span class="selector-tag">url</span>(<span class="selector-tag">br</span><span class="selector-class">.png</span>) <span class="selector-tag">bottom</span> <span class="selector-tag">right</span>, <span class="selector-tag">url</span>(<span class="selector-tag">bl</span><span class="selector-class">.png</span>) <span class="selector-tag">bottom</span> <span class="selector-tag">left</span>;</div><div class="line"><span class="selector-tag">background-size</span>: 2<span class="selector-tag">em</span> 2<span class="selector-tag">em</span>;</div><div class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">no-repeat</span>;</div></pre></td></tr></table></figure>
+<h3 id="五，预处理器"><a href="#五，预处理器" class="headerlink" title="五，预处理器"></a>五，预处理器</h3><p>很多受预处理器启发的特性都已经以各种方式融入到原生 CSS 中了。</p>
+<p>比如：<a href="https://drafts.csswg.org/css-variables/" target="_blank" rel="external">CSS自定义属性暨层叠式变量</a>，<a href="https://www.w3.org/TR/css3-values/#calc-notation" target="_blank" rel="external">calc() 函数</a>，<a href="https://drafts.csswg.org/css-color/" target="_blank" rel="external">color() 函数</a> 等。这些原生特性通常比预处理器提供的版本要更强大，因为<strong>他们是动态的</strong>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ul</span> &#123;</div><div class="line">  <span class="attribute">--accent-color</span>: purple;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">ol</span> &#123;</div><div class="line">  <span class="attribute">--accent-color</span>: rebeccapurple;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">li</span> &#123;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">var</span>(--accent-color);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个例子的重点在于向你展示CSS的原生变量所具备的动态性。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一，浏览器前缀的自动化&quot;&gt;&lt;a href=&quot;#一，浏览器前缀的自动化&quot; class=&quot;headerlink&quot; title=&quot;一，浏览器前缀的自动化&quot;&gt;&lt;/a&gt;一，浏览器前缀的自动化&lt;/h3&gt;&lt;p&gt;1）&lt;a href=&quot;https://github.com/post
+    
+    </summary>
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/categories/CSS/"/>
+    
+    
+      <category term="CSS" scheme="http://xuzhijun.github.io/tags/CSS/"/>
+    
+      <category term="CSS3" scheme="http://xuzhijun.github.io/tags/CSS3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://xuzhijun.github.io/2017/02/22/javascript-module/"/>
+    <id>http://xuzhijun.github.io/2017/02/22/javascript-module/</id>
+    <published>2017-02-22T07:18:08.000Z</published>
+    <updated>2017-02-22T09:11:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>###Javascript模块化编程系列 - 阮一峰</p>
+<p><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="external">Javascript模块化编程（一）：模块的写法</a></p>
+<h4 id="模块的演变"><a href="#模块的演变" class="headerlink" title="模块的演变"></a>模块的演变</h4><p>从<strong>全局函数</strong>，到<strong>对象</strong>，再演到<strong>立即执行函数(IIFE)</strong>返回的闭包。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> module1 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">   <span class="keyword">var</span> _count = <span class="number">0</span>;</div><div class="line"></div><div class="line">　<span class="keyword">var</span> m1 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　    <span class="comment">//...</span></div><div class="line">　&#125;;</div><div class="line">　<span class="keyword">var</span> m2 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　<span class="comment">//...</span></div><div class="line">　&#125;;</div><div class="line"></div><div class="line">　<span class="keyword">return</span> &#123;</div><div class="line">　　<span class="attr">m1</span> : m1,</div><div class="line">　　<span class="attr">m2</span> : m2</div><div class="line">　&#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<h4 id="模块的继承"><a href="#模块的继承" class="headerlink" title="模块的继承"></a>模块的继承</h4><p><strong>放大模式</strong>和<strong>宽放大模式</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//放大模式</span></div><div class="line"><span class="keyword">var</span> module1 = (<span class="function"><span class="keyword">function</span> (<span class="params">mod</span>)</span>&#123;</div><div class="line">  mod.m3 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">//...</span></div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> mod;</div><div class="line">&#125;)(module1);</div><div class="line"></div><div class="line"><span class="comment">//宽放大模式</span></div><div class="line"><span class="keyword">var</span> module1 = ( <span class="function"><span class="keyword">function</span> (<span class="params">mod</span>)</span>&#123;</div><div class="line">  <span class="comment">//...</span></div><div class="line">  <span class="keyword">return</span> mod;</div><div class="line">&#125;)(<span class="built_in">window</span>.module1 || &#123;&#125;);</div></pre></td></tr></table></figure>
+<p>与<strong>放大模式</strong>相比，<strong>宽放大模式</strong>就是<strong>立即执行函数</strong>的参数可以是空对象。</p>
+<h4 id="模块的独立性"><a href="#模块的独立性" class="headerlink" title="模块的独立性"></a>模块的独立性</h4><p><strong>独立性</strong>是模块的重要特点，模块内部最好不与程序的其他部分直接交互。</p>
+<p>为了在模块内部调用全局变量，<strong>必须显式地将其他变量输入模块</strong>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> module1 = (<span class="function"><span class="keyword">function</span> (<span class="params">$, YAHOO</span>) </span>&#123;</div><div class="line">  <span class="comment">//...</span></div><div class="line">&#125;)(jQuery, YAHOO);</div></pre></td></tr></table></figure>
+<p><a href="http://www.ruanyifeng.com/blog/2012/10/asynchronous_module_definition.html" target="_blank" rel="external">Javascript模块化编程（二）：AMD规范</a></p>
+<p>目前，通行的Javascript模块规范共有两种：<a href="http://wiki.commonjs.org/wiki/Modules/1.1" target="_blank" rel="external">CommonJS</a>和<a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="external">AMD</a>。</p>
+<h4 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h4><p>node.js的模块系统，就是参照CommonJS规范实现的。在CommonJS中，有一个全局性方法require()，用于加载模块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> math = <span class="built_in">require</span>(<span class="string">'math'</span>);</div><div class="line">math.add(<span class="number">2</span>,<span class="number">3</span>); <span class="comment">// 5</span></div></pre></td></tr></table></figure>
+<p>但是，由于一个<strong>重大的局限(同步加载)</strong>，使得CommonJS规范不适用于浏览器环境。</p>
+<p><strong>浏览器端的模块</strong>，不能采用”同步加载”（synchronous），只能采用”异步加载”（asynchronous）。<br>这就是AMD规范诞生的背景。</p>
+<h4 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h4><p>AMD是”Asynchronous Module Definition”的缩写，意思就是”异步模块定义”。</p>
+<p>它采用异步方式加载模块，模块的加载不影响它后面语句的运行。<br>所有依赖这个模块的语句，都定义在一个回调函数中，等到加载完成之后，这个回调函数才会运行。</p>
+<p>AMD也采用require()语句加载模块，但是不同于CommonJS，它要求两个参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>([<span class="string">'math'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">math</span>) </span>&#123;</div><div class="line">  math.add(<span class="number">2</span>, <span class="number">3</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>第一个参数<strong>[module]</strong>，是一个数组，里面的成员就是要加载的模块；<br>第二个参数<strong>callback</strong>，则是加载成功之后的回调函数。</p>
+<p><a href="http://www.ruanyifeng.com/blog/2012/11/require_js.html" target="_blank" rel="external">Javascript模块化编程（三）：require.js的用法</a></p>
+<h4 id="依次加载多个js文件的缺点"><a href="#依次加载多个js文件的缺点" class="headerlink" title="依次加载多个js文件的缺点"></a>依次加载多个js文件的缺点</h4><p>首先，加载的时候，浏览器会停止网页渲染，加载文件越多，网页失去响应的时间就会越长；</p>
+<p>其次，由于js文件之间存在依赖关系，因此必须严格保证加载顺序，依赖性最大的模块一定要放到最后加载，当依赖关系很复杂的时候，代码的编写和维护都会变得困难。</p>
+<p>require.js的诞生，就是为了解决这两个问题：</p>
+<p>1，实现js文件的异步加载，避免网页失去响应；</p>
+<p>2，管理模块之间的依赖性，便于代码的编写和维护。</p>
+<h4 id="require-js的加载"><a href="#require-js的加载" class="headerlink" title="require.js的加载"></a>require.js的加载</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/require.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--异步加载--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/require.js"</span> <span class="attr">defer</span> <span class="attr">async</span>=<span class="string">"true"</span> &gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--指定主模块--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/require.js"</span> <span class="attr">data-main</span>=<span class="string">"js/main"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="主模块的写法"><a href="#主模块的写法" class="headerlink" title="主模块的写法"></a>主模块的写法</h4><p>require()函数接受两个参数。</p>
+<p>第一个参数是一个数组，表示所依赖的模块，即主模块依赖这三个模块；</p>
+<p>第二个参数是一个回调函数，当前面指定的模块都加载成功后，它将被调用。加载的模块会以参数形式传入该函数，从而在回调函数内部就可以使用这些模块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>([<span class="string">'jquery'</span>, <span class="string">'underscore'</span>, <span class="string">'backbone'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">$, _, Backbone</span>)</span>&#123;</div><div class="line">  <span class="comment">// some code here</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="模块的加载"><a href="#模块的加载" class="headerlink" title="模块的加载"></a>模块的加载</h4><p>使用require.config()方法，我们可以对模块的加载行为进行自定义。</p>
+<p>require.config()就写在主模块（main.js）的头部。<br>参数就是一个对象，这个对象的paths属性指定各个模块的加载路径。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//路径默认与main.js在同一个目录</span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">paths</span>: &#123;</div><div class="line">    <span class="string">"jquery"</span>: <span class="string">"jquery.min"</span>,</div><div class="line">    <span class="string">"underscore"</span>: <span class="string">"underscore.min"</span>,</div><div class="line">    <span class="string">"backbone"</span>: <span class="string">"backbone.min"</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//在其他目录有两种写法</span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">paths</span>: &#123;</div><div class="line">    <span class="string">"jquery"</span>: <span class="string">"lib/jquery.min"</span>,</div><div class="line">    <span class="string">"underscore"</span>: <span class="string">"lib/underscore.min"</span>,</div><div class="line">    <span class="string">"backbone"</span>: <span class="string">"lib/backbone.min"</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">baseUrl</span>: <span class="string">"js/lib"</span>,</div><div class="line">  <span class="attr">paths</span>: &#123;</div><div class="line">    <span class="string">"jquery"</span>: <span class="string">"jquery.min"</span>,</div><div class="line">    <span class="string">"underscore"</span>: <span class="string">"underscore.min"</span>,</div><div class="line">    <span class="string">"backbone"</span>: <span class="string">"backbone.min"</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//直接指定网址</span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">paths</span>: &#123;</div><div class="line">    <span class="string">"jquery"</span>: <span class="string">"https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min"</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>require.js要求，每个模块是一个单独的js文件。这样的话，如果加载多个模块，就会发出多次HTTP请求，会影响网页的加载速度。因此，require.js提供了一个<a href="http://requirejs.org/docs/optimization.html" target="_blank" rel="external">优化工具</a>，当模块部署完毕以后，可以用这个工具将多个模块合并在一个文件中，减少HTTP请求数。</p>
+<h4 id="AMD模块的写法"><a href="#AMD模块的写法" class="headerlink" title="AMD模块的写法"></a>AMD模块的写法</h4><p>require.js加载的模块，采用AMD规范，必须按照AMD的规定来写。</p>
+<p>模块必须采用特定的define()函数来定义。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果一个模块不依赖其他模块，那么可以直接定义在define()函数之中。</span></div><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span> (<span class="params">x,y</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x+y;</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">add</span>: add</div><div class="line">  &#125;;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//加载方法</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'math'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">math</span>)</span>&#123;</div><div class="line">  alert(math.add(<span class="number">1</span>,<span class="number">1</span>));</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//如果这个模块还依赖其他模块，那么define()函数的第一个参数，必须是一个数组，指明该模块的依赖性。</span></div><div class="line">define([<span class="string">'myLib'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">myLib</span>)</span>&#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    myLib.doSomething();</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">foo</span> : foo</div><div class="line">  &#125;;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//当require()函数加载上面这个模块的时候，就会先加载myLib.js文件。</span></div></pre></td></tr></table></figure>
+<h4 id="加载非规范的模块"><a href="#加载非规范的模块" class="headerlink" title="加载非规范的模块"></a>加载非规范的模块</h4><p>非规范的模块在用require()加载之前，要先用require.config()方法，定义它们的一些特征。</p>
+<p><strong>shim属性</strong>专门用来配置不兼容的模块。</p>
+<p>exports值：输出的变量名，表明这个模块外部调用时的名称；</p>
+<p>deps数组：表明该模块的依赖性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">shim</span>: &#123;</div><div class="line">    <span class="string">'underscore'</span>:&#123;</div><div class="line">      <span class="attr">exports</span>: <span class="string">'_'</span></div><div class="line">    &#125;,</div><div class="line">    <span class="string">'backbone'</span>: &#123;</div><div class="line">      <span class="attr">deps</span>: [<span class="string">'underscore'</span>, <span class="string">'jquery'</span>],</div><div class="line">      <span class="attr">exports</span>: <span class="string">'Backbone'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//jQuery的插件可以这样定义</span></div><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">  <span class="attr">shim</span>: &#123;</div><div class="line">    <span class="string">'jquery.scroll'</span>: &#123;</div><div class="line">      <span class="attr">deps</span>: [<span class="string">'jquery'</span>],</div><div class="line">      <span class="attr">exports</span>: <span class="string">'jQuery.fn.scroll'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="require-js插件"><a href="#require-js插件" class="headerlink" title="require.js插件"></a>require.js插件</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//domready插件，可以让回调函数在页面DOM结构加载完成后再运行。</span></div><div class="line"><span class="built_in">require</span>([<span class="string">'domready!'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">doc</span>)</span>&#123;</div><div class="line">  <span class="comment">// called once the DOM is ready</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">//text和image插件，则是允许require.js加载文本和图片文件。</span></div><div class="line">define([<span class="string">'text!review.txt'</span>, <span class="string">'image!cat.jpg'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">review,cat</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(review);</div><div class="line">  <span class="built_in">document</span>.body.appendChild(cat);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>类似的插件还有json和mdown，用于加载json文件和markdown文件。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;###Javascript模块化编程系列 - 阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.ruanyifeng.com/blog/2012/10/javascript_module.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>CSS 揭秘 - 关于本书</title>
@@ -1335,163 +1460,6 @@
     <summary type="html">
     
       &lt;h3 id=&quot;一，如何能让宝宝的脑部发育得更好？&quot;&gt;&lt;a href=&quot;#一，如何能让宝宝的脑部发育得更好？&quot; class=&quot;headerlink&quot; title=&quot;一，如何能让宝宝的脑部发育得更好？&quot;&gt;&lt;/a&gt;一，如何能让宝宝的脑部发育得更好？&lt;/h3&gt;&lt;p&gt;1，过量进食豆腐会影
-    
-    </summary>
-    
-      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
-    
-    
-      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
-    
-      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>奶爸笔记（十三）</title>
-    <link href="http://xuzhijun.github.io/2016/06/29/life-anewfather13/"/>
-    <id>http://xuzhijun.github.io/2016/06/29/life-anewfather13/</id>
-    <published>2016-06-29T07:00:00.000Z</published>
-    <updated>2016-06-29T09:06:49.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一，宝宝腹泻怎么办？"><a href="#一，宝宝腹泻怎么办？" class="headerlink" title="一，宝宝腹泻怎么办？"></a>一，宝宝腹泻怎么办？</h3><p>1，宝宝常见的腹泻种类</p>
-<p>​    1）湿热泻：多由肠胃积热引起，可能是给宝宝喂食的食物未洗净。</p>
-<p>​    2）风寒泻：外感风寒，或食用过量生冷食物。</p>
-<p>​    3）伤食泻：宝宝吃多了，或者是辅食添加不当。</p>
-<p>​    4）脾虚泻：长时间慢性腹泻所导致。</p>
-<p>2，稀米粥（由其是米汤）有止泻的作用，</p>
-<p>3，少量煮熟的蛋黄煎油（吃油），有消食的作用，蛋黄量不宜多，否则不易消化。</p>
-<p>4，治疗腹泻偏方：</p>
-<p>​    1，胡萝卜泥和苹果泥（脾虚泻，风寒泻后期）。制作方法：蒸烂调成泥，胡萝卜可适当加水。</p>
-<p>​    2，把大米炒焦，加水煮，给宝宝喝水（适合伤食泻）。</p>
-<h4 id="5，小儿推拿法治疗宝宝腹泻："><a href="#5，小儿推拿法治疗宝宝腹泻：" class="headerlink" title="5，小儿推拿法治疗宝宝腹泻："></a>5，小儿推拿法治疗宝宝腹泻：</h4><p>​    1）上肢的穴位：脾经（在拇指外侧），大肠经（在食指到虎口的位置上），三关（前臂外侧）。</p>
-<p>​        脾经推法一：<strong>补脾经</strong>，屈曲为补。</p>
-<p>​            拇指屈曲，由下向上推（由拇指末梢），有温补的作用，适合脾虚泻，风寒泻。</p>
-<p>​        脾经推法二：<strong>清脾经</strong>，伸直为清。</p>
-<p>​            拇指伸直，由下向上推。适合湿热泻，伤食泻。</p>
-<p>​        大肠经推法一：<strong>补大肠</strong>。</p>
-<p>​            由末梢向虎口方向推，适合脾虚泻。</p>
-<p>​        大肠经推法二：<strong>清大肠</strong>。</p>
-<p>​            由虎口向末梢方向推，适合伤食泻，治疗便秘。</p>
-<p>​        三关推法：<strong>推三关</strong>。</p>
-<p>​            用食指和中指由下（腕）往上（肘）推，用腕力。</p>
-<p>​    2）背部的穴位：捏脊（由尾骨到颈椎），七节骨（在第四腰椎，跟胯骨平行），揉龟尾（尾骨下面）。</p>
-<p>​        捏脊推法：从下向上，拇指在前食指在后，双手沿着脊柱的两旁，用捏法把皮捏起来，边提捏，边向前推进，捏三下提一下，提要果断。</p>
-<p>​        七节骨推法一：<strong>上推七节骨</strong>。</p>
-<p>​            由尾骨向上推，适合脾虚泻，小孩不爱吃饭。</p>
-<p>​        七节骨推法二：<strong>吓退七节骨</strong>。</p>
-<p>​            由第四腰椎向下推，清和泻的作用，治疗便秘，伤食腹泻。</p>
-<p>​        揉龟尾推法：</p>
-<p>​            用手按住尾骨尖，<strong>顺时针为泻，逆时针为补</strong>。</p>
-<h3 id="二，提高孩子免疫力"><a href="#二，提高孩子免疫力" class="headerlink" title="二，提高孩子免疫力"></a>二，提高孩子免疫力</h3><p>1，合理的饮食帮助宝宝提高免疫力。</p>
-<p>2，户外锻炼可以提高宝宝的免疫力。</p>
-<p>3，0 ~ 6 个月，新生儿的免疫力由母乳提供，或使用添加了乳铁蛋白的配方奶。</p>
-<p>4，约每 100 克配方奶粉中，含 0.4 克乳铁蛋白。</p>
-<p>5，6 个月 ~ 2 岁，推荐母乳喂养到 2 岁，能降低 72% 的呼吸道感染，降低 27% 的中耳炎。</p>
-<p>6，6 个月以后添加辅食，把握好添加辅食的关键时期。</p>
-<p>7，免疫力过高过低都会导致疾病的发生。</p>
-<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，以下哪一项属于母乳中不可缺少的营养成分？</p>
-<p>​    A）饱和脂肪酸</p>
-<p>​    B）甲型乳糖</p>
-<p>​    <strong>C）乳铁蛋白</strong></p>
-<p>2，宝宝晒出红斑后，正确的处理方法是？</p>
-<p>​    <strong>A）用冰牛奶冷敷15分钟后，在晒伤处涂抹润肤油。</strong></p>
-<p>​    B）皮肤晒出水疱，可在家进行处理。</p>
-<p>​    C）用自来水不断冲洗降温。</p>
-<p>3，下列哪项属于小儿推拿手法操作时的常用介质？</p>
-<p>​    A）热水</p>
-<p>​    B）蒜汁</p>
-<p>​    <strong>C）蛋清</strong></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;一，宝宝腹泻怎么办？&quot;&gt;&lt;a href=&quot;#一，宝宝腹泻怎么办？&quot; class=&quot;headerlink&quot; title=&quot;一，宝宝腹泻怎么办？&quot;&gt;&lt;/a&gt;一，宝宝腹泻怎么办？&lt;/h3&gt;&lt;p&gt;1，宝宝常见的腹泻种类&lt;/p&gt;
-&lt;p&gt;​    1）湿热泻：多由肠胃积热引起
-    
-    </summary>
-    
-      <category term="生活" scheme="http://xuzhijun.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
-    
-    
-      <category term="生活" scheme="http://xuzhijun.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
-    
-      <category term="奶爸" scheme="http://xuzhijun.github.io/tags/%E5%A5%B6%E7%88%B8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>奶爸笔记（十二）</title>
-    <link href="http://xuzhijun.github.io/2016/06/27/life-anewfather12/"/>
-    <id>http://xuzhijun.github.io/2016/06/27/life-anewfather12/</id>
-    <published>2016-06-27T06:00:00.000Z</published>
-    <updated>2016-06-28T07:35:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一，宝宝便秘怎么办？"><a href="#一，宝宝便秘怎么办？" class="headerlink" title="一，宝宝便秘怎么办？"></a>一，宝宝便秘怎么办？</h3><p>1，24 小时不排便就是<strong>便秘</strong>（❌）</p>
-<p>​    1）便秘不是按时间来定义的，<strong>大便干结，排便困难</strong>的过程就叫便秘。</p>
-<p>​    2）排便的次数和时间跟年龄有关，便秘与否的关键是排的便的性状。</p>
-<p>2，腹泻和便秘完全没有关系（❌）</p>
-<p>​    <strong>建议：</strong>家长定期记录宝宝的饮食情况</p>
-<p>​    <strong>注意：</strong>腹泻和便秘交替出现的情况</p>
-<p>3，宝宝便秘是因为饮食过量，应减少食量（❌）</p>
-<p>​    0 － 12 个月的宝宝进入“口腔期”，此时，辨识被爱的标准，大部分来自于饮食，喂养。</p>
-<p>4，宝宝便秘可以给宝宝的肛门擦香油（<strong>部分正确</strong>）</p>
-<p>​    1）用香油治便秘，可能导致宝宝过敏。</p>
-<p>​    2）香油和开塞露只能起到<strong>缓解宝宝排便</strong>的作用，治标不治本。</p>
-<p>5，蜂蜜和香蕉可以缓解便秘（❌）</p>
-<p>​    缓解便秘：</p>
-<p>​    1）使用润滑剂（开塞露）排空已干燥的大便。</p>
-<p>​    预防措施：</p>
-<p>​    1）纤维素加益生菌可以缓解宝宝便秘（推荐母乳喂养）。</p>
-<p>​    2）可以吃富含纤维素，不太容易被消化的水果，比如火龙果。    </p>
-<p>​    3）母乳喂养，妈妈饮食不当不会造成宝宝便秘。</p>
-<h3 id="二，如果引导孩子度过性蕾期"><a href="#二，如果引导孩子度过性蕾期" class="headerlink" title="二，如果引导孩子度过性蕾期"></a>二，如果引导孩子度过性蕾期</h3><p>1，宝宝一岁左右，开始对自己性别特征产生好奇。</p>
-<p>2，宝宝 2 - 5 岁，是性别教育的关键期。</p>
-<p>3，宝宝 6 岁以后，开始借助视频书籍普及性别知识。</p>
-<p><strong>宝宝性蕾期教育时间表：</strong></p>
-<table>
-<thead>
-<tr>
-<th>宝宝年龄</th>
-<th>性蕾期表现</th>
-<th>妈妈这样做</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0 - 2 岁</td>
-<td>天生好奇心，发掘感官乐趣（吸吮，吃手）</td>
-<td>看画册，用正确词汇告诉宝宝身体各部位名称</td>
-</tr>
-<tr>
-<td>2 - 5 岁</td>
-<td>身心进一步发育，逐步发展性别意识（观察身体，模仿看病）</td>
-<td>A）平常看待孩子的好奇心，B）和孩子分床睡，C）直面经典问题</td>
-</tr>
-<tr>
-<td>6 岁以后</td>
-<td>抽象思维、逻辑思维能力增强，提出各种怪问题</td>
-<td>A）避免训斥宝宝，B）主动出击</td>
-</tr>
-</tbody>
-</table>
-<h3 id="三，问答"><a href="#三，问答" class="headerlink" title="三，问答"></a>三，问答</h3><p>1，婴幼儿大便呈黑色需加以鉴别进一步检查确诊，一般是哪种原因？</p>
-<p>​    A）肛裂</p>
-<p>​    B）肠息肉</p>
-<p>​    <strong>C）胃肠道上部出血</strong></p>
-<p>2，婴儿缺乏叶酸会有哪种表现？</p>
-<p>​    <strong>A）指甲发白</strong></p>
-<p>​    B）口唇干裂</p>
-<p>​    C）脾气急躁</p>
-<p>3，给婴儿洗澡，洗澡水的水温应该保持在多少度？</p>
-<p>​    A）36 ~ 38 度</p>
-<p>​    <strong>B）38 ~ 42 度</strong></p>
-<p>​    C）42 ~ 45 度</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;一，宝宝便秘怎么办？&quot;&gt;&lt;a href=&quot;#一，宝宝便秘怎么办？&quot; class=&quot;headerlink&quot; title=&quot;一，宝宝便秘怎么办？&quot;&gt;&lt;/a&gt;一，宝宝便秘怎么办？&lt;/h3&gt;&lt;p&gt;1，24 小时不排便就是&lt;strong&gt;便秘&lt;/strong&gt;（❌）&lt;/p&gt;
     
     </summary>
     
