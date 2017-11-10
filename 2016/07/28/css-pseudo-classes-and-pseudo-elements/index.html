@@ -86,28 +86,18 @@
 
 
 
-<meta name="description" content="原文链接：CSS伪类与伪元素完全指南
-1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。
-伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。
-伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。
-伪元素是一个冒号还是两个冒号？建议使用单冒">
+<meta name="description" content="原文链接：CSS伪类与伪元素完全指南 1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。 伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。 伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。 伪元素是一个冒号还是两个冒号？建议使用单冒">
+<meta name="keywords" content="CSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS伪类与伪元素完全指南">
 <meta property="og:url" content="http://xuzhijun.github.io/2016/07/28/css-pseudo-classes-and-pseudo-elements/index.html">
 <meta property="og:site_name" content="徐记">
-<meta property="og:description" content="原文链接：CSS伪类与伪元素完全指南
-1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。
-伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。
-伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。
-伪元素是一个冒号还是两个冒号？建议使用单冒">
+<meta property="og:description" content="原文链接：CSS伪类与伪元素完全指南 1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。 伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。 伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。 伪元素是一个冒号还是两个冒号？建议使用单冒">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-08-09T06:34:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS伪类与伪元素完全指南">
-<meta name="twitter:description" content="原文链接：CSS伪类与伪元素完全指南
-1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。
-伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。
-伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。
-伪元素是一个冒号还是两个冒号？建议使用单冒">
+<meta name="twitter:description" content="原文链接：CSS伪类与伪元素完全指南 1，概念伪类伪类就是某个元素的一种虚拟状态，或者说一种特有的性质，这种状态或性可以通过CSS捕捉到。 伪类是一个冒号（:）后跟伪类的名字构成的，有时候名字后面还会有一个放在括号里的值。 伪元素伪元素是一种虚拟的元素，CSS把它当成普通HTML元素看待。但它们在文档树或DOM中并不实际存在，只会通过CSS来创建伪元素。 伪元素是一个冒号还是两个冒号？建议使用单冒">
 
 
 
@@ -431,7 +421,7 @@
 <p><strong>::placeholder</strong> 选择表单元素中通过 placeholder 属性设置的占位文本，也可以写成 ::input-placeholder。</p>
 <p><strong>注意：</strong>这个伪元素不是标准的。</p>
 <p><strong>兼容性写法：</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-moz-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-webkit-input-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* IE 10 only */</span></div><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-ms-input-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* Firefox 18 and below */</span></div><div class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-moz-input-placeholder</span> &#123;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-moz-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-webkit-input-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* IE 10 only */</span></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-ms-input-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Firefox 18 and below */</span></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:-moz-input-placeholder</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#666</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -558,7 +548,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

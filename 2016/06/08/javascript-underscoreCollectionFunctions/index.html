@@ -87,11 +87,13 @@
 
 
 <meta name="description" content="Underscore - Collection Functionscontains别名：includes, include语法：_.contains( list, value [ , fromIndex ] )1234567// Determine if the array or object contains a given item (using `===`).// Aliased as `i">
+<meta name="keywords" content="JavaScript,Underscore,Collection">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Underscore 源码解读 - Collection Functions">
 <meta property="og:url" content="http://xuzhijun.github.io/2016/06/08/javascript-underscoreCollectionFunctions/index.html">
 <meta property="og:site_name" content="徐记">
 <meta property="og:description" content="Underscore - Collection Functionscontains别名：includes, include语法：_.contains( list, value [ , fromIndex ] )1234567// Determine if the array or object contains a given item (using `===`).// Aliased as `i">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-06-08T08:58:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Underscore 源码解读 - Collection Functions">
@@ -328,7 +330,7 @@
       
 
       
-        <h2 id="Underscore-Collection-Functions"><a href="#Underscore-Collection-Functions" class="headerlink" title="Underscore - Collection Functions"></a>Underscore - Collection Functions</h2><h3 id="contains"><a href="#contains" class="headerlink" title="contains"></a>contains</h3><h5 id="别名：includes-include"><a href="#别名：includes-include" class="headerlink" title="别名：includes, include"></a>别名：includes, include</h5><h5 id="语法：-contains-list-value-fromIndex"><a href="#语法：-contains-list-value-fromIndex" class="headerlink" title="语法：_.contains( list, value [ , fromIndex ] )"></a>语法：_.contains( list, value [ , fromIndex ] )</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Determine if the array or object contains a given item (using `===`).</span></div><div class="line"><span class="comment">// Aliased as `includes` and `include`.</span></div><div class="line">_.contains = _.includes = _.include = <span class="function"><span class="keyword">function</span>(<span class="params">obj, item, fromIndex, guard</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!isArrayLike(obj)) obj = _.values(obj);</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> fromIndex != <span class="string">'number'</span> || guard) fromIndex = <span class="number">0</span>;</div><div class="line">  <span class="keyword">return</span> _.indexOf(obj, item, fromIndex) &gt;= <span class="number">0</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+        <h2 id="Underscore-Collection-Functions"><a href="#Underscore-Collection-Functions" class="headerlink" title="Underscore - Collection Functions"></a>Underscore - Collection Functions</h2><h3 id="contains"><a href="#contains" class="headerlink" title="contains"></a>contains</h3><h5 id="别名：includes-include"><a href="#别名：includes-include" class="headerlink" title="别名：includes, include"></a>别名：includes, include</h5><h5 id="语法：-contains-list-value-fromIndex"><a href="#语法：-contains-list-value-fromIndex" class="headerlink" title="语法：_.contains( list, value [ , fromIndex ] )"></a>语法：_.contains( list, value [ , fromIndex ] )</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Determine if the array or object contains a given item (using `===`).</span></span><br><span class="line"><span class="comment">// Aliased as `includes` and `include`.</span></span><br><span class="line">_.contains = _.includes = _.include = <span class="function"><span class="keyword">function</span>(<span class="params">obj, item, fromIndex, guard</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!isArrayLike(obj)) obj = _.values(obj);</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> fromIndex != <span class="string">'number'</span> || guard) fromIndex = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> _.indexOf(obj, item, fromIndex) &gt;= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -459,7 +461,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
