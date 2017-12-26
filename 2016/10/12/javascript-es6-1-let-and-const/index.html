@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript ES6," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="徐记" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="let 和 const 命令let 命令是用来声明块级作用域的变量， const 命令用来声明块级作用域的常量。 let 在 for 循环中的应用for循环的计数器适合用 let 来声明。 1）错误的使用闭包变量 i 是 let 声明的，当前的i只在本轮循环有效，所以每一次循环的 i 其实都是一个新的变量。 1234567891011121314151617181920// 错误的闭包for(va">
+<meta name="keywords" content="JavaScript ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《ECMAScript 6 入门 - 阮一峰》阅读笔记：1, let 和 const 命令">
+<meta property="og:url" content="http://xuzhijun.github.io/2016/10/12/javascript-es6-1-let-and-const/index.html">
+<meta property="og:site_name" content="徐记">
+<meta property="og:description" content="let 和 const 命令let 命令是用来声明块级作用域的变量， const 命令用来声明块级作用域的常量。 let 在 for 循环中的应用for循环的计数器适合用 let 来声明。 1）错误的使用闭包变量 i 是 let 声明的，当前的i只在本轮循环有效，所以每一次循环的 i 其实都是一个新的变量。 1234567891011121314151617181920// 错误的闭包for(va">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-26T12:51:22.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《ECMAScript 6 入门 - 阮一峰》阅读笔记：1, let 和 const 命令">
+<meta name="twitter:description" content="let 和 const 命令let 命令是用来声明块级作用域的变量， const 命令用来声明块级作用域的常量。 let 在 for 循环中的应用for循环的计数器适合用 let 来声明。 1）错误的使用闭包变量 i 是 let 声明的，当前的i只在本轮循环有效，所以每一次循环的 i 其实都是一个新的变量。 1234567891011121314151617181920// 错误的闭包for(va">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xuzhijun.github.io/2016/10/12/javascript-es6-1-let-and-const/"/>
+
+
+
+
+
+  <title>《ECMAScript 6 入门 - 阮一峰》阅读笔记：1, let 和 const 命令 | 徐记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">徐记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">简不单</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xuzhijun.github.io/2016/10/12/javascript-es6-1-let-and-const/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bell">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《ECMAScript 6 入门 - 阮一峰》阅读笔记：1, let 和 const 命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-12T21:15:00+08:00">
+                2016-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="let-和-const-命令"><a href="#let-和-const-命令" class="headerlink" title="let 和 const 命令"></a>let 和 const 命令</h3><p>let 命令是用来声明<strong>块级作用域</strong>的<strong>变量</strong>，</p>
+<p>const 命令用来声明<strong>块级作用域</strong>的<strong>常量</strong>。</p>
+<h4 id="let-在-for-循环中的应用"><a href="#let-在-for-循环中的应用" class="headerlink" title="let 在 for 循环中的应用"></a>let 在 for 循环中的应用</h4><p>for循环的计数器适合用 let 来声明。</p>
+<h5 id="1）错误的使用闭包"><a href="#1）错误的使用闭包" class="headerlink" title="1）错误的使用闭包"></a>1）错误的使用闭包</h5><p>变量 i 是 let 声明的，当前的i只在本轮循环有效，所以每一次循环的 i 其实都是一个新的变量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误的闭包</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>; i&lt;=<span class="number">5</span>; i++) &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;, i*<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ES5的解决方案</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">5</span>; i++) &#123;</span><br><span class="line">  (<span class="function"><span class="keyword">function</span> (<span class="params">j</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(j);</span><br><span class="line">    &#125;, j*<span class="number">1000</span>);</span><br><span class="line">  &#125;)(i); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ES6的解决方案</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">1</span>; i&lt;=<span class="number">5</span>; i++) &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;,i*<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2）for-循环的特别之处"><a href="#2）for-循环的特别之处" class="headerlink" title="2）for 循环的特别之处"></a>2）for 循环的特别之处</h5><p>设置循环变量的那部分是一个<strong>父作用域</strong>，而循环体内部是一个单独的<strong>子作用域</strong>。</p>
+<p>这和下文中会提到的<strong>暂时性死区</strong>不同。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> i = <span class="string">'abc'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// abc</span></span><br><span class="line"><span class="comment">// abc</span></span><br><span class="line"><span class="comment">// abc</span></span><br></pre></td></tr></table></figure>
+<h4 id="const-的本质"><a href="#const-的本质" class="headerlink" title="const 的本质"></a>const 的本质</h4><p>const 一旦声明变量，就必须立即初始化，不能留到以后赋值。</p>
+<p>const 实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址不得改动。</p>
+<p>对于复合类型的数据，变量指向的内存地址，保存的只是一个指针，const只能保证这个指针是固定的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为 foo 添加一个属性，可以成功</span></span><br><span class="line">foo.prop = <span class="number">123</span>;</span><br><span class="line">foo.prop <span class="comment">// 123</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 foo 指向另一个对象，就会报错</span></span><br><span class="line">foo = &#123;&#125;; <span class="comment">// TypeError: "foo" is read-only</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = [];</span><br><span class="line">a.push(<span class="string">'Hello'</span>); <span class="comment">// 可执行</span></span><br><span class="line">a.length = <span class="number">0</span>;    <span class="comment">// 可执行</span></span><br><span class="line">a = [<span class="string">'Dave'</span>];    <span class="comment">// 报错</span></span><br></pre></td></tr></table></figure>
+<p>将对象彻底冻结的函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> constantize = <span class="function">(<span class="params">obj</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">Object</span>.freeze(obj);</span><br><span class="line">  <span class="built_in">Object</span>.keys(obj).forEach( <span class="function">(<span class="params">key, i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">typeof</span> obj[key] === <span class="string">'object'</span> ) &#123;</span><br><span class="line">      constantize( obj[key] );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><h4 id="1）不存在变量提升"><a href="#1）不存在变量提升" class="headerlink" title="1）不存在变量提升"></a>1）不存在变量提升</h4><p>所谓『<strong>变量提升</strong>』：</p>
+<p><strong>仅</strong>发生在使用 var 命令声明变量时，该变量在声明之前便能使用，值为 undefined。</p>
+<p>let 命令所声明的变量一定要在声明后才能使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// var 的情况</span></span><br><span class="line"><span class="built_in">console</span>.log(foo); <span class="comment">// 输出undefined</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// let 的情况</span></span><br><span class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 报错ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> bar = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2）存在暂时性死区"><a href="#2）存在暂时性死区" class="headerlink" title="2）存在暂时性死区"></a>2）存在暂时性死区</h4><p>ES6明确规定，如果区块中存在 let 和 const 命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。</p>
+<p>代码块内，在使用 let 和 const 命令声明变量之前，该变量都是不可用的。<br>在语法上，把这个区域称为“<strong>暂时性死区</strong>”（temporal dead zone，简称 TDZ）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="comment">// TDZ开始</span></span><br><span class="line">  tmp = <span class="string">'abc'</span>; <span class="comment">// ReferenceError</span></span><br><span class="line">  <span class="built_in">console</span>.log(tmp); <span class="comment">// ReferenceError</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> tmp; <span class="comment">// TDZ结束</span></span><br><span class="line">  <span class="built_in">console</span>.log(tmp); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line">  tmp = <span class="number">123</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(tmp); <span class="comment">// 123</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>『<strong>暂时性死区</strong>』让 <strong>typeof</strong> 命令不再是一个百分之百安全的操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> undeclared_variable <span class="comment">// "undefined"</span></span><br><span class="line"><span class="keyword">typeof</span> x; <span class="comment">// ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> x;</span><br></pre></td></tr></table></figure>
+<p>因为『<strong>暂时性死区</strong>』的存在，函数参数的默认值未声明就使用，也会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">x = y, y = <span class="number">2</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line">bar(); <span class="comment">// 报错</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">x = <span class="number">2</span>, y = x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line">bar(); <span class="comment">// [2, 2]</span></span><br></pre></td></tr></table></figure>
+<p>使用 let 声明变量时，变量在还没有声明完成前使用，也会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不报错</span></span><br><span class="line"><span class="keyword">var</span> x = x;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">let</span> x = x;</span><br><span class="line"><span class="comment">// ReferenceError: x is not defined</span></span><br></pre></td></tr></table></figure>
+<p><strong>暂时性死区的本质</strong>：</p>
+<p>只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现后，才可以获取和使用该变量。</p>
+<h4 id="3）不允许重复声明"><a href="#3）不允许重复声明" class="headerlink" title="3）不允许重复声明"></a>3）不允许重复声明</h4><p>在相同作用域内，不允许重复声明，受『<strong>暂时性死区</strong>』影响的变量。</p>
+<h4 id="4）do-表达式"><a href="#4）do-表达式" class="headerlink" title="4）do 表达式"></a>4）do 表达式</h4><p>本质上，块级作用域是一个语句，将多个操作封装在一起，没有返回值。</p>
+<p>在块级作用域以外，没有办法得到快内变量的值，因为块级作用域不返回值，除非该变量是全局变量。</p>
+<p>现在有一个<strong>提案</strong>，使得块级作用域可以变为表达式，也就是说可以返回值，办法就是在块级作用域之前加上do，使它变为 <strong>do 表达式</strong>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="keyword">do</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> t = f();</span><br><span class="line">  t * t + <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="顶层对象"><a href="#顶层对象" class="headerlink" title="顶层对象"></a>顶层对象</h3><p>顶层对象，在浏览器环境指的是window对象，在Node指的是global对象。</p>
+<p>ES5之中，顶层对象的属性与全局变量是等价的。</p>
+<p>ES6为了保持兼容性，var命令和function命令声明的全局变量，依旧是顶层对象的属性；</p>
+<p>另一方面规定，let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// 如果在Node的REPL环境，可以写成global.a</span></span><br><span class="line"><span class="comment">// 或者采用通用方法，写成this.a</span></span><br><span class="line"><span class="built_in">window</span>.a <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">window</span>.b <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>ES5 的顶层对象在各种实现里面是<strong>不统一</strong>的。</p>
+<ul>
+<li>浏览器里面，顶层对象是 <strong>window</strong>，但 Node 和 Web Worker 没有window。</li>
+<li>浏览器和 Web Worker 里面，<strong>self</strong> 也指向顶层对象，但是 Node 没有 self。</li>
+<li>Node 里面，顶层对象是 <strong>global</strong>，但其他环境都不支持。</li>
+</ul>
+<p>同一段代码为了能够在各种环境，都能取到顶层对象，现在一般是使用this变量，但是有<strong>局限性</strong>。</p>
+<ul>
+<li>全局环境中，this 会返回顶层对象。<br>但是，Node 模块和 ES6 模块中，this 返回的是当前模块。</li>
+<li>函数里面的 this，如果函数不是作为对象的方法运行，而是单纯作为函数运行，this 会指向顶层对象。<br>但是，严格模式下，这时this会返回undefined。</li>
+<li>不管是严格模式，还是普通模式，new Function(‘return this’)()，总是会返回全局对象。<br>但是，如果浏览器用了CSP（Content Security Policy，内容安全政策），那么eval、new Function这些方法都可能无法使用。</li>
+</ul>
+<p>两种勉强可以取到顶层对象的方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一</span></span><br><span class="line">(<span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">'undefined'</span></span><br><span class="line">   ? <span class="built_in">window</span></span><br><span class="line">   : (<span class="keyword">typeof</span> process === <span class="string">'object'</span> &amp;&amp;</span><br><span class="line">      <span class="keyword">typeof</span> <span class="built_in">require</span> === <span class="string">'function'</span> &amp;&amp;</span><br><span class="line">      <span class="keyword">typeof</span> global === <span class="string">'object'</span>)</span><br><span class="line">     ? global</span><br><span class="line">     : <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二</span></span><br><span class="line"><span class="keyword">var</span> getGlobal = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> self !== <span class="string">'undefined'</span>) &#123; <span class="keyword">return</span> self; &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">'undefined'</span>) &#123; <span class="keyword">return</span> <span class="built_in">window</span>; &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> global !== <span class="string">'undefined'</span>) &#123; <span class="keyword">return</span> global; &#125;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'unable to locate global object'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>现在有一个<strong>提案</strong>，在语言标准的层面，引入global作为顶层对象。<br>也就是说，在所有环境下，global都是存在的，都可以从它拿到顶层对象。</p>
+<p>垫片库 <strong>system.global</strong> 模拟了这个提案，可以在所有环境拿到 global。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CommonJS 的写法</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'system.global/shim'</span>)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ES6 模块的写法</span></span><br><span class="line"><span class="keyword">import</span> shim <span class="keyword">from</span> <span class="string">'system.global/shim'</span>;</span><br><span class="line">shim();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将顶层对象放入变量global</span></span><br><span class="line"><span class="comment">// CommonJS 的写法</span></span><br><span class="line"><span class="keyword">var</span> global = <span class="built_in">require</span>(<span class="string">'system.global'</span>)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ES6 模块的写法</span></span><br><span class="line"><span class="keyword">import</span> getGlobal <span class="keyword">from</span> <span class="string">'system.global'</span>;</span><br><span class="line"><span class="keyword">const</span> global = getGlobal();</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript-ES6/" rel="tag"># JavaScript ES6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/31/life-anewfather24/" rel="next" title="奶爸笔记（二十四）">
+                <i class="fa fa-chevron-left"></i> 奶爸笔记（二十四）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/18/life-anewfather25/" rel="prev" title="奶爸笔记（二十五）">
+                奶爸笔记（二十五） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">bell</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#let-和-const-命令"><span class="nav-number">1.</span> <span class="nav-text">let 和 const 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#let-在-for-循环中的应用"><span class="nav-number">1.1.</span> <span class="nav-text">let 在 for 循环中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1）错误的使用闭包"><span class="nav-number">1.1.1.</span> <span class="nav-text">1）错误的使用闭包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2）for-循环的特别之处"><span class="nav-number">1.1.2.</span> <span class="nav-text">2）for 循环的特别之处</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#const-的本质"><span class="nav-number">1.2.</span> <span class="nav-text">const 的本质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性"><span class="nav-number">2.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1）不存在变量提升"><span class="nav-number">2.1.</span> <span class="nav-text">1）不存在变量提升</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2）存在暂时性死区"><span class="nav-number">2.2.</span> <span class="nav-text">2）存在暂时性死区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3）不允许重复声明"><span class="nav-number">2.3.</span> <span class="nav-text">3）不允许重复声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4）do-表达式"><span class="nav-number">2.4.</span> <span class="nav-text">4）do 表达式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#顶层对象"><span class="nav-number">3.</span> <span class="nav-text">顶层对象</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bell</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
